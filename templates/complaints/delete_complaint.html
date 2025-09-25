@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Complaint - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .delete-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-top: 30px;
+        border-left: 5px solid #e74c3c;
+    }
+    
+    .warning-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 2rem;
+    }
+    
+    .delete-title {
+        color: #e74c3c;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .complaint-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        border-left: 4px solid #6c757d;
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-delete:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        color: white;
+    }
+    
+    .btn-cancel {
+        background: #6c757d;
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-right: 15px;
+    }
+    
+    .btn-cancel:hover {
+        background: #5a6268;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .warning-message {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 10px;
+        padding: 15px;
+        color: #856404;
+        margin-bottom: 20px;
+    }
+    
+    .warning-message i {
+        color: #f39c12;
+        margin-right: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="delete-card">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                
+                <h2 class="delete-title">Confirm Deletion</h2>
+                
+                <div class="warning-message">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Warning:</strong> This action cannot be undone. The complaint will be permanently removed from the system.
+                </div>
+                
+                <div class="complaint-info">
+                    <h5 class="mb-3">
+                        <i class="fas fa-file-alt me-2 text-primary"></i>
+                        Complaint Details
+                    </h5>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <strong>Title:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ complaint.title }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-4">
+                            <strong>Status:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {% if complaint.status == 'resolved' %}
+                                <span class="badge bg-success">Resolved</span>
+                            {% elif complaint.status == 'closed' %}
+                                <span class="badge bg-secondary">Closed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-4">
+                            <strong>Submitted by:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ complaint.complainant.get_full_name|default:complaint.complainant.username }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-4">
+                            <strong>Date:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ complaint.created_at|date:"F d, Y" }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-4">
+                            <strong>Location:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            {{ complaint.location|default:"Not specified" }}
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-center text-muted mb-4">
+                    Are you sure you want to permanently delete this complaint?
+                </p>
+                
+                <div class="text-center">
+                    <a href="{% url 'complaints:complaint_detail' complaint.id %}" class="btn btn-cancel">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-delete">
+                            <i class="fas fa-trash me-2"></i>Delete Permanently
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

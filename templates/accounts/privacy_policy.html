@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Privacy Policy" %} - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .legal-page {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    
+    .legal-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        padding: 40px;
+    }
+    
+    .legal-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #27ae60;
+    }
+    
+    .legal-header h1 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .legal-header .subtitle {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+    }
+    
+    .legal-content {
+        line-height: 1.8;
+        color: #34495e;
+    }
+    
+    .legal-section {
+        margin-bottom: 30px;
+    }
+    
+    .legal-section h2 {
+        color: #2c3e50;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-left: 15px;
+        border-left: 4px solid #27ae60;
+    }
+    
+    .legal-section h3 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+    }
+    
+    .legal-section p {
+        margin-bottom: 15px;
+        text-align: justify;
+    }
+    
+    .legal-section ul {
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+    
+    .legal-section li {
+        margin-bottom: 8px;
+    }
+    
+    .highlight-box {
+        background: #e8f5e8;
+        border-left: 4px solid #27ae60;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+    }
+    
+    .security-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+    }
+    
+    .contact-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+        text-align: center;
+    }
+    
+    .back-btn {
+        display: inline-block;
+        background: #27ae60;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 30px;
+        transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+        background: #219a52;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+    
+    .effective-date {
+        text-align: center;
+        color: #7f8c8d;
+        font-style: italic;
+        margin-bottom: 30px;
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    
+    .data-table th,
+    .data-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .data-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-header">
+                <h1><i class="fas fa-shield-alt me-3"></i>{% trans "Privacy Policy" %}</h1>
+                <p class="subtitle">{% trans "Barangay Burgos Complaint & Feedback Portal" %}</p>
+            </div>
+            
+            <div class="effective-date">
+                <strong>{% trans "Effective Date" %}:</strong> {{ "now"|date:"F d, Y" }}
+            </div>
+            
+            <div class="legal-content">
+                <div class="legal-section">
+                    <h2>{% trans "1. Introduction" %}</h2>
+                    <p>{% trans "Barangay Burgos is committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, store, and protect your data when you use our Complaint & Feedback Portal." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "2. Information We Collect" %}</h2>
+                    <h3>{% trans "2.1 Personal Information" %}</h3>
+                    <p>{% trans "We collect the following personal information during registration and use of our services:" %}</p>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Data Type" %}</th>
+                                <th>{% trans "Purpose" %}</th>
+                                <th>{% trans "Required/Optional" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{% trans "Full Name" %}</td>
+                                <td>{% trans "Identity verification and communication" %}</td>
+                                <td>{% trans "Required" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Address" %}</td>
+                                <td>{% trans "Residency verification" %}</td>
+                                <td>{% trans "Required" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Phone Number" %}</td>
+                                <td>{% trans "Contact and notifications" %}</td>
+                                <td>{% trans "Optional" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Email Address" %}</td>
+                                <td>{% trans "Account recovery and notifications" %}</td>
+                                <td>{% trans "Optional" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Profile Photo" %}</td>
+                                <td>{% trans "Identity verification" %}</td>
+                                <td>{% trans "Required" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Verification Documents" %}</td>
+                                <td>{% trans "Residency verification" %}</td>
+                                <td>{% trans "Required" %}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans "Location Data (GPS)" %}</td>
+                                <td>{% trans "Complaint location and residency verification" %}</td>
+                                <td>{% trans "Optional" %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>{% trans "2.2 Usage Information" %}</h3>
+                    <p>{% trans "We automatically collect certain information about your use of the portal:" %}</p>
+                    <ul>
+                        <li>{% trans "Log data (IP address, browser type, access times)" %}</li>
+                        <li>{% trans "Pages visited and actions taken" %}</li>
+                        <li>{% trans "Device information" %}</li>
+                        <li>{% trans "Complaint and feedback submissions" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "3. How We Use Your Information" %}</h2>
+                    <p>{% trans "We use your personal information for the following purposes:" %}</p>
+                    <ul>
+                        <li>{% trans "Processing and responding to complaints and feedback" %}</li>
+                        <li>{% trans "Verifying your residency status in Barangay Burgos" %}</li>
+                        <li>{% trans "Communicating with you about your submissions" %}</li>
+                        <li>{% trans "Providing access to barangay services" %}</li>
+                        <li>{% trans "Maintaining system security and preventing fraud" %}</li>
+                        <li>{% trans "Improving our services and user experience" %}</li>
+                        <li>{% trans "Complying with legal obligations" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "4. Information Sharing" %}</h2>
+                    <h3>{% trans "4.1 Within Barangay Government" %}</h3>
+                    <p>{% trans "Your information may be shared with authorized barangay officials including:" %}</p>
+                    <ul>
+                        <li>{% trans "Barangay Captain (Punong Barangay)" %}</li>
+                        <li>{% trans "Barangay Secretary" %}</li>
+                        <li>{% trans "Barangay Council members (when relevant to complaints)" %}</li>
+                    </ul>
+                    
+                    <h3>{% trans "4.2 External Sharing" %}</h3>
+                    <p>{% trans "We do not sell, trade, or rent your personal information to third parties. We may share information only in the following circumstances:" %}</p>
+                    <ul>
+                        <li>{% trans "With your explicit consent" %}</li>
+                        <li>{% trans "When required by law or legal process" %}</li>
+                        <li>{% trans "To protect the safety and rights of residents" %}</li>
+                        <li>{% trans "With higher government authorities when necessary" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "5. Data Security" %}</h2>
+                    <div class="security-box">
+                        <strong>{% trans "Security Measures:" %}</strong>
+                        <ul style="margin-top: 10px; margin-bottom: 0;">
+                            <li>{% trans "Encrypted data transmission (HTTPS)" %}</li>
+                            <li>{% trans "Secure password requirements" %}</li>
+                            <li>{% trans "Regular security updates and monitoring" %}</li>
+                            <li>{% trans "Access controls for barangay officials" %}</li>
+                            <li>{% trans "Regular data backups" %}</li>
+                        </ul>
+                    </div>
+                    <p>{% trans "While we implement appropriate security measures, no system is 100% secure. We encourage you to use strong passwords and keep your login credentials confidential." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "6. Data Retention" %}</h2>
+                    <p>{% trans "We retain your personal information for as long as necessary to provide services and fulfill legal obligations:" %}</p>
+                    <ul>
+                        <li>{% trans "Account information: While your account is active" %}</li>
+                        <li>{% trans "Complaint records: As required by barangay record-keeping policies" %}</li>
+                        <li>{% trans "Verification documents: As required by law" %}</li>
+                        <li>{% trans "System logs: Up to 1 year for security purposes" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "7. Your Rights" %}</h2>
+                    <p>{% trans "As a data subject, you have the following rights:" %}</p>
+                    <ul>
+                        <li>{% trans "Access: Request a copy of your personal data" %}</li>
+                        <li>{% trans "Correction: Request correction of inaccurate information" %}</li>
+                        <li>{% trans "Deletion: Request deletion of your data (subject to legal requirements)" %}</li>
+                        <li>{% trans "Portability: Request transfer of your data" %}</li>
+                        <li>{% trans "Objection: Object to certain processing activities" %}</li>
+                    </ul>
+                    <p>{% trans "To exercise these rights, please contact the Barangay office during business hours." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "8. Cookies and Technology" %}</h2>
+                    <p>{% trans "Our portal uses cookies and similar technologies to:" %}</p>
+                    <ul>
+                        <li>{% trans "Remember your login status" %}</li>
+                        <li>{% trans "Save your language preferences" %}</li>
+                        <li>{% trans "Improve system performance" %}</li>
+                        <li>{% trans "Analyze usage patterns" %}</li>
+                    </ul>
+                    <p>{% trans "You can manage cookie preferences through your browser settings." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "9. Children's Privacy" %}</h2>
+                    <p>{% trans "This portal is not intended for children under 18. We do not knowingly collect personal information from minors. If you are under 18, please have a parent or guardian register on your behalf." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "10. Changes to Privacy Policy" %}</h2>
+                    <p>{% trans "We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date. We will notify users of significant changes through the portal or email." %}</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <strong>{% trans "Data Protection Officer:" %}</strong> {% trans "For privacy-related concerns, you may contact the Barangay Secretary who serves as our Data Protection Officer." %}
+                </div>
+                
+                <div class="contact-info">
+                    <h3>{% trans "Contact Information" %}</h3>
+                    <p><strong>{% trans "Barangay Burgos Office" %}</strong></p>
+                    <p>{% trans "Basey, Samar, Philippines" %}</p>
+                    <p>{% trans "Office Hours: Monday to Friday, 8:00 AM - 5:00 PM" %}</p>
+                    <p><strong>{% trans "Data Protection Officer:" %}</strong> {% trans "Barangay Secretary" %}</p>
+                </div>
+                
+                <div class="text-center">
+                    <a href="{% url 'accounts:register' %}" class="back-btn">
+                        <i class="fas fa-arrow-left me-2"></i>{% trans "Back to Registration" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

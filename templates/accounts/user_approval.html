@@ -1,0 +1,1132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Community Feedback Management - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --ph-blue: #0038a8;
+        --ph-red: #ce1126;
+        --ph-yellow: #fcd116;
+        --gov-primary: #003f7f;
+        --gov-secondary: #f8f9fa;
+        --gov-success: #28a745;
+        --gov-danger: #dc3545;
+        --gov-warning: #ffc107;
+        --gov-info: #17a2b8;
+        --gov-accent: #e83e8c;
+        --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        --border-radius: 8px;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    /* Dashboard Welcome Section - EXACT COPY FROM CHAIRMAN DASHBOARD */
+    .dashboard-welcome {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin: 25px 0 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    .welcome-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .welcome-title,
+    .dashboard-welcome h1,
+    .dashboard-welcome h2 {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    .welcome-message,
+    .dashboard-welcome p {
+        color: rgba(255,255,255,0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        font-size: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .welcome-message .text-primary,
+    .dashboard-welcome .text-primary {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255,255,255,0.1) !important;
+        padding: 15px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+    
+    .user-info * {
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-avatar {
+        width: 50px !important;
+        height: 50px !important;
+        background: rgba(255,255,255,0.2) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        font-size: 20px !important;
+        border: 3px solid rgba(255,255,255,0.3) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-details h6 {
+        margin: 0 !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-role {
+        margin: 0 !important;
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0,56,168,0.05);
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 1px solid rgba(0,56,168,0.1);
+    }
+    
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        background: var(--ph-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    
+    .user-details h6 {
+        margin: 0;
+        color: var(--ph-blue);
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .user-role {
+        margin: 0;
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    
+    .page-header h1,
+    .page-header p,
+    .page-header * {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    .page-header h1 {
+        font-size: 28px !important;
+        font-weight: bold !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .page-header p {
+        font-size: 16px !important;
+        margin: 0 !important;
+    }
+    
+    /* Official Government Statistics Cards - Matching Resident Dashboard */
+    .stats-section {
+        margin: 30px 0;
+    }
+    
+    .section-header {
+        background: white;
+        padding: 20px 25px;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        border-left: 5px solid var(--ph-blue);
+        margin-bottom: 0;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .section-title {
+        font-size: 18px;
+        color: var(--ph-blue);
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 0;
+        background: white;
+        padding: 0;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        box-shadow: var(--shadow-light);
+        overflow: hidden;
+    }
+    
+    .stat-card {
+        background: white !important;
+        padding: 40px 30px !important;
+        border: none !important;
+        border-radius: 0 !important;
+        text-align: center !important;
+        position: relative !important;
+        transition: all 0.3s ease !important;
+        min-height: 200px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .stat-card:not(:last-child) {
+        border-right: 1px solid #e9ecef;
+    }
+    
+    .stat-card:hover {
+        background: #f8f9fa !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        border-radius: var(--border-radius) !important;
+        margin: 5px !important;
+        z-index: 2 !important;
+    }
+    
+    .stat-card.total {
+        border-bottom: 4px solid var(--ph-blue) !important;
+    }
+    
+    .stat-card.pending {
+        border-bottom: 4px solid var(--gov-warning) !important;
+    }
+    
+    .stat-card.approved {
+        border-bottom: 4px solid var(--gov-success) !important;
+    }
+    
+    .stat-card.residents {
+        border-bottom: 4px solid var(--gov-info) !important;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .stat-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card.total {
+        border-left: 4px solid #4a90e2;
+    }
+    
+    .stat-card.pending {
+        border-left: 4px solid #f56565;
+    }
+    
+    .stat-card.approved {
+        border-left: 4px solid #48bb78;
+    }
+    
+    .stat-card.residents {
+        border-left: 4px solid #ed8936;
+    }
+    
+    .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .stat-card.total .stat-number { color: #4a90e2; }
+    .stat-card.pending .stat-number { color: #f56565; }
+    .stat-card.approved .stat-number { color: #48bb78; }
+    .stat-card.residents .stat-number { color: #ed8936; }
+    
+    /* Override with Resident Dashboard Styling */
+    .stat-number {
+        font-size: 48px !important;
+        font-weight: 800 !important;
+        color: var(--ph-blue) !important;
+        margin: 15px 0 10px 0 !important;
+        line-height: 1 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    .stat-label {
+        font-size: 14px !important;
+        color: #666 !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 !important;
+        line-height: 1.3 !important;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+        color: #64748b;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+    
+    .filter-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .filter-card h5 {
+        margin-bottom: 15px;
+        color: #2d3748;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .filter-form {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 15px;
+        align-items: end;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #4a5568;
+        font-size: 14px;
+    }
+    
+    .form-control, .form-select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    
+    .btn-primary-custom {
+        background: #2b6cb0;
+        border: none;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    
+    .btn-primary-custom:hover {
+        background: #2c5282;
+    }
+    
+    .user-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .user-card.pending {
+        border-left: 4px solid #f56565;
+    }
+    
+    .user-card.approved {
+        border-left: 4px solid #48bb78;
+    }
+    
+    .user-header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid #f7fafc;
+    }
+    
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #4a90e2;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    .user-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+        flex-grow: 1;
+    }
+    
+    .user-name a:hover {
+        color: #667eea !important;
+        text-decoration: none !important;
+        transform: translateX(3px);
+    }
+    
+    .user-name a:hover i {
+        opacity: 1 !important;
+        color: #667eea;
+    }
+    
+    .role-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    
+    .role-badge.role-resident {
+        background: #e6fffa;
+        color: #38b2ac;
+    }
+    
+    .user-body {
+        padding: 20px;
+    }
+    
+    .user-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .info-label {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+    
+    .info-value {
+        color: #2d3748;
+        font-weight: 500;
+    }
+    
+    .user-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .btn-approve {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    
+    .btn-approve:hover {
+        background: #38a169;
+    }
+    
+    .btn-reject {
+        background: #f56565;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    
+    .btn-reject:hover {
+        background: #e53e3e;
+    }
+    
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn-info:hover {
+        background: #138496;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    
+    .status-badge.pending {
+        background: #fed7d7;
+        color: #c53030;
+    }
+    
+    .status-badge.approved {
+        background: #c6f6d5;
+        color: #2f855a;
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #64748b;
+    }
+    
+    .no-data i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+    
+    .recent-activity {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .recent-activity h5 {
+        margin-bottom: 15px;
+        color: #2d3748;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .alert {
+        background: #fed7d7;
+        border: 1px solid #fc8181;
+        color: #742a2a;
+        padding: 15px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .alert .btn {
+        background: #e53e3e;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        text-decoration: none;
+    }
+    
+    .alert .btn:hover {
+        background: #c53030;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+        
+        .user-info {
+            grid-template-columns: 1fr;
+        }
+        
+        .user-header {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .user-actions {
+            justify-content: center;
+        }
+    }
+
+    .no-data i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+    
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        align-items: end;
+    }
+    
+    .form-group label {
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        display: block;
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .pending-alert {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(238, 90, 36, 0.3);
+    }
+    
+    .recent-activity {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f3f4;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-title {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .activity-time {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .user-header, .user-body, .user-footer {
+            padding: 20px;
+        }
+        
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="dashboard-welcome fade-in">
+        <div class="welcome-header">
+            <h2 class="welcome-title">
+                <i class="fas fa-user-check"></i>
+                Welcome to User Approval!
+            </h2>
+            <div class="user-info">
+                <div class="user-avatar">
+                    {% if user.profile_photo %}
+                        <img src="{{ user.profile_photo.url }}" alt="{{ user.get_full_name|default:user.username }}" 
+                             style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        {{ user.first_name.0|default:"U" }}{{ user.last_name.0|default:"" }}
+                    {% endif %}
+                </div>
+                <div class="user-details">
+                    <h6>{{ user.get_full_name|default:user.username }}</h6>
+                    <p class="user-role">{{ user.get_role_display|default:"Administrator" }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="welcome-message">
+            <i class="fas fa-info-circle text-primary"></i>
+            Welcome to the official Barangay Burgos User Approval Management System. 
+            Dito kayo makakapag-approve ng mga bagong user accounts para sa aming barangay.
+            {% if pending_users_count > 0 %}
+                <div class="mt-2 p-2" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    <strong>{{ pending_users_count }}</strong> user account{{ pending_users_count|pluralize }} awaiting approval.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section fade-in">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                User Statistics / Estatistika ng mga User
+            </h3>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-number">{{ total_users|default:0 }}</div>
+                <p class="stat-label">
+                    Kabuuang Users
+                    <small>Total Users</small>
+                </p>
+            </div>
+            
+            <div class="stat-card pending">
+                <div class="stat-number">{{ pending_users_count|default:0 }}</div>
+                <p class="stat-label">
+                    Naghihintay
+                    <small>Pending Approval</small>
+                </p>
+            </div>
+            
+            <div class="stat-card approved">
+                <div class="stat-number">{{ approved_users_count|default:0 }}</div>
+                <p class="stat-label">
+                    Naaprubahan
+                    <small>Approved Users</small>
+                </p>
+            </div>
+            
+            <div class="stat-card residents">
+                <div class="stat-number">{{ resident_users_count|default:0 }}</div>
+                <p class="stat-label">
+                    Mga Residente
+                    <small>Active Residents</small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Search and Filter -->
+    <div class="filter-card">
+        <h5 class="mb-3">
+            <i class="fas fa-filter me-2 text-primary"></i>
+            Filter Users
+        </h5>
+        <form method="GET" class="filter-form">
+            <div class="form-group">
+                <label for="search">Search</label>
+                <input type="text" name="search" id="search" class="form-control" 
+                       placeholder="Search by name, email, or username..." 
+                       value="{{ request.GET.search }}">
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select name="role" id="role" class="form-select">
+                    <option value="">All Roles</option>
+                    <option value="resident" {% if request.GET.role == "resident" %}selected{% endif %}>Resident</option>
+                    <option value="secretary" {% if request.GET.role == "secretary" %}selected{% endif %}>Secretary</option>
+                    <option value="chairman" {% if request.GET.role == "chairman" %}selected{% endif %}>Chairman</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+                    <option value="approved" {% if request.GET.status == "approved" %}selected{% endif %}>Approved</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary-custom w-100">
+                    <i class="fas fa-search me-2"></i>
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <!-- User List -->
+        <div class="col-lg-8">
+            <div id="pendingUsers">
+                {% if user_list %}
+                    {% for user_account in user_list %}
+                        <div class="user-card {% if user_account.is_approved %}approved{% else %}pending{% endif %}">
+                            <div class="user-header">
+                                <div class="user-avatar">
+                                    <a href="{% url 'accounts:view_user_profile' user_account.id %}" style="color: inherit; text-decoration: none;">
+                                        {% if user_account.profile_photo %}
+                                            <img src="{{ user_account.profile_photo.url }}" alt="{{ user_account.get_full_name|default:user_account.username }}" 
+                                                 style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; transition: all 0.3s ease;"
+                                                 onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)'"
+                                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                                        {% else %}
+                                            {{ user_account.get_full_name.0|default:user_account.username.0|upper }}
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="user-name">
+                                    <a href="{% url 'accounts:view_user_profile' user_account.id %}" 
+                                       style="color: inherit; text-decoration: none; transition: all 0.3s ease;">
+                                        {{ user_account.get_full_name|default:user_account.username }}
+                                        <i class="fas fa-external-link-alt ms-2" style="font-size: 0.8rem; opacity: 0.7;"></i>
+                                    </a>
+                                </div>
+                                <div class="user-role">
+                                    <span class="role-badge role-{{ user_account.role }}">
+                                        {{ user_account.get_role_display|default:"Resident" }}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="user-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="user-info">
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-envelope me-2"></i>Email
+                                                </span>
+                                                <span class="info-value">{{ user_account.email|default:"Not provided" }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-user me-2"></i>Username
+                                                </span>
+                                                <span class="info-value">{{ user_account.username }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-calendar me-2"></i>Registration Date
+                                                </span>
+                                                <span class="info-value">{{ user_account.date_joined|date:"M d, Y g:i A" }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-user-check me-2"></i>Status
+                                                </span>
+                                                <span class="info-value">
+                                                    <span class="status-badge status-{% if user_account.is_approved %}approved{% else %}pending{% endif %}">
+                                                        {% if user_account.is_approved %}Approved{% else %}Pending{% endif %}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {% if user_account.profile_photo %}
+                                            <div class="text-center">
+                                                <div class="info-label mb-2">
+                                                    <i class="fas fa-camera me-2"></i>Profile Photo
+                                                </div>
+                                                <img src="{{ user_account.profile_photo.url }}" 
+                                                     alt="{{ user_account.get_full_name|default:user_account.username }}"
+                                                     class="img-fluid rounded" 
+                                                     style="max-width: 120px; max-height: 120px; object-fit: cover; border: 2px solid #e9ecef;">
+                                            </div>
+                                        {% else %}
+                                            <div class="text-center">
+                                                <div class="info-label mb-2">
+                                                    <i class="fas fa-camera me-2"></i>Profile Photo
+                                                </div>
+                                                <div class="text-muted">
+                                                    <i class="fas fa-user-circle" style="font-size: 80px;"></i>
+                                                    <br><small>No photo uploaded</small>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% if not user_account.is_approved %}
+                                <div class="user-footer">
+                                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                        <a href="{% url 'accounts:view_user_profile' user_account.id %}" class="btn btn-primary" style="background: #667eea; border-color: #667eea;">
+                                            <i class="fas fa-user me-1"></i>
+                                            View Profile
+                                        </a>
+                                        <a href="{% url 'accounts:view_documents' user_account.id %}" class="btn btn-info">
+                                            <i class="fas fa-file-alt me-1"></i>
+                                            View Documents
+                                        </a>
+                                        <form method="post" action="{% url 'accounts:approve_user' user_account.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-approve">
+                                                <i class="fas fa-check me-1"></i>
+                                                Approve
+                                            </button>
+                                        </form>
+                                        <button type="button" class="btn btn-reject" 
+                                                data-user-id="{{ user_account.id }}"
+                                                data-username="{{ user_account.get_full_name|default:user_account.username }}">
+                                            <i class="fas fa-times me-1"></i>
+                                            Reject
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="user-footer">
+                                    <div class="text-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-check-circle me-1 text-success"></i>
+                                            Account approved and active
+                                        </small>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-data">
+                        <i class="fas fa-users"></i>
+                        <h4>No Users Found</h4>
+                        <p class="text-muted">
+                            {% if request.GET %}
+                                No users match your search criteria. Try adjusting your filters.
+                            {% else %}
+                                No user accounts have been registered yet.
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h5 class="mb-3">
+                    <i class="fas fa-clock me-2 text-primary"></i>
+                    Recent User Activity
+                </h5>
+                {% for activity in recent_activity|slice:":5" %}
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">{{ activity.title }}</div>
+                            <div class="activity-time">{{ activity.time }}</div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="text-center text-muted py-3">
+                        <i class="fas fa-inbox"></i>
+                        <p class="mb-0">No recent activity</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// AJAX Reject handler to avoid page reload
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn-reject[data-user-id]');
+    if (!btn) return;
+    const userId = btn.getAttribute('data-user-id');
+    const card = btn.closest('.user-card');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+    if (!csrfToken) {
+        // Fallback: if no token on page, do a normal POST by creating a form
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/accounts/reject-user/${userId}/`;
+        form.innerHTML = `{% csrf_token %}`;
+        document.body.appendChild(form);
+        form.submit();
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Rejecting...';
+
+    fetch(`/accounts/reject-user/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the card from the DOM
+            if (card) card.remove();
+            // Optional: show a toast/message if base has helper
+            if (typeof showMessage === 'function') {
+                showMessage('success', data.message);
+            }
+        } else {
+            if (typeof showMessage === 'function') {
+                showMessage('error', data.error || 'Failed to reject user');
+            } else {
+                alert(data.error || 'Failed to reject user');
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-times me-1"></i> Reject';
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        if (typeof showMessage === 'function') {
+            showMessage('error', 'An error occurred while rejecting the user');
+        } else {
+            alert('An error occurred while rejecting the user');
+        }
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-times me-1"></i> Reject';
+    });
+});
+function approveAllPending() {
+    // Implement bulk approval functionality without confirmation
+    window.location.href = '?bulk_approve=true';
+}
+
+function scrollToPending() {
+    document.getElementById('pendingUsers').scrollIntoView({ 
+        behavior: 'smooth' 
+    });
+}
+</script>
+{% endblock %}

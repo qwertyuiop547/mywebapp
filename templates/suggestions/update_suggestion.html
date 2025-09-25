@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{% trans "Update Suggestion" %} - {% trans "Barangay Portal" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+.update-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.update-container {
+    background: white;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.suggestion-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.status-info {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+}
+
+.priority-info {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+}
+
+.response-area {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.implementation-area {
+    background: #e8f5e8;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-update {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+}
+
+.btn-update:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    color: white;
+}
+
+.current-status {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.engagement-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.warning-box {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .update-header {
+        padding: 1rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .engagement-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <!-- Header -->
+    <div class="update-container">
+        <div class="update-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">
+                        <i class="fas fa-edit"></i>
+                        {% trans "Update Suggestion" %}
+                    </h1>
+                    <p class="mb-0">{% trans "Review and update the status of this community suggestion" %}</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{% url 'suggestions:suggestion_detail' suggestion.id %}" class="btn btn-light">
+                            <i class="fas fa-eye"></i>
+                            {% trans "View Suggestion" %}
+                        </a>
+                        <a href="{% url 'suggestions:manage_suggestions' %}" class="btn btn-outline-light">
+                            <i class="fas fa-arrow-left"></i>
+                            {% trans "Back to Management" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestion Information -->
+        <div class="form-section">
+            <div class="suggestion-info">
+                <h3 class="mb-3">{{ suggestion.title }}</h3>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="current-status 
+                            {% if suggestion.status == 'pending' %}bg-warning text-dark
+                            {% elif suggestion.status == 'under_review' %}bg-info text-white
+                            {% elif suggestion.status == 'approved' %}bg-success text-white
+                            {% elif suggestion.status == 'implemented' %}bg-primary text-white
+                            {% elif suggestion.status == 'rejected' %}bg-danger text-white
+                            {% else %}bg-secondary text-white{% endif %}">
+                            {% trans "Current Status:" %} {{ suggestion.get_status_display }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="engagement-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">{{ suggestion.likes }}</div>
+                                <div class="stat-label">{% trans "Likes" %}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">{{ suggestion.views }}</div>
+                                <div class="stat-label">{% trans "Views" %}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">{{ suggestion.comments.count }}</div>
+                                <div class="stat-label">{% trans "Comments" %}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-muted mb-2">{{ suggestion.description|truncatechars:200 }}</p>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>{% trans "Submitted by:" %}</strong><br>
+                        {{ suggestion.submitter_name }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{% trans "Category:" %}</strong><br>
+                        {{ suggestion.category.name }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{% trans "Submitted on:" %}</strong><br>
+                        {{ suggestion.submitted_at|date:"F d, Y" }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>{% trans "Last updated:" %}</strong><br>
+                        {{ suggestion.updated_at|date:"F d, Y" }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Form -->
+            <form method="post" id="updateForm">
+                {% csrf_token %}
+                
+                <!-- Status and Priority Section -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">
+                                <i class="fas fa-flag"></i>
+                                {{ form.status.label }}
+                            </label>
+                            {{ form.status|add_class:"form-select" }}
+                            <div class="status-info">
+                                <small>
+                                    <i class="fas fa-info-circle"></i>
+                                    {% trans "Update the current status of this suggestion based on your review" %}
+                                </small>
+                            </div>
+                            {% if form.status.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.status.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ form.priority.id_for_label }}" class="form-label">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                {{ form.priority.label }}
+                            </label>
+                            {{ form.priority|add_class:"form-select" }}
+                            <div class="priority-info">
+                                <small>
+                                    <i class="fas fa-info-circle"></i>
+                                    {% trans "Set the priority level based on urgency and impact" %}
+                                </small>
+                            </div>
+                            {% if form.priority.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.priority.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Response Section -->
+                <div class="response-area">
+                    <h4 class="mb-3">
+                        <i class="fas fa-reply"></i>
+                        {% trans "Official Response" %}
+                    </h4>
+                    
+                    <!-- Admin Notes -->
+                    <div class="form-group">
+                        <label for="{{ form.admin_notes.id_for_label }}" class="form-label">
+                            {{ form.admin_notes.label }}
+                        </label>
+                        {{ form.admin_notes|add_class:"form-control" }}
+                        <small class="form-text text-muted">{{ form.admin_notes.help_text }}</small>
+                        {% if form.admin_notes.errors %}
+                        <div class="text-danger small">
+                            {% for error in form.admin_notes.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Public Response -->
+                    <div class="form-group">
+                        <label for="{{ form.public_response.id_for_label }}" class="form-label">
+                            {{ form.public_response.label }}
+                        </label>
+                        {{ form.public_response|add_class:"form-control" }}
+                        <small class="form-text text-muted">{{ form.public_response.help_text }}</small>
+                        {% if form.public_response.errors %}
+                        <div class="text-danger small">
+                            {% for error in form.public_response.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Implementation Section -->
+                <div class="implementation-area">
+                    <h4 class="mb-3">
+                        <i class="fas fa-tools"></i>
+                        {% trans "Implementation Details" %}
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ form.estimated_budget.id_for_label }}" class="form-label">
+                                    {{ form.estimated_budget.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    {{ form.estimated_budget|add_class:"form-control" }}
+                                </div>
+                                <small class="form-text text-muted">{{ form.estimated_budget.help_text }}</small>
+                                {% if form.estimated_budget.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.estimated_budget.errors %}{{ error }}{% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ form.implementation_date.id_for_label }}" class="form-label">
+                                    {{ form.implementation_date.label }}
+                                </label>
+                                {{ form.implementation_date|add_class:"form-control" }}
+                                <small class="form-text text-muted">{{ form.implementation_date.help_text }}</small>
+                                {% if form.implementation_date.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.implementation_date.errors %}{{ error }}{% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Toggle -->
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ form.is_featured|add_class:"form-check-input" }}
+                        <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
+                            <i class="fas fa-star text-warning"></i>
+                            {{ form.is_featured.label }}
+                        </label>
+                    </div>
+                    <small class="form-text text-muted">{{ form.is_featured.help_text }}</small>
+                    {% if form.is_featured.errors %}
+                    <div class="text-danger small">
+                        {% for error in form.is_featured.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Warning for Status Changes -->
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    <strong>{% trans "Important:" %}</strong>
+                    {% trans "Status changes will be recorded and may trigger notifications to the submitter. Make sure your response is clear and professional." %}
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'suggestions:suggestion_detail' suggestion.id %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i>
+                        {% trans "Cancel" %}
+                    </a>
+                    <button type="submit" class="btn btn-update btn-lg">
+                        <i class="fas fa-save"></i>
+                        {% trans "Update Suggestion" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('updateForm');
+    const statusField = document.getElementById('{{ form.status.id_for_label }}');
+    const publicResponseField = document.getElementById('{{ form.public_response.id_for_label }}');
+    
+    // Warn if changing status without public response
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const status = statusField.value;
+            const publicResponse = publicResponseField.value.trim();
+            
+            if ((status === 'approved' || status === 'rejected') && !publicResponse) {
+                if (!confirm('{% trans "You are updating the status without a public response. Continue anyway?" %}')) {
+                    e.preventDefault();
+                    publicResponseField.focus();
+                    return false;
+                }
+            }
+            
+            if (status === 'implemented' && !publicResponse) {
+                if (!confirm('{% trans "It is recommended to provide a public response when marking as implemented. Continue anyway?" %}')) {
+                    e.preventDefault();
+                    publicResponseField.focus();
+                    return false;
+                }
+            }
+        });
+    }
+    
+    // Auto-suggest responses based on status
+    if (statusField) {
+        statusField.addEventListener('change', function() {
+            const status = this.value;
+            const suggestions = {
+                'approved': '{% trans "Thank you for your suggestion. We have approved this for further consideration and implementation planning." %}',
+                'rejected': '{% trans "Thank you for your suggestion. After careful review, we are unable to proceed with this proposal at this time." %}',
+                'implemented': '{% trans "Thank you for your suggestion. We are pleased to inform you that this has been implemented." %}',
+                'under_review': '{% trans "Thank you for your suggestion. We are currently reviewing this proposal and will provide updates soon." %}'
+            };
+            
+            if (suggestions[status] && !publicResponseField.value.trim()) {
+                if (confirm('{% trans "Would you like to use a suggested response for this status?" %}')) {
+                    publicResponseField.value = suggestions[status];
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

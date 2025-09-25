@@ -1,0 +1,872 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{% trans "Barangay Complaint Portal" %} - {% trans "Barangay Portal" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Official Philippine Government Portal Design - EXACT COPY FROM CHAIRMAN DASHBOARD */
+    :root {
+        --ph-blue: #0038a8;
+        --ph-red: #ce1126;
+        --ph-yellow: #fcd116;
+        --gov-primary: #003f7f;
+        --gov-secondary: #f8f9fa;
+        --gov-success: #28a745;
+        --gov-danger: #dc3545;
+        --gov-warning: #ffc107;
+        --gov-info: #17a2b8;
+        --gov-accent: #e83e8c;
+        --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        --border-radius: 8px;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    /* Dashboard Welcome Section - EXACT COPY */
+    .dashboard-welcome {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin: 25px 0 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    .welcome-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .welcome-title,
+    .dashboard-welcome h1,
+    .dashboard-welcome h2 {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    .welcome-message,
+    .dashboard-welcome p {
+        color: rgba(255,255,255,0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        font-size: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .welcome-message .text-primary,
+    .dashboard-welcome .text-primary {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255,255,255,0.1) !important;
+        padding: 15px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+    
+    .user-info * {
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-avatar {
+        width: 50px !important;
+        height: 50px !important;
+        background: rgba(255,255,255,0.2) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        font-size: 20px !important;
+        border: 3px solid rgba(255,255,255,0.3) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-details h6 {
+        margin: 0 !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-role {
+        margin: 0 !important;
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    /* Statistics Section - EXACT COPY */
+    .stats-section {
+        margin: 30px 0;
+    }
+    
+    .section-header {
+        background: white;
+        padding: 20px 25px;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        border-left: 5px solid var(--ph-blue);
+        margin-bottom: 0;
+        box-shadow: var(--shadow-light);
+    }
+    
+    .section-title {
+        font-size: 18px;
+        color: var(--ph-blue);
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .stats-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr 1fr !important;
+        gap: 0 !important;
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 0 var(--border-radius) var(--border-radius) !important;
+        box-shadow: var(--shadow-light) !important;
+        overflow: hidden !important;
+    }
+    
+    .stat-card {
+        background: white !important;
+        padding: 40px 30px !important;
+        border: none !important;
+        border-radius: 0 !important;
+        text-align: center !important;
+        position: relative !important;
+        transition: all 0.3s ease !important;
+        min-height: 200px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+    
+    .stat-card:not(:last-child) {
+        border-right: 1px solid #e9ecef !important;
+    }
+    
+    .stat-card:hover {
+        background: #f8f9fa !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        border-radius: var(--border-radius) !important;
+        margin: 5px !important;
+        z-index: 2 !important;
+    }
+    
+    .stat-number {
+        font-size: 48px !important;
+        font-weight: 800 !important;
+        color: var(--ph-blue) !important;
+        margin: 15px 0 10px 0 !important;
+        line-height: 1 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    .stat-label {
+        font-size: 14px !important;
+        color: #666 !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 !important;
+        line-height: 1.3 !important;
+    }
+    
+    .stat-card:nth-child(1) {
+        border-bottom: 4px solid var(--ph-blue) !important;
+    }
+    
+    .stat-card:nth-child(2) {
+        border-bottom: 4px solid var(--gov-warning) !important;
+    }
+    
+    .stat-card:nth-child(3) {
+        border-bottom: 4px solid var(--gov-info) !important;
+    }
+    
+    .stat-card:nth-child(4) {
+        border-bottom: 4px solid var(--gov-success) !important;
+    }
+    
+    .stat-icon {
+        width: 70px !important;
+        height: 70px !important;
+        margin: 0 auto 15px auto !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 28px !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    }
+    
+    .stat-icon i {
+        color: white !important;
+        font-size: 28px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .stat-icon.total { 
+        background: linear-gradient(135deg, var(--ph-blue), #1e5799) !important;
+    }
+    .stat-icon.pending { 
+        background: linear-gradient(135deg, var(--gov-warning), #e0a800) !important;
+    }
+    .stat-icon.in-progress { 
+        background: linear-gradient(135deg, var(--gov-info), #138496) !important;
+    }
+    .stat-icon.resolved { 
+        background: linear-gradient(135deg, var(--gov-success), #1e7e34) !important;
+    }
+
+.page-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #1d4ed8 100%);
+    color: white;
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.portal-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.portal-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stats-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.stats-card.total-card .stats-icon {
+    color: var(--primary-blue);
+    background: #dbeafe;
+}
+
+.stats-card.pending-card .stats-icon {
+    color: var(--primary-orange);
+    background: #fed7aa;
+}
+
+.stats-card.progress-card .stats-icon {
+    color: var(--primary-blue);
+    background: #dbeafe;
+}
+
+.stats-card.resolved-card .stats-icon {
+    color: var(--primary-green);
+    background: #dcfce7;
+}
+
+.stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.stats-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.filter-panel {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e5e7eb;
+}
+
+.portal-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem;
+    background: var(--bg-light);
+    border-radius: var(--border-radius);
+}
+
+.portal-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: calc(var(--border-radius) - 2px);
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.portal-tab:hover,
+.portal-tab.active {
+    background: white;
+    color: var(--primary-blue);
+    box-shadow: var(--shadow-sm);
+}
+
+.complaint-meta {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #ffffff !important;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-state .icon {
+    font-size: 4rem;
+    color: var(--primary-blue);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: 1rem 0;
+        min-height: 100px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .filter-panel {
+        padding: 1rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Dashboard Welcome Section -->
+    <div class="dashboard-welcome fade-in">
+        <div class="welcome-header">
+            <h2 class="welcome-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                Welcome to Complaint Portal!
+            </h2>
+            <div class="user-info">
+                <div class="user-avatar">
+                    {{ user.first_name.0|default:user.username.0|upper }}
+                </div>
+                <div class="user-details">
+                    <h6>{{ user.get_full_name|default:user.username }}</h6>
+                    <p class="user-role">{{ user.get_role_display }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="welcome-message">
+            <i class="fas fa-info-circle text-primary"></i>
+            Welcome to the official Barangay Burgos Complaint Management System. Here you can submit and track community complaints and concerns.
+            {% if user.is_authenticated and user.is_resident %}
+            <div class="mt-3">
+                <a href="{% url 'complaints:create_complaint' %}" class="btn btn-warning">
+                    <i class="fas fa-plus me-2"></i>
+                    Magpadala ng Reklamo
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section fade-in">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Complaint Statistics
+            </h3>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-number">{{ stats.total|default:0 }}</div>
+                <p class="stat-label">
+                    Total Complaints
+                </p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">{{ stats.pending|default:0 }}</div>
+                <p class="stat-label">
+                    Pending Complaints
+                </p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon in-progress">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="stat-number">{{ stats.in_progress|default:0 }}</div>
+                <p class="stat-label">
+                    In Progress
+                </p>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon resolved">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number">{{ stats.resolved|default:0 }}</div>
+                <p class="stat-label">
+                    Resolved Complaints
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+    <!-- Portal Type Tabs -->
+    <div class="portal-tabs">
+        <a href="{% url 'suggestions:suggestion_list' %}" class="portal-tab">
+            <i class="fas fa-lightbulb me-2"></i>
+            {% trans "Suggestions" %}
+        </a>
+        <a href="{% url 'complaints:complaint_list' %}" class="portal-tab active">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {% trans "Complaints" %}
+        </a>
+        <a href="{% url 'gallery:gallery_list' %}" class="portal-tab">
+            <i class="fas fa-heart me-2"></i>
+            {% trans "Memories" %}
+        </a>
+    </div>
+
+    <!-- Simple Filter Panel -->
+    <div class="filter-panel">
+        <form method="GET">
+            <div class="row align-items-end">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label small text-muted">Hanapin</label>
+                    <input type="text" name="search" class="form-control" placeholder="Hanapin ang reklamo..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label small text-muted">Kategorya</label>
+                    <select name="category" class="form-select">
+                        <option value="">Lahat</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label small text-muted">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">Lahat</option>
+                        <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Naghihintay</option>
+                        <option value="in_progress" {% if request.GET.status == "in_progress" %}selected{% endif %}>Ginagawa</option>
+                        <option value="resolved" {% if request.GET.status == "resolved" %}selected{% endif %}>Naresolba</option>
+                        <option value="closed" {% if request.GET.status == "closed" %}selected{% endif %}>Sarado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i>
+                            Hanapin
+                        </button>
+                        <a href="{% url 'complaints:complaint_list' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-refresh me-1"></i>
+                            I-reset
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Complaint List -->
+    <div class="row">
+        {% for complaint in page_obj %}
+        <div class="col-lg-6 mb-4">
+            <div class="portal-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">
+                            <a href="{% url 'complaints:complaint_detail' complaint.id %}" class="text-decoration-none">
+                                {{ complaint.title|truncatechars:60 }}
+                            </a>
+                        </h5>
+                        <div class="d-flex gap-1">
+                            <span class="badge status-badge 
+                                {% if complaint.status == 'pending' %}bg-warning
+                                {% elif complaint.status == 'in_progress' %}bg-info
+                                {% elif complaint.status == 'resolved' %}bg-success
+                                {% elif complaint.status == 'closed' %}bg-secondary
+                                {% else %}bg-secondary{% endif %}">
+                                {{ complaint.get_status_display }}
+                            </span>
+                            {% if complaint.priority %}
+                            <span class="badge priority-badge 
+                                {% if complaint.priority == 'emergency' %}bg-danger
+                                {% elif complaint.priority == 'high' %}bg-warning
+                                {% elif complaint.priority == 'normal' %}bg-info
+                                {% else %}bg-secondary{% endif %}">
+                                {{ complaint.get_priority_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <p class="card-text text-muted mb-2">
+                        {{ complaint.description|truncatechars:120 }}
+                    </p>
+                    
+                    <div class="complaint-meta mb-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <i class="fas fa-tag text-primary"></i>
+                                {{ complaint.category.name }}
+                            </div>
+                            <div class="col-sm-6">
+                                <i class="fas fa-user text-success"></i>
+                                {% if complaint.is_anonymous %}
+                                    <span class="text-muted">Anonymous</span>
+                                {% else %}
+                                    {{ complaint.complainant.get_full_name|default:complaint.complainant.username }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if complaint.location %}
+                        <div class="mt-1">
+                            <i class="fas fa-map-marker-alt text-danger"></i>
+                            {{ complaint.location }}
+                        </div>
+                        {% endif %}
+                        {% if complaint.assigned_to %}
+                        <div class="mt-1">
+                            <i class="fas fa-user-tie text-info"></i>
+                            Assigned to {{ complaint.assigned_to.get_full_name }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="action-buttons">
+                            <a href="{% url 'complaints:complaint_detail' complaint.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            
+                            {% if user.is_resident and complaint.complainant == user and complaint.status == 'pending' %}
+                                <a href="{% url 'complaints:update_complaint' complaint.id %}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            {% endif %}
+                            
+                            <!-- Secretary Approval Buttons -->
+                            {% if user.is_secretary and complaint.is_approved is None %}
+                                <button class="btn btn-sm btn-success approve-complaint-btn" data-complaint-id="{{ complaint.id }}">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <a href="?reject_id={{ complaint.id }}#reject-complaint-{{ complaint.id }}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-times"></i> Reject
+                                </a>
+                            {% endif %}
+                            
+                            <!-- Chairman Management Buttons -->
+                            {% if user.is_chairman and complaint.is_approved and complaint.status == 'in_progress' %}
+                                <button class="btn btn-sm btn-outline-success resolve-complaint-btn" data-complaint-id="{{ complaint.id }}">
+                                    <i class="fas fa-check-circle"></i> Resolve
+                                </button>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">
+                            {{ complaint.created_at|date:"M d, Y" }}
+                        </small>
+                    </div>
+                </div>
+                
+                <!-- Inline rejection form for complaint list -->
+                {% if user.is_secretary and complaint.is_approved is None and request.GET.reject_id == complaint.id|stringformat:"s" %}
+                <div id="reject-complaint-{{ complaint.id }}" class="card-footer bg-warning">
+                    <h6 class="text-dark mb-3">
+                        <i class="fas fa-exclamation-triangle"></i> Reject: "{{ complaint.title }}"
+                    </h6>
+                    <form method="post" action="{% url 'complaints:reject_complaint' complaint.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="rejectionReason{{ complaint.id }}" class="form-label text-dark">
+                                Reason for Rejection <span class="text-danger">*</span>
+                            </label>
+                            <textarea id="rejectionReason{{ complaint.id }}" name="rejection_reason" rows="3" required 
+                                    class="form-control" placeholder="Please provide a detailed reason..."></textarea>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{% url 'complaints:complaint_list' %}" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-ban"></i> Reject Complaint
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="portal-card text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle text-muted" style="font-size: 4rem; opacity: 0.3;"></i>
+                </div>
+                <h4 class="text-muted mb-3">Walang nakitang reklamo</h4>
+                <p class="text-muted mb-4">
+                    {% if request.GET.search or request.GET.category or request.GET.status %}
+                        Walang reklamo na tumugma sa inyong paghahanap. Subukan ninyong baguhin ang mga filter.
+                    {% else %}
+                        Maging una sa pagpadala ng reklamo para sa pagpapabuti ng barangay!
+                    {% endif %}
+                </p>
+                {% if user.is_authenticated and user.is_resident %}
+                <a href="{% url 'complaints:create_complaint' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>
+                    Magpadala ng Unang Reklamo
+                </a>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Mangyaring mag-login upang magpadala ng reklamo
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="{% trans 'Complaints pagination' %}">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.urlencode %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">
+                    {% trans "Previous" %}
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if request.GET.urlencode %}{{ request.GET.urlencode }}&{% endif %}page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.urlencode %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">
+                    {% trans "Next" %}
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,637 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ photo.title }} - Barangay Gallery{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --primary-blue: #2563eb;
+    --primary-green: #16a34a;
+    --primary-orange: #ea580c;
+    --primary-red: #dc2626;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f8fafc;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+.photo-detail-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.photo-main {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.photo-image-container {
+    position: relative;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.photo-main-image {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.photo-status-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+.status-featured {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+}
+
+.photo-info {
+    padding: 2rem;
+}
+
+.photo-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.photo-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.meta-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.photo-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+}
+
+.photo-engagement {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.like-button:hover {
+    background: var(--bg-light);
+}
+
+.like-button.liked {
+    color: var(--primary-red);
+}
+
+.engagement-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.sidebar {
+    display: grid;
+    gap: 2rem;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comments-section {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.comment-form {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.comment-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.comment-official {
+    background: var(--primary-blue);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.comment-date {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.comment-text {
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.related-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.related-photo {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.related-photo:hover {
+    transform: scale(1.05);
+}
+
+.related-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+@media (max-width: 768px) {
+    .photo-detail-container {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+    
+    .photo-info {
+        padding: 1.5rem;
+    }
+    
+    .photo-title {
+        font-size: 1.5rem;
+    }
+    
+    .photo-meta {
+        grid-template-columns: 1fr;
+    }
+    
+    .photo-engagement {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .detail-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="photo-detail-container">
+    <!-- Back Navigation -->
+    <div class="mb-3">
+        <a href="{% url 'gallery:gallery_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Gallery
+        </a>
+    </div>
+
+    <div class="detail-layout">
+        <!-- Main Photo Section -->
+        <div>
+            <div class="photo-main">
+                <div class="photo-image-container">
+                    {% if photo.is_featured %}
+                        <div class="photo-status-badge status-featured">
+                            <i class="fas fa-star"></i> Featured
+                        </div>
+                    {% endif %}
+                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="photo-main-image">
+                </div>
+                
+                <div class="photo-info">
+                    <h1 class="photo-title">{{ photo.title }}</h1>
+                    
+                    <div class="photo-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-tag text-primary"></i>
+                            <span>{{ photo.category.name }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user text-success"></i>
+                            <span>{{ photo.uploaded_by.get_full_name|default:photo.uploaded_by.username }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar text-info"></i>
+                            <span>{{ photo.uploaded_at|date:"F d, Y" }}</span>
+                        </div>
+                        {% if photo.location %}
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt text-danger"></i>
+                            <span>{{ photo.location }}</span>
+                        </div>
+                        {% endif %}
+                        {% if photo.photographer %}
+                        <div class="meta-item">
+                            <i class="fas fa-camera text-warning"></i>
+                            <span>{{ photo.photographer }}</span>
+                        </div>
+                        {% endif %}
+                        {% if photo.event_name %}
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt text-purple"></i>
+                            <span>{{ photo.event_name }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if photo.description %}
+                    <div class="photo-description">
+                        {{ photo.description|linebreaks }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="photo-engagement">
+                        {% if user.is_authenticated %}
+                        <button class="like-button {% if user_liked %}liked{% endif %}" data-photo-id="{{ photo.id }}">
+                            <i class="fas fa-heart"></i>
+                            <span class="like-count">{{ photo.likes }}</span>
+                            <span>{% if user_liked %}Liked{% else %}Like{% endif %}</span>
+                        </button>
+                        {% else %}
+                        <div class="engagement-stat">
+                            <i class="fas fa-heart text-danger"></i>
+                            <span>{{ photo.likes }} likes</span>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="engagement-stat">
+                            <i class="fas fa-eye text-info"></i>
+                            <span>{{ photo.views }} views</span>
+                        </div>
+                        
+                        <div class="engagement-stat">
+                            <i class="fas fa-comments text-success"></i>
+                            <span>{{ photo.comments.count }} comments</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-comments"></i>
+                    Comments
+                </h3>
+                
+                {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <form method="post" action="{% url 'gallery:add_comment' photo.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea name="comment" class="form-control" rows="3" placeholder="Add a comment..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i> Post Comment
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+                
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div>
+                                <span class="comment-author">{{ comment.user.get_full_name|default:comment.user.username }}</span>
+                                {% if comment.is_official %}
+                                    <span class="comment-official">Official</span>
+                                {% endif %}
+                            </div>
+                            <span class="comment-date">{{ comment.created_at|date:"M d, Y g:i A" }}</span>
+                        </div>
+                        <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-comments" style="font-size: 2rem; opacity: 0.5;"></i>
+                        <p>No comments yet. Be the first to comment!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Related Photos -->
+            {% if related_photos %}
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-images"></i>
+                    Related Photos
+                </h3>
+                <div class="related-photos">
+                    {% for related_photo in related_photos %}
+                    <a href="{% url 'gallery:photo_detail' related_photo.id %}" class="related-photo">
+                        <img src="{{ related_photo.image.url }}" alt="{{ related_photo.title }}">
+                        <div class="related-photo-overlay">
+                            {{ related_photo.title|truncatechars:30 }}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions -->
+            {% if user.is_authenticated %}
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-cog"></i>
+                    Actions
+                </h3>
+                <div class="d-grid gap-2">
+                    {% if user == photo.uploaded_by and photo.status == 'pending' %}
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="fas fa-edit"></i> Edit Photo
+                        </a>
+                    {% endif %}
+                    
+                    {% if user.role == 'chairman' or user.role == 'secretary' %}
+                        {% if photo.status == 'pending' %}
+                            <button class="btn btn-success approve-photo-btn" data-photo-id="{{ photo.id }}">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn btn-danger reject-photo-btn" data-photo-id="{{ photo.id }}">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        {% endif %}
+                        
+                        {% if user.role == 'chairman' and photo.status == 'approved' %}
+                            <button class="btn btn-warning feature-photo-btn" data-photo-id="{{ photo.id }}">
+                                <i class="fas fa-star"></i>
+                                {% if photo.is_featured %}Unfeature{% else %}Feature{% endif %}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                    
+                    <a href="{% url 'gallery:upload_photo' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-plus"></i> Upload Photo
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="application/json" id="photo-data">
+{
+    "photoId": {{ photo.id }},
+    "userAuthenticated": {% if user.is_authenticated %}true{% else %}false{% endif %},
+    "userLiked": {% if user_liked %}true{% else %}false{% endif %},
+    "csrfToken": "{{ csrf_token }}",
+    "userRole": "{{ user.role|default:'' }}"
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const photoData = JSON.parse(document.getElementById('photo-data').textContent);
+    
+    // Like button functionality
+    const likeButton = document.querySelector('.like-button');
+    if (likeButton) {
+        likeButton.addEventListener('click', function() {
+            if (!photoData.userAuthenticated) {
+                alert('Please log in to like photos.');
+                return;
+            }
+            
+            fetch(`/gallery/photo/${photoData.photoId}/like/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': photoData.csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCount = likeButton.querySelector('.like-count');
+                const likeText = likeButton.querySelector('span:last-child');
+                
+                likeCount.textContent = data.total_likes;
+                
+                if (data.liked) {
+                    likeButton.classList.add('liked');
+                    likeText.textContent = 'Liked';
+                } else {
+                    likeButton.classList.remove('liked');
+                    likeText.textContent = 'Like';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating like status. Please try again.');
+            });
+        });
+    }
+    
+    // Photo management buttons
+    const approveBtn = document.querySelector('.approve-photo-btn');
+    const rejectBtn = document.querySelector('.reject-photo-btn');
+    const featureBtn = document.querySelector('.feature-photo-btn');
+    
+    if (approveBtn) {
+        approveBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to approve this photo?')) {
+                photoAction('approve');
+            }
+        });
+    }
+    
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to reject this photo?')) {
+                photoAction('reject');
+            }
+        });
+    }
+    
+    if (featureBtn) {
+        featureBtn.addEventListener('click', function() {
+            const action = featureBtn.textContent.includes('Unfeature') ? 'unfeature' : 'feature';
+            if (confirm(`Are you sure you want to ${action} this photo?`)) {
+                photoAction('feature');
+            }
+        });
+    }
+    
+    function photoAction(action) {
+        fetch(`/gallery/photo/${photoData.photoId}/${action}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': photoData.csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Something went wrong'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error performing action. Please try again.');
+        });
+    }
+});
+</script>
+{% endblock %}

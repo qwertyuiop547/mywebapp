@@ -1,0 +1,1336 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resident Management - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Official Philippine Government Portal Design - EXACT COPY FROM CHAIRMAN DASHBOARD */
+    :root {
+        --ph-blue: #0038a8;
+        --ph-red: #ce1126;
+        --ph-yellow: #fcd116;
+        --gov-primary: #003f7f;
+        --gov-secondary: #f8f9fa;
+        --gov-success: #28a745;
+        --gov-danger: #dc3545;
+        --gov-warning: #ffc107;
+        --gov-info: #17a2b8;
+        --gov-accent: #e83e8c;
+        --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        --border-radius: 8px;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    /* Dashboard Welcome Section - EXACT COPY */
+    .dashboard-welcome {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin: 25px 0 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    .welcome-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .welcome-title,
+    .dashboard-welcome h1,
+    .dashboard-welcome h2 {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    .welcome-message,
+    .dashboard-welcome p {
+        color: rgba(255,255,255,0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        font-size: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .welcome-message .text-primary,
+    .dashboard-welcome .text-primary {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255,255,255,0.1) !important;
+        padding: 15px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+    
+    .user-info * {
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-avatar {
+        width: 50px !important;
+        height: 50px !important;
+        background: rgba(255,255,255,0.2) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        font-size: 20px !important;
+        border: 3px solid rgba(255,255,255,0.3) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-details h6 {
+        margin: 0 !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    .user-role {
+        margin: 0 !important;
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+    
+    /* Enhanced text clarity and sharpness */
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        box-sizing: border-box;
+    }
+    
+    html {
+        font-size: 16px;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+    
+    /* Force hardware acceleration for better rendering */
+    .dashboard-welcome,
+    .resident-card,
+    .filter-section,
+    .user-info,
+    .user-card {
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        -o-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    
+    /* ULTRA SHARP TEXT RENDERING */
+    h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, select {
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: optimizeLegibility !important;
+        font-feature-settings: "liga", "kern" !important;
+    }
+    
+    /* High DPI display optimization */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        * {
+            -webkit-font-smoothing: subpixel-antialiased !important;
+        }
+    }
+    
+    /* Better card styling for clarity */
+    .card {
+        border: 1px solid rgba(0,0,0,0.125);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background: white;
+    }
+    
+    /* Sharper text in tables and lists */
+    .table {
+        background: white;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .table th,
+    .table td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        vertical-align: middle;
+        font-weight: 500;
+        color: #333;
+        background: white;
+    }
+    
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+        border-top: 2px solid var(--ph-blue);
+    }
+    
+    /* Sharper buttons */
+    .btn {
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-size: 14px;
+        line-height: 1.4;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+        border: 1px solid #17a2b8;
+    }
+    
+    .btn-warning {
+        background: #ffc107;
+        color: #212529;
+        border: 1px solid #ffc107;
+    }
+    
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+        border: 1px solid #dc3545;
+    }
+    
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* Sharper form elements */
+    .form-control {
+        border: 2px solid #ced4da;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #495057;
+        background: white;
+        transition: border-color 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--ph-blue);
+        box-shadow: 0 0 0 3px rgba(0, 56, 168, 0.1);
+        outline: none;
+    }
+    
+    /* Better badge styling */
+    .badge {
+        font-weight: 600;
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .welcome-title {
+        font-size: 24px;
+        color: var(--ph-blue);
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    /* Enhanced resident card styling for clarity */
+    .resident-card {
+        background: white;
+        border: 1px solid #e3e6f0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.2s ease;
+    }
+    
+    .resident-card:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        transform: translateY(-1px);
+    }
+    
+    /* CRYSTAL CLEAR USER INFO STYLING */
+    .user-info h5 {
+        font-size: 20px !important;
+        font-weight: 800 !important;
+        color: #1a202c !important;
+        margin-bottom: 8px !important;
+        letter-spacing: 0.5px !important;
+        text-shadow: none !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: optimizeLegibility !important;
+        line-height: 1.2 !important;
+    }
+    
+    .user-role {
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        color: #4a5568 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 8px !important;
+        padding: 4px 8px !important;
+        background: #f7fafc !important;
+        border-radius: 4px !important;
+        display: inline-block !important;
+        text-shadow: none !important;
+        -webkit-font-smoothing: antialiased !important;
+    }
+    
+    .role-resident {
+        background: #e6fffa !important;
+        color: #065f46 !important;
+        border: 1px solid #a7f3d0 !important;
+    }
+    
+    .user-meta {
+        font-size: 14px !important;
+        color: #2d3748 !important;
+        font-weight: 600 !important;
+        line-height: 1.6 !important;
+        text-shadow: none !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    .user-meta i {
+        color: #4299e1 !important;
+        font-weight: 900 !important;
+        margin-right: 6px !important;
+    }
+    
+    /* Enhanced resident card container */
+    .user-card,
+    .resident-card {
+        background: white !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+        margin-bottom: 16px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        -webkit-font-smoothing: antialiased !important;
+        transform: translateZ(0) !important;
+    }
+    
+    .user-card:hover,
+    .resident-card:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+        transform: translateY(-2px) translateZ(0) !important;
+        border-color: #4299e1 !important;
+    }
+    
+    /* Legacy support for existing styles */
+    .resident-info h5 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+    
+    .resident-info p {
+        font-size: 14px;
+        font-weight: 500;
+        color: #5a6c7d;
+        margin-bottom: 4px;
+        line-height: 1.4;
+    }
+    
+    .resident-meta {
+        font-size: 13px;
+        color: #8492a6;
+        font-weight: 500;
+    }
+    
+    /* Better status indicators */
+    .status-active {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .status-inactive {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+    }
+    
+    /* Sharper filter section */
+    .filter-section {
+        background: white;
+        border: 1px solid #e3e6f0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .filter-section h5 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ph-blue);
+        margin-bottom: 15px;
+    }
+    
+    /* Better search results styling */
+    .search-results {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .welcome-message {
+        margin: 0;
+        color: #666;
+        font-size: 16px;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0,56,168,0.05);
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 1px solid rgba(0,56,168,0.1);
+    }
+    
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        background: var(--ph-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    
+    .user-details h6 {
+        margin: 0;
+        color: var(--ph-blue);
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .user-role {
+        margin: 0;
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    /* Stats Grid - Matching Complaint Portal */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        background: white;
+        padding: 0;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        box-shadow: var(--shadow-light);
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+    
+    .stat-card {
+        background: white !important;
+        padding: 40px 30px !important;
+        border: none !important;
+        border-radius: 0 !important;
+        text-align: center !important;
+        position: relative !important;
+        transition: all 0.3s ease !important;
+        min-height: 150px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-bottom: 4px solid var(--ph-blue) !important;
+    }
+    
+    .stat-card:not(:last-child) {
+        border-right: 1px solid #e9ecef;
+    }
+    
+    .stat-card:hover {
+        background: #f8f9fa !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        border-radius: var(--border-radius) !important;
+        margin: 5px !important;
+        z-index: 2 !important;
+    }
+    
+    .stat-number {
+        font-size: 48px !important;
+        font-weight: 800 !important;
+        color: var(--ph-blue) !important;
+        margin: 15px 0 10px 0 !important;
+        line-height: 1 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    .stat-label {
+        font-size: 14px !important;
+        color: #666 !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Filter Card */
+    .filter-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--gov-info);
+    }
+
+    /* User Cards - Matching Complaint Style */
+    .user-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: var(--shadow-light);
+        border-left: 4px solid var(--ph-blue);
+        transition: all 0.3s ease;
+    }
+
+    .user-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+        border-left-color: var(--gov-success);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-active { 
+        background-color: #d4edda; 
+        color: #155724; 
+        border: 1px solid #c3e6cb;
+    }
+    .status-inactive { 
+        background-color: #f8d7da; 
+        color: #721c24; 
+        border: 1px solid #f5c6cb;
+    }
+    .status-pending { 
+        background-color: #fff3cd; 
+        color: #856404; 
+        border: 1px solid #ffeaa7;
+    }
+
+    /* Action Buttons */
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-right: 5px;
+    }
+
+    .btn-view { background-color: var(--gov-info); color: white; }
+    .btn-view:hover { background-color: #138496; color: white; }
+    
+    .btn-activate { background-color: var(--gov-success); color: white; }
+    .btn-activate:hover { background-color: #218838; color: white; }
+    
+    .btn-deactivate { background-color: var(--gov-warning); color: #212529; }
+    .btn-deactivate:hover { background-color: #e0a800; color: #212529; }
+    
+    .btn-delete { background-color: var(--gov-accent); color: white; }
+    .btn-delete:hover { background-color: #c82333; color: white; }
+
+    /* No Users State */
+    .no-users {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--gov-warning);
+    }
+
+    .no-users i {
+        color: var(--gov-warning);
+        margin-bottom: 20px;
+    }
+
+    .no-users h4 {
+        color: var(--ph-blue);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Pagination */
+    .pagination-custom {
+        margin-top: 25px;
+    }
+
+    .pagination-custom .pagination {
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+    }
+
+    .pagination-custom .page-link {
+        border: none;
+        color: var(--ph-blue);
+        font-weight: 500;
+    }
+
+    .pagination-custom .page-item.active .page-link {
+        background-color: var(--ph-blue);
+        border-color: var(--ph-blue);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .user-card {
+            padding: 15px;
+        }
+        
+        .btn-action {
+            font-size: 11px;
+            padding: 4px 8px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hidden form for CSRF token -->
+<form style="display: none;">
+    {% csrf_token %}
+</form>
+
+<div class="container-fluid">
+    <div class="container py-4">
+        <!-- Dashboard Welcome Section -->
+        <div class="dashboard-welcome fade-in">
+            <div class="welcome-header">
+                <h2 class="welcome-title">
+                    <i class="fas fa-users-cog"></i>
+                    Welcome to Resident Management!
+                </h2>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        {{ user.first_name.0|default:user.username.0|upper }}
+                    </div>
+                    <div class="user-details">
+                        <h6>{{ user.get_full_name|default:user.username }}</h6>
+                        <p class="user-role">{{ user.get_role_display }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="welcome-message">
+                <i class="fas fa-info-circle text-primary"></i>
+                Welcome to the official Barangay Burgos Resident Management System. Here you can manage and monitor resident accounts and their activities.
+            </div>
+        </div>
+
+    <div class="container">
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_users }}</div>
+                <div class="stat-label">Total Residents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ users.object_list|length }}</div>
+                <div class="stat-label">Showing Results</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Bar -->
+        <div class="dashboard-welcome mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-2" style="color: var(--ph-blue); font-weight: 600;">
+                        <i class="fas fa-bolt me-2"></i>
+                        Quick Actions
+                    </h5>
+                    <p class="mb-0 text-muted">Manage resident accounts efficiently</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="d-flex gap-2 justify-content-end flex-wrap">
+                        <a href="{% url 'accounts:user_approval' %}" class="btn btn-sm" style="background-color: var(--gov-info); color: white;">
+                            <i class="fas fa-user-check me-1"></i>
+                            Pending Approvals
+                        </a>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>
+                            Export List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="filter-card">
+            <h5 class="mb-3" style="color: var(--ph-blue); font-weight: 600;">
+                <i class="fas fa-filter me-2"></i>
+                Search & Filter Residents
+            </h5>
+            <form method="GET" class="row g-3">
+                <div class="col-md-6">
+                    <label for="search" class="form-label fw-bold">Search Residents</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" name="search" id="search" class="form-control" 
+                               placeholder="Search by name, username, or email..." 
+                               value="{{ search_query }}">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="status" class="form-label fw-bold">Account Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="active" {% if status_filter == "active" %}selected{% endif %}>✅ Active Residents</option>
+                        <option value="inactive" {% if status_filter == "inactive" %}selected{% endif %}>❌ Inactive Residents</option>
+                        <option value="pending" {% if status_filter == "pending" %}selected{% endif %}>⏳ Pending Approval</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn w-100" style="background-color: var(--ph-blue); color: white; font-weight: 600;">
+                        <i class="fas fa-search me-2"></i>
+                        Filter Results
+                    </button>
+                </div>
+            </form>
+            
+            {% if search_query or status_filter %}
+            <div class="mt-3 pt-3 border-top">
+                <small class="text-muted">
+                    <strong>Active filters:</strong>
+                    {% if search_query %}<span class="badge bg-info me-1">Search: "{{ search_query }}"</span>{% endif %}
+                    {% if status_filter %}<span class="badge bg-warning me-1">Status: {{ status_filter|title }}</span>{% endif %}
+                    <a href="{% url 'accounts:user_management' %}" class="btn btn-sm btn-outline-secondary ms-2">
+                        <i class="fas fa-times me-1"></i> Clear Filters
+                    </a>
+                </small>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Users List -->
+        {% if users %}
+            <div class="users-list">
+                {% for user in users %}
+                    <div class="user-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center">
+                                {% if user.profile_photo %}
+                                    <img src="{{ user.profile_photo.url }}" alt="{{ user.get_full_name }}" class="user-avatar">
+                                {% else %}
+                                    <div class="user-avatar bg-secondary d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="user-info">
+                                    <h5>{{ user.get_full_name|default:user.username }}</h5>
+                                    <div class="user-role role-{% if user.role == 'chairman' %}chairman{% elif user.role == 'secretary' %}secretary{% elif user.role|slice:':7' == 'kagawad' %}kagawad{% elif user.role == 'resident' %}resident{% else %}other{% endif %}">
+                                        {{ user.get_role_display }}
+                                    </div>
+                                    <div class="user-meta">
+                                        <i class="fas fa-envelope me-1"></i>{{ user.email|default:"No email" }}<br>
+                                        <i class="fas fa-calendar me-1"></i>Joined {{ user.date_joined|date:"M d, Y" }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="user-status">
+                                    {% if user.is_active and user.is_approved %}
+                                        <span class="status-badge status-active">
+                                            <i class="fas fa-check-circle me-1"></i>Active
+                                        </span>
+                                    {% elif not user.is_active %}
+                                        <span class="status-badge status-inactive">
+                                            <i class="fas fa-times-circle me-1"></i>Inactive
+                                        </span>
+                                    {% elif not user.is_approved %}
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock me-1"></i>Pending
+                                        </span>
+                                    {% endif %}
+                                    
+                                    {% if user.phone_number %}
+                                        <div class="user-meta mt-1">
+                                            <i class="fas fa-phone me-1"></i>{{ user.phone_number }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="action-buttons">
+                                    <a href="{% url 'accounts:view_user_profile' user.id %}" class="btn-action btn-view">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    
+                                    {% if user.is_active %}
+                                        <button type="button" class="btn-action btn-deactivate deactivate-user-btn" 
+                                                data-user-id="{{ user.id }}" 
+                                                data-user-name="{{ user.get_full_name|default:user.username }}">
+                                            <i class="fas fa-user-slash"></i> Deactivate
+                                        </button>
+                                    {% else %}
+                                        <button type="button" class="btn-action btn-activate activate-user-btn" 
+                                                data-user-id="{{ user.id }}" 
+                                                data-user-name="{{ user.get_full_name|default:user.username }}">
+                                            <i class="fas fa-user-check"></i> Activate
+                                        </button>
+                                    {% endif %}
+                                    
+                                    {% if not user.is_chairman %}
+                                        <button type="button" class="btn-action btn-delete delete-user-btn" 
+                                                data-user-id="{{ user.id }}" 
+                                                data-user-name="{{ user.get_full_name|default:user.username }}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-users">
+                <i class="fas fa-users fa-3x mb-3 text-muted"></i>
+                <h4>No Residents Found</h4>
+                <p class="text-muted">
+                    {% if search_query or status_filter %}
+                        No residents match your search criteria. Try adjusting your filters.
+                    {% else %}
+                        No residents are currently registered in the system.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <div class="pagination-custom">
+                <nav aria-label="User pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if users.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ users.number }} of {{ users.paginator.num_pages }}
+                            </span>
+                        </li>
+                        
+                        {% if users.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle user management actions with event delegation
+    document.addEventListener('click', function(e) {
+        // Deactivate user
+        if (e.target.closest('.deactivate-user-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.deactivate-user-btn');
+            const userId = button.dataset.userId;
+            const userName = button.dataset.userName;
+            
+            showConfirmationModal(
+                'Deactivate Resident Account',
+                `Are you sure you want to deactivate "<strong>${userName}</strong>"? They will no longer be able to access the system.`,
+                'warning',
+                'Deactivate',
+                () => submitUserAction('deactivate', userId)
+            );
+        }
+        
+        // Activate user
+        if (e.target.closest('.activate-user-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.activate-user-btn');
+            const userId = button.dataset.userId;
+            const userName = button.dataset.userName;
+            
+            showConfirmationModal(
+                'Activate Resident Account',
+                `Are you sure you want to activate "<strong>${userName}</strong>"? They will be able to access the system.`,
+                'success',
+                'Activate',
+                () => submitUserAction('activate', userId)
+            );
+        }
+        
+        // Delete user
+        if (e.target.closest('.delete-user-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.delete-user-btn');
+            const userId = button.dataset.userId;
+            const userName = button.dataset.userName;
+            
+            showDeleteConfirmationModal(userName, () => submitUserAction('delete', userId));
+        }
+    });
+    
+    function submitUserAction(action, userId) {
+        console.log('submitUserAction called:', action, userId);
+        
+        if (!userId) {
+            alert('Error: Invalid user ID');
+            return;
+        }
+        
+        // Find the button
+        let button;
+        if (action === 'deactivate') {
+            button = document.querySelector(`[data-user-id="${userId}"].deactivate-user-btn`);
+        } else if (action === 'activate') {
+            button = document.querySelector(`[data-user-id="${userId}"].activate-user-btn`);
+        } else if (action === 'delete') {
+            button = document.querySelector(`[data-user-id="${userId}"].delete-user-btn`);
+        }
+        
+        if (!button) {
+            console.error('Button not found for action:', action, 'userId:', userId);
+            alert('Button not found. Please refresh the page.');
+            return;
+        }
+        
+        const originalText = button.innerHTML;
+        
+        // Show loading state
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        
+        // Get CSRF token
+        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (!csrfTokenElement) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+            alert('Error: CSRF token not found. Please refresh the page and try again.');
+            return;
+        }
+        
+        // Set action URL
+        let actionUrl;
+        if (action === 'deactivate') {
+            actionUrl = `/accounts/deactivate-user/${userId}/`;
+        } else if (action === 'activate') {
+            actionUrl = `/accounts/activate-user/${userId}/`;
+        } else if (action === 'delete') {
+            actionUrl = `/accounts/delete-user/${userId}/`;
+        }
+        
+        // Use fetch for AJAX
+        fetch(actionUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfTokenElement.value,
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json',
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            console.log('Response received:', response.status);
+            
+            // Always reset button first
+            button.disabled = false;
+            button.innerHTML = originalText;
+            
+            if (response.ok) {
+                return response.json().then(data => {
+                    if (data.success) {
+                        console.log('Action successful:', data);
+                        updateUserRowSimple(action, userId, button);
+                        showSimpleMessage(action, userId, data.message);
+                    } else {
+                        throw new Error(data.error || 'Action failed');
+                    }
+                });
+            } else if (response.status === 302) {
+                // Redirect response means success (non-AJAX fallback)
+                console.log('Action successful (redirect)');
+                updateUserRowSimple(action, userId, button);
+                showSimpleMessage(action, userId);
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Reset button on error
+            button.disabled = false;
+            button.innerHTML = originalText;
+            
+            alert('Network error. Please check your connection and try again.');
+        });
+    }
+    
+    // Simple UI update without reload
+    function updateUserRowSimple(action, userId, button) {
+        const userCard = button.closest('.user-card');
+        if (!userCard) return;
+        
+        const statusBadge = userCard.querySelector('.status-badge');
+        const actionButtons = userCard.querySelector('.action-buttons');
+        
+        if (action === 'deactivate') {
+            // Update status badge
+            if (statusBadge) {
+                statusBadge.className = 'status-badge status-inactive';
+                statusBadge.innerHTML = '<i class="fas fa-times-circle me-1"></i>Inactive';
+            }
+            
+            // Change deactivate button to activate button
+            button.className = button.className.replace('deactivate-user-btn', 'activate-user-btn')
+                                              .replace('btn-deactivate', 'btn-activate');
+            button.innerHTML = '<i class="fas fa-user-check"></i> Activate';
+            
+        } else if (action === 'activate') {
+            // Update status badge
+            if (statusBadge) {
+                statusBadge.className = 'status-badge status-active';
+                statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i>Active';
+            }
+            
+            // Change activate button to deactivate button
+            button.className = button.className.replace('activate-user-btn', 'deactivate-user-btn')
+                                              .replace('btn-activate', 'btn-deactivate');
+            button.innerHTML = '<i class="fas fa-user-slash"></i> Deactivate';
+            
+        } else if (action === 'delete') {
+            // Smooth removal animation
+            userCard.style.transition = 'all 0.3s ease';
+            userCard.style.opacity = '0';
+            userCard.style.transform = 'translateX(-100%)';
+            
+            setTimeout(() => {
+                userCard.remove();
+            }, 300);
+        }
+    }
+    
+    // Simple success message
+    function showSimpleMessage(action, userId, customMessage = null) {
+        let message = customMessage;
+        
+        if (!message) {
+            const userName = document.querySelector(`[data-user-id="${userId}"]`)?.dataset.userName || 'User';
+            
+            if (action === 'deactivate') {
+                message = `✅ ${userName} has been deactivated`;
+            } else if (action === 'activate') {
+                message = `✅ ${userName} has been activated`;
+            } else if (action === 'delete') {
+                message = `✅ ${userName} has been deleted`;
+            }
+        } else {
+            message = `✅ ${message}`;
+        }
+        
+        // Show toast message
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 9999;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+        toast.textContent = message;
+        
+        document.body.appendChild(toast);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    // Emergency function to reset all buttons if they get stuck
+    window.resetAllButtons = function() {
+        console.log('Emergency reset of all buttons...');
+        document.querySelectorAll('.btn-action').forEach(btn => {
+            btn.disabled = false;
+            if (btn.innerHTML.includes('Processing')) {
+                if (btn.classList.contains('deactivate-user-btn')) {
+                    btn.innerHTML = '<i class="fas fa-user-slash"></i> Deactivate';
+                } else if (btn.classList.contains('activate-user-btn')) {
+                    btn.innerHTML = '<i class="fas fa-user-check"></i> Activate';
+                } else if (btn.classList.contains('delete-user-btn')) {
+                    btn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                }
+            }
+        });
+        console.log('All buttons reset!');
+    };
+    
+    // Custom confirmation modal function
+    function showConfirmationModal(title, message, type, actionText, onConfirm) {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('customConfirmModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Create modal HTML
+        const modal = document.createElement('div');
+        modal.id = 'customConfirmModal';
+        modal.className = 'modal fade';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title">
+                            <i class="fas fa-${type === 'warning' ? 'exclamation-triangle text-warning' : type === 'danger' ? 'exclamation-circle text-danger' : 'check-circle text-success'}"></i>
+                            ${title}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-0">${message}</p>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-${type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : 'success'}" id="confirmActionBtn">${actionText}</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Initialize Bootstrap modal
+        const bootstrapModal = new bootstrap.Modal(modal);
+        bootstrapModal.show();
+        
+        // Handle confirm button click
+        document.getElementById('confirmActionBtn').onclick = function() {
+            bootstrapModal.hide();
+            onConfirm();
+        };
+        
+        // Clean up when modal is hidden
+        modal.addEventListener('hidden.bs.modal', function() {
+            modal.remove();
+        });
+    }
+    
+    // Special delete confirmation modal with type confirmation
+    function showDeleteConfirmationModal(userName, onConfirm) {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('customDeleteModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Create delete modal HTML
+        const modal = document.createElement('div');
+        modal.id = 'customDeleteModal';
+        modal.className = 'modal fade';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-danger">
+                    <div class="modal-header bg-danger text-white border-0">
+                        <h5 class="modal-title">
+                            <i class="fas fa-trash me-2"></i>
+                            Permanently Delete Resident
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger">
+                            <strong><i class="fas fa-exclamation-triangle me-2"></i>WARNING:</strong>
+                            This action cannot be undone!
+                        </div>
+                        <p>You are about to permanently delete the account for:</p>
+                        <p class="text-center"><strong class="fs-5 text-danger">"${userName}"</strong></p>
+                        <p>This will remove:</p>
+                        <ul>
+                            <li>Their account and profile</li>
+                            <li>All their complaints and data</li>
+                            <li>All their system activities</li>
+                        </ul>
+                        <div class="mt-3">
+                            <label for="deleteConfirmText" class="form-label">Type <strong>DELETE</strong> to confirm:</label>
+                            <input type="text" class="form-control" id="deleteConfirmText" placeholder="Type DELETE here">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn" disabled>
+                            <i class="fas fa-trash me-1"></i> Delete Permanently
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Initialize Bootstrap modal
+        const bootstrapModal = new bootstrap.Modal(modal);
+        bootstrapModal.show();
+        
+        // Handle text input validation
+        const confirmText = document.getElementById('deleteConfirmText');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        
+        confirmText.addEventListener('input', function() {
+            if (this.value === 'DELETE') {
+                confirmBtn.disabled = false;
+                confirmBtn.classList.remove('btn-secondary');
+                confirmBtn.classList.add('btn-danger');
+            } else {
+                confirmBtn.disabled = true;
+                confirmBtn.classList.remove('btn-danger');
+                confirmBtn.classList.add('btn-secondary');
+            }
+        });
+        
+        // Handle confirm button click
+        confirmBtn.onclick = function() {
+            if (confirmText.value === 'DELETE') {
+                bootstrapModal.hide();
+                onConfirm();
+            }
+        };
+        
+        // Clean up when modal is hidden
+        modal.addEventListener('hidden.bs.modal', function() {
+            modal.remove();
+        });
+        
+        // Focus on input when modal is shown
+        modal.addEventListener('shown.bs.modal', function() {
+            confirmText.focus();
+        });
+    }
+});
+</script>
+
+{% endblock %}

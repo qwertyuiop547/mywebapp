@@ -1,0 +1,20 @@
+# Byte-compiled / cache / logs
+__pycache__/
+*.py[cod]
+*.log
+
+# Virtual environments
+.venv/
+venv/
+
+# Django artifacts
+/db.sqlite3
+/media/
+/staticfiles/
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db

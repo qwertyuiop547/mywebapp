@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ announcement.title }} - Barangay Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Barangay Government Portal Professional Design */
+:root {
+    --barangay-blue: #1e40af;
+    --barangay-green: #059669;
+    --barangay-orange: #d97706;
+    --barangay-red: #dc2626;
+    --gov-gold: #d97706;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f8fafc;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --border-radius: 16px;
+}
+
+.barangay-announcement-page {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.barangay-announcement-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.government-announcement-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.barangay-announcement-header {
+    background: linear-gradient(135deg, var(--barangay-blue) 0%, #3b82f6 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    margin-bottom: 0;
+}
+
+.barangay-announcement-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150 50L100 100h100L150 50z' fill='%23ffffff' opacity='0.08'/%3E%3Cpath d='M100 100h100v80L150 230 100 180V100z' fill='%23ffffff' opacity='0.05'/%3E%3Ccircle cx='150' cy='40' r='15' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+}
+
+.official-announcement-card {
+    background: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.announcement-image-section {
+    padding: 3rem 2rem 2rem 2rem;
+    text-align: center;
+    background: #fafbfc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.government-announcement-body {
+    padding: 3rem 2rem;
+}
+
+.official-meta-section {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 2rem;
+    border-top: 3px solid var(--barangay-blue);
+}
+
+.priority-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-low { background: #dcfce7; color: var(--primary-green); }
+.priority-medium { background: #dbeafe; color: var(--primary-blue); }
+.priority-high { background: #fed7aa; color: var(--primary-orange); }
+.priority-urgent { background: #fecaca; color: var(--primary-red); }
+
+.category-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    margin-left: 0.5rem;
+}
+
+.pinned-announcement {
+    border-left: 4px solid var(--primary-orange);
+    background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+}
+
+.pinned-icon {
+    color: var(--primary-orange);
+    margin-right: 0.5rem;
+}
+
+.announcement-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.announcement-image-large {
+    position: relative;
+    text-align: center;
+}
+
+.announcement-image-large img {
+    max-height: 500px;
+    width: auto;
+    box-shadow: var(--shadow-md);
+}
+
+.pinned-badge-large {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--primary-orange);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+    .announcement-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .announcement-header,
+    .announcement-body {
+        padding: 1.5rem;
+    }
+    
+    .announcement-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .announcement-image-large img {
+        max-height: 300px;
+    }
+    
+    .pinned-badge-large {
+        top: 10px;
+        right: 10px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="barangay-announcement-page">
+    <div class="government-announcement-container">
+        <!-- Government Back Button -->
+        <div class="mb-3">
+            <a href="{% url 'announcements:announcement_list' %}" style="padding: 0.75rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; background: white; border: 2px solid var(--barangay-blue); color: var(--barangay-blue); font-size: 1rem; transition: all 0.3s ease; box-shadow: var(--shadow-sm);">
+                <i class="fas fa-arrow-left"></i>
+                Bumalik sa Announcements
+            </a>
+        </div>
+
+        <!-- Official Barangay Announcement Header -->
+        <div class="barangay-announcement-header">
+            <div style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.2); position: relative; z-index: 1;">
+                <i class="fas fa-bullhorn" style="font-size: 2.5rem; color: white;"></i>
+            </div>
+            <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); position: relative; z-index: 1;">
+                Official Barangay Announcement
+            </h1>
+            <p style="font-size: 1.2rem; opacity: 0.95; margin: 0; font-weight: 400; position: relative; z-index: 1;">
+                {{ announcement.title }}
+            </p>
+        </div>
+
+        <div class="official-announcement-card">
+
+            <!-- Government Image Section -->
+            {% if announcement.image %}
+            <div class="announcement-image-section">
+                <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" style="max-height: 500px; width: auto; border-radius: 12px; box-shadow: var(--shadow-lg); border: 3px solid var(--barangay-blue);">
+                {% if announcement.is_pinned %}
+                <div style="position: absolute; top: 20px; right: 20px; background: var(--gov-gold); color: white; padding: 0.75rem 1.5rem; border-radius: 25px; font-weight: 700; font-size: 1rem; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-thumbtack"></i>
+                    Pinned Official
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Government Content Section -->
+            <div class="government-announcement-body">
+                {% if announcement.content %}
+                <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-left: 5px solid var(--barangay-blue); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <h3 style="color: var(--text-dark); font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-file-text" style="color: var(--barangay-blue);"></i>
+                        Additional Details
+                    </h3>
+                    <p style="color: var(--text-dark); line-height: 1.6; margin: 0; font-size: 1.1rem;">{{ announcement.content|linebreaks }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Government Meta Section -->
+            <div class="official-meta-section">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 40px; height: 40px; background: var(--barangay-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <small style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Published By</small>
+                                <p style="margin: 0; font-weight: 700; color: var(--text-dark);">{{ announcement.created_by.get_full_name|default:announcement.created_by.username }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 40px; height: 40px; background: var(--barangay-green); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-calendar text-white"></i>
+                            </div>
+                            <div>
+                                <small style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Date Published</small>
+                                <p style="margin: 0; font-weight: 700; color: var(--text-dark);">{{ announcement.created_at|date:"F d, Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gov-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-eye text-white"></i>
+                            </div>
+                            <div>
+                                <small style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Views</small>
+                                <p style="margin: 0; font-weight: 700; color: var(--text-dark);">{{ announcement.views }} residents</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Announcement Content -->
+    <div class="announcement-body">
+        <div class="announcement-content">
+            {{ announcement.content|linebreaks }}
+        </div>
+        
+        <!-- Publishing Information -->
+        {% if announcement.publish_date or announcement.expiry_date %}
+        <div class="announcement-meta">
+            <div>
+                {% if announcement.publish_date %}
+                <div>
+                    <i class="fas fa-calendar-plus me-2"></i>
+                    <strong>Published:</strong> {{ announcement.publish_date|date:"F d, Y \a\\t g:i A" }}
+                </div>
+                {% endif %}
+                {% if announcement.expiry_date %}
+                <div>
+                    <i class="fas fa-calendar-times me-2"></i>
+                    <strong>Expires:</strong> {{ announcement.expiry_date|date:"F d, Y \a\\t g:i A" }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Admin Actions -->
+            {% if user.is_authenticated and user.role in 'secretary,chairman' %}
+            <div>
+                {% if announcement.created_by == user or user.role == 'chairman' %}
+                <a href="{% url 'announcements:edit_announcement' announcement.pk %}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-edit me-2"></i>
+                    Edit Announcement
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Related Actions -->
+    <div class="text-center">
+        <a href="{% url 'announcements:announcement_list' %}" class="btn btn-primary">
+            <i class="fas fa-list me-2"></i>
+            View All Announcements
+        </a>
+        
+        {% if user.is_authenticated and user.role in 'secretary,chairman' %}
+        <a href="{% url 'announcements:create_announcement' %}" class="btn btn-outline-primary">
+            <i class="fas fa-plus me-2"></i>
+            Create New Announcement
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

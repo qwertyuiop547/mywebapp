@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Terms & Conditions" %} - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .legal-page {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+    
+    .legal-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        padding: 40px;
+    }
+    
+    .legal-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #3498db;
+    }
+    
+    .legal-header h1 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .legal-header .subtitle {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+    }
+    
+    .legal-content {
+        line-height: 1.8;
+        color: #34495e;
+    }
+    
+    .legal-section {
+        margin-bottom: 30px;
+    }
+    
+    .legal-section h2 {
+        color: #2c3e50;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-left: 15px;
+        border-left: 4px solid #3498db;
+    }
+    
+    .legal-section h3 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 20px 0 10px 0;
+    }
+    
+    .legal-section p {
+        margin-bottom: 15px;
+        text-align: justify;
+    }
+    
+    .legal-section ul {
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+    
+    .legal-section li {
+        margin-bottom: 8px;
+    }
+    
+    .highlight-box {
+        background: #ecf0f1;
+        border-left: 4px solid #e74c3c;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+    }
+    
+    .contact-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+        text-align: center;
+    }
+    
+    .back-btn {
+        display: inline-block;
+        background: #3498db;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 30px;
+        transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+        background: #2980b9;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+    
+    .effective-date {
+        text-align: center;
+        color: #7f8c8d;
+        font-style: italic;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-header">
+                <h1><i class="fas fa-file-contract me-3"></i>{% trans "Terms & Conditions" %}</h1>
+                <p class="subtitle">{% trans "Barangay Burgos Complaint & Feedback Portal" %}</p>
+            </div>
+            
+            <div class="effective-date">
+                <strong>{% trans "Effective Date" %}:</strong> {{ "now"|date:"F d, Y" }}
+            </div>
+            
+            <div class="legal-content">
+                <div class="legal-section">
+                    <h2>{% trans "1. Acceptance of Terms" %}</h2>
+                    <p>{% trans "By accessing and using the Barangay Burgos Complaint & Feedback Portal, you acknowledge that you have read, understood, and agree to be bound by these Terms & Conditions. If you do not agree to these terms, please do not use our services." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "2. Purpose and Scope" %}</h2>
+                    <p>{% trans "This portal is designed to facilitate communication between residents of Barangay Burgos and barangay officials for:" %}</p>
+                    <ul>
+                        <li>{% trans "Filing complaints about barangay matters" %}</li>
+                        <li>{% trans "Submitting feedback about barangay services" %}</li>
+                        <li>{% trans "Accessing barangay information and services" %}</li>
+                        <li>{% trans "Communicating with barangay officials" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "3. User Responsibilities" %}</h2>
+                    <h3>{% trans "3.1 Eligibility" %}</h3>
+                    <p>{% trans "You must be a resident of Barangay Burgos, Basey, Samar to register and use this portal. You must provide accurate and truthful information during registration." %}</p>
+                    
+                    <h3>{% trans "3.2 Account Security" %}</h3>
+                    <p>{% trans "You are responsible for maintaining the security of your account credentials. Do not share your login information with others." %}</p>
+                    
+                    <h3>{% trans "3.3 Appropriate Use" %}</h3>
+                    <p>{% trans "You agree to use this portal only for legitimate barangay-related matters. Prohibited activities include:" %}</p>
+                    <ul>
+                        <li>{% trans "Submitting false or misleading information" %}</li>
+                        <li>{% trans "Using offensive, inappropriate, or discriminatory language" %}</li>
+                        <li>{% trans "Harassment of barangay officials or other users" %}</li>
+                        <li>{% trans "Attempting to access unauthorized areas of the system" %}</li>
+                        <li>{% trans "Using the portal for commercial or political purposes" %}</li>
+                    </ul>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "4. Data Collection and Privacy" %}</h2>
+                    <p>{% trans "We collect personal information necessary for providing barangay services. This includes your name, address, contact information, and any documents you submit. Please refer to our Privacy Policy for detailed information about how we handle your data." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "5. Content and Intellectual Property" %}</h2>
+                    <p>{% trans "All content on this portal, including text, graphics, logos, and software, is the property of Barangay Burgos or its licensors. You may not reproduce, distribute, or modify any content without permission." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "6. Service Availability" %}</h2>
+                    <p>{% trans "While we strive to maintain continuous service, we cannot guarantee 100% uptime. The portal may be temporarily unavailable for maintenance or due to technical issues." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "7. Limitation of Liability" %}</h2>
+                    <p>{% trans "Barangay Burgos shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of this portal, except as required by law." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "8. Termination" %}</h2>
+                    <p>{% trans "We reserve the right to suspend or terminate your account if you violate these terms or if your residency status changes." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "9. Changes to Terms" %}</h2>
+                    <p>{% trans "We may update these Terms & Conditions from time to time. Changes will be posted on this page with an updated effective date. Continued use of the portal constitutes acceptance of the revised terms." %}</p>
+                </div>
+                
+                <div class="legal-section">
+                    <h2>{% trans "10. Governing Law" %}</h2>
+                    <p>{% trans "These terms are governed by the laws of the Republic of the Philippines and the local ordinances of Barangay Burgos." %}</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <strong>{% trans "Important:" %}</strong> {% trans "If you have questions about these terms or need assistance, please contact the Barangay office during business hours." %}
+                </div>
+                
+                <div class="contact-info">
+                    <h3>{% trans "Contact Information" %}</h3>
+                    <p><strong>{% trans "Barangay Burgos Office" %}</strong></p>
+                    <p>{% trans "Basey, Samar, Philippines" %}</p>
+                    <p>{% trans "Office Hours: Monday to Friday, 8:00 AM - 5:00 PM" %}</p>
+                </div>
+                
+                <div class="text-center">
+                    <a href="{% url 'accounts:register' %}" class="back-btn">
+                        <i class="fas fa-arrow-left me-2"></i>{% trans "Back to Registration" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

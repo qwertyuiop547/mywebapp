@@ -1,0 +1,2008 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Submit New Complaint - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Official Philippine Government Portal Theme - Matching Resident Dashboard */
+    :root {
+        --ph-blue: #0038a8;
+        --ph-red: #ce1126;
+        --ph-yellow: #fcd116;
+        --gov-primary: #003f7f;
+        --gov-secondary: #f8f9fa;
+        --gov-success: #28a745;
+        --gov-danger: #dc3545;
+        --gov-warning: #ffc107;
+        --gov-info: #17a2b8;
+        --gov-accent: #e83e8c;
+        --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        --border-radius: 8px;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    /* Dashboard Welcome Section Style for Page Header */
+    .page-header {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        margin: 25px 0;
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--ph-blue);
+    }
+    
+    /* Dashboard Welcome Section */
+    .dashboard-welcome {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        margin: 25px 0;
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--ph-blue);
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0,56,168,0.05);
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 1px solid rgba(0,56,168,0.1);
+    }
+    
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        background: var(--ph-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    
+    .user-details h6 {
+        margin: 0;
+        color: var(--ph-blue);
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .user-role {
+        margin: 0;
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    
+    .welcome-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+        color: var(--ph-blue);
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .page-subtitle {
+        margin: 0;
+        color: #666;
+        font-size: 16px;
+    }
+    
+    .back-button {
+        background: var(--ph-blue);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-light);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .back-button:hover {
+        background: #1e5799;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+    
+    /* Form Container - Matching Dashboard Cards */
+    .form-container {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--ph-blue);
+    }
+    
+    .form-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+    
+    .form-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--ph-blue);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    /* Form Elements - Matching Dashboard Style */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--ph-blue);
+        font-size: 14px;
+    }
+    
+    .form-label.required::after {
+        content: ' *';
+        color: var(--gov-accent);
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fff;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--ph-blue);
+        box-shadow: 0 0 0 0.2rem rgba(0,56,168,0.1);
+    }
+    
+    .form-control:invalid {
+        border-color: var(--gov-accent);
+    }
+    
+    .form-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
+    
+    .error-message {
+        color: var(--gov-accent);
+        font-size: 12px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    /* File Upload Styling */
+    .file-upload-zone {
+        border: 2px dashed #e9ecef;
+        border-radius: var(--border-radius);
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: rgba(0,56,168,0.05);
+        border: 1px solid rgba(0,56,168,0.1);
+    }
+    
+    .file-upload-zone:hover {
+        border-color: var(--ph-blue);
+        background: rgba(0,56,168,0.1);
+    }
+    
+    .file-upload-icon {
+        font-size: 48px;
+        color: #dee2e6;
+        margin-bottom: 15px;
+    }
+    
+    .file-upload-text {
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+    
+    .file-upload-btn {
+        background: var(--gov-primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .file-upload-btn:hover {
+        background: #002a5c;
+    }
+    
+    /* Image Preview Grid */
+    .image-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .image-preview-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #e9ecef;
+        background: #f8f9fa;
+    }
+    
+    .preview-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .preview-remove {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(220,53,69,0.9);
+        color: white;
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .preview-remove:hover {
+        background: #dc3545;
+        transform: scale(1.1);
+    }
+    
+    .preview-filename {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 2px 4px;
+        font-size: 0.7rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    .file-icon-preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        flex-direction: column;
+        color: #6c757d;
+    }
+    
+    .file-icon-preview i {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    
+    .file-icon-preview span {
+        font-size: 0.7rem;
+        text-align: center;
+    }
+    
+    .preview-container-hidden {
+        display: none !important;
+    }
+    
+    /* Location Picker Styles */
+    .location-input-group {
+        display: flex;
+        gap: 0;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .location-input {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-right: none !important;
+        flex: 1;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .location-input:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .location-input:focus {
+        cursor: text;
+    }
+    
+    .location-gps-btn {
+        border-radius: 0 !important;
+        white-space: nowrap;
+        background: #28a745;
+        border-color: #28a745;
+        color: white;
+        border-right: none !important;
+    }
+    
+    .location-gps-btn:hover {
+        background: #218838;
+        border-color: #1e7e34;
+        color: white;
+    }
+    
+    .location-picker-btn {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        white-space: nowrap;
+        background: var(--ph-blue);
+        border-color: var(--ph-blue);
+        color: white;
+    }
+    
+    .location-picker-btn:hover {
+        background: #1e5799;
+        border-color: #1e5799;
+        color: white;
+    }
+    
+    .location-picker-btn:focus,
+    .location-gps-btn:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 56, 168, 0.25);
+    }
+    
+    .location-status {
+        display: none !important;
+    }
+    
+    .location-status.show {
+        display: block !important;
+    }
+    
+    .location-success {
+        color: #28a745;
+    }
+    
+    .location-error {
+        color: #dc3545;
+    }
+    
+    /* Location Modal Styles */
+    .location-modal .modal-body {
+        padding: 0;
+    }
+    
+    .location-suggestions {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+    
+    .location-suggestion {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+    }
+    
+    .location-suggestion:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .location-suggestion:last-child {
+        border-bottom: none;
+    }
+    
+    .location-suggestion i {
+        color: var(--ph-blue);
+        margin-right: 8px;
+    }
+    
+    @media (max-width: 768px) {
+        .image-preview-grid {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+        }
+    }
+    
+    .form-actions {
+        background: #f8f9fa;
+        padding: 25px 35px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .btn-submit {
+        background: var(--gov-success);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-submit:hover {
+        background: #1e7e34;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+    }
+    
+    .btn-submit:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-cancel:hover {
+        background: #5a6268;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .info-card {
+        background: rgba(23,162,184,0.1);
+        border: 1px solid rgba(23,162,184,0.3);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .info-icon {
+        color: var(--gov-info);
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+    
+    .info-title {
+        font-weight: 600;
+        color: var(--gov-info);
+        margin-bottom: 8px;
+    }
+    
+    .info-text {
+        color: #495057;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+    
+    .priority-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .priority-option {
+        position: relative;
+    }
+    
+    .priority-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+    }
+    
+    .priority-label {
+        display: block;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .priority-option input[type="radio"]:checked + .priority-label {
+        border-color: var(--gov-primary);
+        background: rgba(0,63,127,0.1);
+        color: var(--gov-primary);
+    }
+    
+    .priority-label.low {
+        color: var(--gov-success);
+    }
+    
+    .priority-label.medium {
+        color: var(--gov-warning);
+    }
+    
+    .priority-label.high {
+        color: var(--gov-accent);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .header-content {
+            text-align: center;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+        }
+        
+        .form-body,
+        .form-actions {
+            padding: 25px 20px;
+        }
+        
+        .form-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+        
+        .btn-submit,
+        .btn-cancel {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Welcome Section Styles */
+    .welcome-title {
+        font-size: 24px;
+        color: var(--ph-blue);
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .welcome-message {
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(0,56,168,0.05);
+        border-radius: 8px;
+        border-left: 4px solid var(--ph-blue);
+        color: #495057;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* Statistics Section Styles */
+    .stats-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        margin: 25px 0;
+        box-shadow: var(--shadow-light);
+        border-left: 5px solid var(--ph-blue);
+    }
+
+    .section-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--ph-blue);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 12px;
+        padding: 25px 20px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-basis: 25% !important;
+        order: 1 !important;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--ph-blue), #3498db);
+    }
+
+    .stat-icon {
+        font-size: 2.5rem !important;
+        margin-bottom: 15px !important;
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+        order: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .stat-icon.total {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    }
+
+    .stat-icon.pending {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    }
+
+    .stat-icon.progress {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    }
+
+    .stat-icon.resolved {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    }
+
+    .stat-number {
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        color: var(--ph-blue) !important;
+        margin: 10px 0 !important;
+        order: 2 !important;
+        display: block !important;
+    }
+
+    .stat-label {
+        font-size: 0.9rem !important;
+        color: #6c757d !important;
+        margin: 0 !important;
+        font-weight: 600 !important;
+        order: 3 !important;
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .stat-label small {
+        display: block;
+        font-size: 0.75rem;
+        color: #9ba1a7;
+        margin-top: 3px;
+        font-weight: 400;
+    }
+
+    .stat-card.total {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .stat-card.pending {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .stat-card.progress {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+        color: white !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-basis: 25% !important;
+        order: 1 !important;
+        min-height: 140px !important;
+        padding: 25px 20px !important;
+        text-align: center !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 12px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .stat-card.progress .stat-icon {
+        order: 1 !important;
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+        font-size: 2.5rem !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    .stat-card.progress .stat-number {
+        order: 2 !important;
+        color: white !important;
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        margin: 10px 0 !important;
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .stat-card.progress .stat-label {
+        order: 3 !important;
+        color: rgba(255,255,255,0.9) !important;
+        font-size: 0.9rem !important;
+        margin: 0 !important;
+        font-weight: 600 !important;
+        display: block !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    .stat-card.progress .stat-label small {
+        display: block !important;
+        font-size: 0.75rem !important;
+        color: rgba(255,255,255,0.8) !important;
+        margin-top: 3px !important;
+        font-weight: 400 !important;
+    }
+
+    .stat-card.progress::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 4px !important;
+        background: linear-gradient(90deg, #00f2fe, #4facfe) !important;
+    }
+
+    .stat-card.progress:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+
+    .stat-card.resolved {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        color: white;
+    }
+
+    .stat-card.total .stat-number,
+    .stat-card.pending .stat-number,
+    .stat-card.progress .stat-number,
+    .stat-card.resolved .stat-number {
+        color: white !important;
+    }
+
+    .stat-card.total .stat-label,
+    .stat-card.pending .stat-label,
+    .stat-card.progress .stat-label,
+    .stat-card.resolved .stat-label {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+    /* Progress card alignment fix */
+    .stat-card.progress {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+        color: white !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-basis: 25% !important;
+        min-height: 140px !important;
+        height: auto !important;
+        max-height: none !important;
+        padding: 25px 20px !important;
+        text-align: center !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 12px !important;
+        transition: all 0.3s ease !important;
+        position: relative !important;
+        overflow: hidden !important;
+        flex-grow: 1 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .stat-card.progress .stat-icon {
+        order: 1 !important;
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+        font-size: 2.5rem !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .stat-card.progress .stat-number {
+        order: 2 !important;
+        color: white !important;
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        margin: 10px 0 !important;
+        display: block !important;
+    }
+
+    .stat-card.progress .stat-label {
+        order: 3 !important;
+        color: rgba(255,255,255,0.9) !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        margin: 0 !important;
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .stat-card.progress .stat-label small {
+        display: block !important;
+        font-size: 0.75rem !important;
+        color: rgba(255,255,255,0.8) !important;
+        margin-top: 3px !important;
+        font-weight: 400 !important;
+    }
+
+    .stat-card.progress::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 4px !important;
+        background: linear-gradient(90deg, #00f2fe, #4facfe) !important;
+    }
+
+    .stat-card.progress:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-card {
+            padding: 20px 15px;
+        }
+        
+        .stat-icon {
+            font-size: 2rem !important;
+        }
+        
+        .stat-number {
+            font-size: 2rem !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="dashboard-welcome fade-in">
+        <div class="welcome-header">
+            <h2 class="welcome-title">
+                <i class="fas fa-user-circle"></i>
+                Maligayang Pagdating, {{ user.first_name|default:user.username }}!
+            </h2>
+            <div class="user-info">
+                <div class="user-avatar">
+                    {{ user.first_name.0|default:user.username.0|upper }}
+                </div>
+                <div class="user-details">
+                    <h6>{{ user.first_name|default:user.username }} {{ user.last_name|default:"" }}</h6>
+                    <p class="user-role">{{ user.get_role_display|default:"Registered Resident" }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="welcome-message">
+            <i class="fas fa-info-circle text-primary"></i>
+            Welcome to the official Barangay Burgos Complaint & Feedback System. 
+            Dito kayo makakapag-submit ng mga reklamo at feedback para sa aming barangay.
+            <br><small style="color: #666; margin-top: 5px;">
+                Debug: Barangay Burgos, Basey, Samar | Updated: {% now "F j, Y - g:i A" %}
+            </small>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section fade-in">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Your Complaint Statistics / Estatistika ng inyong mga Reklamo
+            </h3>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-icon total">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-number">{{ stats.total }}</div>
+                <p class="stat-label">
+                    Kabuuang Reklamo
+                    <small>Total Complaints</small>
+                </p>
+            </div>
+            
+            <div class="stat-card pending">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">{{ stats.pending }}</div>
+                <p class="stat-label">
+                    Naghihintay
+                    <small>Pending</small>
+                </p>
+            </div>
+            
+            <div class="stat-card progress">
+                <div class="stat-icon progress">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="stat-number">{{ stats.in_progress }}</div>
+                <p class="stat-label">
+                    Ginagawa
+                    <small>In Progress</small>
+                </p>
+            </div>
+            
+            <div class="stat-card resolved">
+                <div class="stat-icon resolved">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number">{{ stats.resolved }}</div>
+                <p class="stat-label">
+                    Nasolusyunan
+                    <small>Resolved</small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="welcome-header">
+            <div>
+                <h1 class="page-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Submit New Complaint
+                </h1>
+                <p class="page-subtitle">Report issues and concerns to improve our community</p>
+            </div>
+            <a href="{% url 'complaints:complaint_list' %}" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Complaints
+            </a>
+        </div>
+    </div>
+
+    <!-- Information Card -->
+    <div class="form-container">
+        <div class="form-header">
+            <h3 class="form-title">
+                <i class="fas fa-info-circle"></i>
+                How to Submit a Complaint
+            </h3>
+        </div>
+        <p class="form-text">
+            Please provide detailed information about your concern. Include specific locations, dates, and descriptions to help us address your complaint effectively. Your complaint will be reviewed by our office and you'll receive updates on its status.
+        </p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <div class="form-header">
+            <h3 class="form-title">
+                <i class="fas fa-edit"></i>
+                Complaint Information
+            </h3>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" id="complaintForm">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+                
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label required">Complaint Title</label>
+                    {{ form.title|add_class:"form-control" }}
+                    {% if form.title.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.title.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <small class="form-text">Brief, descriptive title for your complaint</small>
+                </div>
+                
+                <!-- Category Field -->
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}" class="form-label required">Category</label>
+                    {{ form.category|add_class:"form-control" }}
+                    {% if form.category.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.category.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <small class="form-text">Select the category that best describes your complaint</small>
+                </div>
+                
+                <!-- Priority Field -->
+                <div class="form-group">
+                    <label class="form-label required">Priority Level</label>
+                    <div class="priority-options">
+                        {% for choice in form.priority.field.choices %}
+                            <div class="priority-option">
+                                <input type="radio" 
+                                       name="{{ form.priority.name }}" 
+                                       value="{{ choice.0 }}" 
+                                       id="priority_{{ choice.0 }}"
+                                       {% if form.priority.value == choice.0 %}checked{% endif %}>
+                                <label for="priority_{{ choice.0 }}" 
+                                       class="priority-label {{ choice.0|lower }}">
+                                    {{ choice.1 }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if form.priority.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.priority.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <small class="form-text">Select the urgency level of your complaint</small>
+                </div>
+                
+                <!-- Location Field -->
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+                    <div class="location-input-group">
+                        {{ form.location|add_class:"form-control location-input"|attr:"placeholder:Click to get your current location or type manually" }}
+                        <button type="button" class="btn btn-outline-primary location-gps-btn" onclick="getCurrentLocation()">
+                            <i class="fas fa-location-arrow"></i> Get Location
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary location-picker-btn" onclick="openLocationPicker()">
+                            <i class="fas fa-map-marker-alt"></i> Pick Location
+                        </button>
+                    </div>
+                    <div id="location-status" class="location-status mt-2" style="display: none;">
+                        <small class="text-muted">
+                            <i class="fas fa-spinner fa-spin"></i> Getting your location...
+                        </small>
+                    </div>
+                    {% if form.location.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.location.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <small class="form-text">
+                        <i class="fas fa-info-circle"></i> Click "Get Location" to use your current location, or type/pick manually
+                    </small>
+                </div>
+                
+                <!-- Description Field -->
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="form-label required">Description</label>
+                    {{ form.description|add_class:"form-control"|attr:"rows:6" }}
+                    {% if form.description.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.description.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <small class="form-text">Provide detailed information about your complaint. Include dates, times, and any relevant context</small>
+                </div>
+
+                <!-- Anonymous Complaint Option -->
+                <div class="form-group">
+                    <div class="card border-warning">
+                        <div class="card-header bg-warning bg-opacity-10 border-warning">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-user-secret me-2"></i>Privacy Option
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input type="checkbox" name="is_anonymous" class="form-check-input" id="anonymousCheck" value="True">
+                                <label class="form-check-label" for="anonymousCheck">
+                                    <strong>Submit this complaint anonymously</strong>
+                                </label>
+                            </div>
+                            <small class="text-muted d-block mt-2">
+                                <i class="fas fa-shield-alt me-1"></i>
+                                Your identity will be protected and not disclosed to anyone during the complaint process.
+                            </small>
+                            
+                            <!-- Anonymous Contact Field (hidden by default) -->
+                            <div id="anonymousContactField" class="mt-3" style="display: none;">
+                                <label for="{{ form.anonymous_contact.id_for_label }}" class="form-label">
+                                    Contact Email (Optional)
+                                </label>
+                                {{ form.anonymous_contact|add_class:"form-control" }}
+                                {% if form.anonymous_contact.errors %}
+                                    <div class="error-message">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ form.anonymous_contact.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text">
+                                    Provide an email to receive status updates (optional). This email will not be shared with anyone.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Attachment Field -->
+                <div class="form-group">
+                    <label for="{{ form.attachments.id_for_label }}" class="form-label">Supporting Documents</label>
+                    <div class="file-upload-zone" onclick="document.getElementById('id_attachments').click();">
+                        <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                        <div class="file-upload-text">
+                            <strong>Click to upload</strong> or drag files here
+                        </div>
+                        <small class="form-text">Upload photos, documents, or other evidence (Max 10MB per file)</small>
+                    </div>
+                    <input type="file" name="attachments" multiple class="form-control" style="display:none;" id="id_attachments" accept="image/*,video/*,.pdf,.doc,.docx">
+                    {% if form.attachments.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.attachments.errors.0 }}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Image Preview Container -->
+                    <div id="imagePreviewContainer" class="mt-3" style="display: none;">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-images"></i> Selected Images
+                        </h6>
+                        <div id="imagePreviews" class="image-preview-grid"></div>
+                    </div>
+                </div>
+                
+                <!-- What Happens Next Info -->
+                <div class="info-card">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-info-circle info-icon"></i>
+                        <div>
+                            <div class="info-title">What happens next?</div>
+                            <ul class="info-text mb-0 mt-2 ps-0">
+                                <li>Your complaint will be reviewed by our staff</li>
+                                <li>You'll receive email updates on status changes</li>
+                                <li>You can track progress from your dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'complaints:complaint_list' %}" class="btn-cancel">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Complaint
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Anonymous complaint handling
+document.addEventListener('DOMContentLoaded', function() {
+    const anonymousCheck = document.getElementById('anonymousCheck');
+    const anonymousContactField = document.getElementById('anonymousContactField');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Handle anonymous checkbox toggle
+    if (anonymousCheck) {
+        anonymousCheck.addEventListener('change', function() {
+            if (this.checked) {
+                anonymousContactField.style.display = 'block';
+                submitBtn.innerHTML = '<i class="fas fa-user-secret"></i> Submit Anonymous Complaint';
+            } else {
+                anonymousContactField.style.display = 'none';
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Complaint';
+            }
+        });
+    }
+    
+    // File upload enhancement
+    const fileInput = document.getElementById('id_attachments');
+    const uploadZone = document.querySelector('.file-upload-zone');
+    const uploadText = uploadZone.querySelector('.file-upload-text');
+    const form = document.getElementById('complaintForm');
+    
+    // Handle file selection
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            handleFileSelection(files);
+        });
+    }
+    
+    // File handling functions
+    function handleFileSelection(files) {
+        if (files.length > 0) {
+            let fileNames = Array.from(files).map(file => file.name).join(', ');
+            uploadText.innerHTML = `<strong>Selected:</strong> ${files.length} file(s)<br><small>Click to change files</small>`;
+            uploadZone.style.borderColor = 'var(--gov-success)';
+            uploadZone.style.background = 'rgba(40,167,69,0.1)';
+            
+            // Show image previews
+            showImagePreviews(files);
+        } else {
+            uploadText.innerHTML = '<strong>Click to upload</strong> or drag files here';
+            uploadZone.style.borderColor = '#e9ecef';
+            uploadZone.style.background = '#f8f9fa';
+            hideImagePreviews();
+        }
+    }
+    
+    function showImagePreviews(files) {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const previewGrid = document.getElementById('imagePreviews');
+        
+        // Clear existing previews
+        previewGrid.innerHTML = '';
+        
+        let hasImages = false;
+        
+        Array.from(files).forEach((file, index) => {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'image-preview-item';
+            
+            if (file.type.startsWith('image/')) {
+                hasImages = true;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}" class="preview-thumbnail">
+                        <button type="button" class="preview-remove" onclick="removeFile(${index})" title="Remove file">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="preview-filename">${file.name}</div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Show file icon for non-images
+                let icon = 'fa-file';
+                if (file.type.includes('video')) icon = 'fa-video';
+                if (file.type.includes('pdf')) icon = 'fa-file-pdf';
+                if (file.type.includes('word')) icon = 'fa-file-word';
+                
+                previewItem.innerHTML = `
+                    <div class="file-icon-preview">
+                        <i class="fas ${icon}"></i>
+                        <span>${file.name.length > 15 ? file.name.substring(0, 12) + '...' : file.name}</span>
+                    </div>
+                    <button type="button" class="preview-remove" onclick="removeFile(${index})" title="Remove file">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+            }
+            
+            previewGrid.appendChild(previewItem);
+        });
+        
+        // Show preview container if there are files
+        if (files.length > 0) {
+            previewContainer.classList.remove('preview-container-hidden');
+            previewContainer.style.display = 'block';
+        }
+    }
+    
+    function hideImagePreviews() {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        previewContainer.style.display = 'none';
+        previewContainer.classList.add('preview-container-hidden');
+    }
+    
+    // Remove file function
+    window.removeFile = function(index) {
+        const dt = new DataTransfer();
+        const files = fileInput.files;
+        
+        for (let i = 0; i < files.length; i++) {
+            if (i !== index) {
+                dt.items.add(files[i]);
+            }
+        }
+        
+        fileInput.files = dt.files;
+        handleFileSelection(fileInput.files);
+    };
+    
+    // Handle drag and drop
+    if (uploadZone) {
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.style.borderColor = 'var(--gov-primary)';
+            uploadZone.style.background = 'rgba(0,63,127,0.1)';
+        });
+        
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#e9ecef';
+            uploadZone.style.background = '#f8f9fa';
+        });
+        
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            if (fileInput && e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelection(fileInput.files);
+            }
+        });
+    }
+    
+    // Form submission handling
+    if (form && submitBtn) {
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            
+            // Re-enable after 5 seconds (in case of network issues)
+            setTimeout(function() {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Complaint';
+            }, 5000);
+        });
+    }
+    
+    // Priority selection visual feedback
+    const priorityInputs = document.querySelectorAll('input[name="{{ form.priority.name }}"]');
+    priorityInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            priorityInputs.forEach(p => {
+                p.nextElementSibling.style.transform = 'scale(1)';
+            });
+            this.nextElementSibling.style.transform = 'scale(1.05)';
+        });
+    });
+});
+
+// Location picker functionality
+function openLocationPicker() {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('locationModal');
+    if (!modal) {
+        createLocationModal();
+        modal = document.getElementById('locationModal');
+    }
+    
+    // Show the modal
+    const bootstrapModal = new bootstrap.Modal(modal);
+    bootstrapModal.show();
+}
+
+// Get current location using device GPS
+function getCurrentLocation() {
+    const locationInput = document.querySelector('.location-input');
+    const statusDiv = document.getElementById('location-status');
+    const button = document.querySelector('.location-gps-btn');
+    
+    if (!navigator.geolocation) {
+        showLocationStatus('Geolocation is not supported by this browser.', 'error');
+        return;
+    }
+    
+    // Show loading status
+    showLocationStatus('Getting your location...', 'loading');
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+    
+    // Try with more lenient settings first
+    const options = {
+        enableHighAccuracy: false,     // Start with network-based location (faster)
+        timeout: 30000,               // 30 seconds timeout
+        maximumAge: 60000             // Accept 1-minute old location
+    };
+    
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            
+            console.log('Location found:', {
+                latitude: lat,
+                longitude: lng,
+                accuracy: accuracy + ' meters'
+            });
+            
+            showLocationStatus(`Location found! Getting address...`, 'loading');
+            reverseGeocodeDetailed(lat, lng, accuracy, locationInput, button);
+            
+            // Try to get a more accurate reading in the background if accuracy is poor
+            if (accuracy > 100) {
+                tryHighAccuracyLocation(lat, lng, accuracy, locationInput, button);
+            }
+        },
+        function(error) {
+            console.log('Network location failed, trying GPS...', error);
+            // If network-based fails, try GPS with longer timeout
+            tryGPSLocation(locationInput, button);
+        },
+        options
+    );
+}
+
+function tryGPSLocation(locationInput, button) {
+    showLocationStatus('Trying GPS... This may take a moment...', 'loading');
+    
+    const gpsOptions = {
+        enableHighAccuracy: true,      // Use GPS
+        timeout: 45000,               // 45 seconds for GPS
+        maximumAge: 0                 // Fresh GPS reading
+    };
+    
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            
+            console.log('GPS location found:', {
+                latitude: lat,
+                longitude: lng,
+                accuracy: accuracy + ' meters'
+            });
+            
+            showLocationStatus(`GPS location found! Getting precise address...`, 'loading');
+            reverseGeocodeDetailed(lat, lng, accuracy, locationInput, button);
+        },
+        function(error) {
+            console.log('GPS also failed:', error);
+            handleLocationError(error, button, true);
+        },
+        gpsOptions
+    );
+}
+
+function tryHighAccuracyLocation(currentLat, currentLng, currentAccuracy, locationInput, button) {
+    // Try to improve accuracy in the background
+    console.log('Trying to improve accuracy in background...');
+    
+    const watchOptions = {
+        enableHighAccuracy: true,
+        timeout: 10000,               // Shorter timeout for watch
+        maximumAge: 0
+    };
+    
+    let improvementAttempts = 0;
+    const maxAttempts = 3;
+    
+    const watchId = navigator.geolocation.watchPosition(
+        function(position) {
+            improvementAttempts++;
+            const newAccuracy = position.coords.accuracy;
+            
+            // If we got better accuracy, update the location
+            if (newAccuracy < currentAccuracy) {
+                console.log('Improved accuracy:', newAccuracy + 'm vs ' + currentAccuracy + 'm');
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
+                reverseGeocodeDetailed(lat, lng, newAccuracy, locationInput, button);
+                showLocationStatus('Location accuracy improved!', 'success');
+            }
+            
+            // Stop after max attempts
+            if (improvementAttempts >= maxAttempts) {
+                navigator.geolocation.clearWatch(watchId);
+            }
+        },
+        function(error) {
+            // Ignore errors in background improvement
+            navigator.geolocation.clearWatch(watchId);
+        },
+        watchOptions
+    );
+    
+    // Stop watching after 30 seconds
+    setTimeout(() => {
+        navigator.geolocation.clearWatch(watchId);
+    }, 30000);
+}
+
+function handleLocationError(error, button, isGPSAttempt = false) {
+    let errorMessage = '';
+    let showFallback = false;
+    
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            errorMessage = 'Location access denied. Please allow location access and try again.';
+            break;
+        case error.POSITION_UNAVAILABLE:
+            if (isGPSAttempt) {
+                errorMessage = 'GPS signal not available. Trying alternative method...';
+                showFallback = true;
+            } else {
+                errorMessage = 'Location services unavailable. Please try again later.';
+            }
+            break;
+        case error.TIMEOUT:
+            if (isGPSAttempt) {
+                errorMessage = 'GPS timeout. Using approximate location instead...';
+                showFallback = true;
+            } else {
+                errorMessage = 'Location request timed out. Trying GPS...';
+                // Try GPS as fallback
+                setTimeout(() => tryGPSLocation(document.querySelector('.location-input'), button), 1000);
+                return;
+            }
+            break;
+        default:
+            errorMessage = 'Location error occurred. Using manual location entry.';
+            showFallback = true;
+            break;
+    }
+    
+    if (showFallback) {
+        // Provide approximate location or let user type manually
+        showLocationFallback(button);
+    } else {
+        showLocationStatus(errorMessage, 'error');
+        resetLocationButton(button);
+    }
+}
+
+function showLocationFallback(button) {
+    const locationInput = document.querySelector('.location-input');
+    
+    // Set a default location
+    locationInput.value = 'Barangay Burgos (Please specify exact location)';
+    locationInput.focus();
+    locationInput.select();
+    
+    showLocationStatus('Please type or edit your exact location manually.', 'error');
+    resetLocationButton(button);
+}
+
+// Simplified fallback for when all GPS methods fail
+function getBasicLocation() {
+    const locationInput = document.querySelector('.location-input');
+    const button = document.querySelector('.location-gps-btn');
+    
+    showLocationStatus('Using basic location...', 'loading');
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting...';
+    
+    // Very basic geolocation with maximum compatibility
+    const basicOptions = {
+        enableHighAccuracy: false,
+        timeout: 60000,          // 1 minute timeout
+        maximumAge: 300000       // Accept 5-minute old location
+    };
+    
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            
+            // Use very simple geocoding or just coordinates
+            const basicLocation = `Barangay Burgos - Location: ${lat.toFixed(6)}, ${lng.toFixed(6)} (±${Math.round(accuracy)}m)`;
+            locationInput.value = basicLocation;
+            
+            showLocationStatus('Basic location found! You can edit if needed.', 'success');
+            resetLocationButton(button);
+        },
+        function(error) {
+            // Final fallback - let user type manually
+            locationInput.value = 'Barangay Burgos - ';
+            locationInput.focus();
+            showLocationStatus('Please type your location manually.', 'error');
+            resetLocationButton(button);
+        },
+        basicOptions
+    );
+}
+
+function reverseGeocodeDetailed(lat, lng, accuracy, locationInput, button) {
+    // Use enhanced geocoding with multiple data points
+    const enhancedUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&zoom=19&extratags=1`;
+    
+    fetch(enhancedUrl)
+        .then(response => response.json())
+        .then(data => {
+            const detailedAddress = buildDetailedAddress(data, lat, lng, accuracy);
+            locationInput.value = detailedAddress;
+            showLocationStatus('Exact location captured successfully!', 'success');
+            resetLocationButton(button);
+        })
+        .catch(error => {
+            console.log('Enhanced geocoding failed, using coordinates:', error);
+            const preciseLocation = buildPreciseCoordinateLocation(lat, lng, accuracy);
+            locationInput.value = preciseLocation;
+            showLocationStatus('Precise GPS coordinates captured', 'success');
+            resetLocationButton(button);
+        });
+}
+
+function buildDetailedAddress(data, lat, lng, accuracy) {
+    if (!data) return buildPreciseCoordinateLocation(lat, lng, accuracy);
+    
+    const addr = data.address || {};
+    const addressParts = [];
+    
+    // Very specific location details
+    if (addr.house_number && addr.road) {
+        addressParts.push(`${addr.house_number} ${addr.road}`);
+    } else if (addr.road) {
+        addressParts.push(addr.road);
+    } else if (addr.pedestrian || addr.footway) {
+        addressParts.push(addr.pedestrian || addr.footway);
+    }
+    
+    // Building or place name
+    if (addr.building || addr.shop || addr.amenity) {
+        addressParts.push(addr.building || addr.shop || addr.amenity);
+    }
+    
+    // Neighborhood details
+    if (addr.neighbourhood) {
+        addressParts.push(addr.neighbourhood);
+    } else if (addr.suburb) {
+        addressParts.push(addr.suburb);
+    }
+    
+    // Ensure we have Barangay Burgos
+    const hasBarangay = addressParts.some(part => 
+        part.toLowerCase().includes('burgos') || 
+        part.toLowerCase().includes('barangay')
+    );
+    
+    if (!hasBarangay) {
+        addressParts.push('Barangay Burgos');
+    }
+    
+    // City and Province
+    if (addr.city || addr.municipality) {
+        addressParts.push(addr.city || addr.municipality);
+    }
+    
+    if (addr.state || addr.province) {
+        addressParts.push(addr.state || addr.province);
+    }
+    
+    let finalAddress = addressParts.join(', ');
+    
+    // Add precise coordinates and accuracy
+    const precisionInfo = ` [GPS: ${lat.toFixed(8)}, ${lng.toFixed(8)} ±${Math.round(accuracy)}m]`;
+    
+    // Add timestamp for real-time verification
+    const timestamp = new Date().toLocaleString('en-PH', {
+        timeZone: 'Asia/Manila',
+        year: 'numeric',
+        month: '2-digit', 
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    
+    finalAddress += precisionInfo + ` (${timestamp})`;
+    
+    return finalAddress;
+}
+
+function buildPreciseCoordinateLocation(lat, lng, accuracy) {
+    const timestamp = new Date().toLocaleString('en-PH', {
+        timeZone: 'Asia/Manila',
+        dateStyle: 'short',
+        timeStyle: 'medium'
+    });
+    
+    return `Barangay Burgos - Precise GPS Location: ${lat.toFixed(8)}, ${lng.toFixed(8)} (±${Math.round(accuracy)}m accuracy) - Captured: ${timestamp}`;
+}
+
+function reverseGeocode(lat, lng, locationInput, button) {
+    // This is the fallback function - redirect to detailed version
+    reverseGeocodeDetailed(lat, lng, 10, locationInput, button);
+}
+
+function showLocationStatus(message, type) {
+    const statusDiv = document.getElementById('location-status');
+    const statusClass = type === 'error' ? 'location-error' : 
+                       type === 'success' ? 'location-success' : 'text-muted';
+    
+    statusDiv.className = 'location-status mt-2 show';
+    statusDiv.innerHTML = `<small class="${statusClass}">
+        <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 
+                           type === 'success' ? 'check-circle' : 'spinner fa-spin'}"></i> ${message}
+    </small>`;
+    
+    // Hide status after 5 seconds for success/error messages
+    if (type !== 'loading') {
+        setTimeout(() => {
+            statusDiv.className = 'location-status mt-2';
+        }, 5000);
+    }
+}
+
+function resetLocationButton(button) {
+    button.disabled = false;
+    button.innerHTML = '<i class="fas fa-location-arrow"></i> Get Location';
+}
+
+// Make location input clickable to trigger GPS
+document.addEventListener('DOMContentLoaded', function() {
+    const locationInput = document.querySelector('.location-input');
+    if (locationInput) {
+        locationInput.addEventListener('click', function(e) {
+            // Only trigger GPS if the input is empty or user explicitly wants to
+            if (!this.value.trim()) {
+                getCurrentLocation();
+            }
+        });
+        
+        locationInput.addEventListener('focus', function(e) {
+            // Show tooltip on focus
+            if (!this.value.trim()) {
+                showLocationStatus('Click "Get Location" to use your current location', 'info');
+            }
+        });
+    }
+});
+
+function createLocationModal() {
+    const modalHTML = `
+        <div class="modal fade location-modal" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="locationModalLabel">
+                            <i class="fas fa-map-marker-alt"></i> Select Location
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="location-search-section">
+                            <label for="locationSearch" class="form-label">Search for a location:</label>
+                            <input type="text" id="locationSearch" class="form-control" placeholder="Type to search locations in Barangay Burgos..." oninput="searchLocation(this.value)">
+                            <div id="locationSuggestions" class="location-suggestions" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6><i class="fas fa-map-signs"></i> Common Locations in Barangay Burgos:</h6>
+                            <div class="location-suggestions">
+                                <div class="location-suggestion" onclick="selectLocation('Barangay Hall - Burgos')">
+                                    <i class="fas fa-building"></i> Barangay Hall - Burgos
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Plaza Burgos')">
+                                    <i class="fas fa-tree"></i> Plaza Burgos
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Burgos Elementary School')">
+                                    <i class="fas fa-school"></i> Burgos Elementary School
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Burgos Health Center')">
+                                    <i class="fas fa-clinic-medical"></i> Burgos Health Center
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Burgos Public Market')">
+                                    <i class="fas fa-store"></i> Burgos Public Market
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Burgos Church')">
+                                    <i class="fas fa-church"></i> Burgos Church
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Main Street, Burgos')">
+                                    <i class="fas fa-road"></i> Main Street, Burgos
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Purok 1, Burgos')">
+                                    <i class="fas fa-home"></i> Purok 1, Burgos
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Purok 2, Burgos')">
+                                    <i class="fas fa-home"></i> Purok 2, Burgos
+                                </div>
+                                <div class="location-suggestion" onclick="selectLocation('Purok 3, Burgos')">
+                                    <i class="fas fa-home"></i> Purok 3, Burgos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="text" id="customLocation" class="form-control me-2" placeholder="Or type custom location here...">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="useCustomLocation()">Use Custom</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function selectLocation(location) {
+    const locationInput = document.querySelector('.location-input');
+    if (locationInput) {
+        locationInput.value = location;
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
+        if (modal) {
+            modal.hide();
+        }
+    }
+}
+
+function useCustomLocation() {
+    const customInput = document.getElementById('customLocation');
+    const locationInput = document.querySelector('.location-input');
+    
+    if (customInput.value.trim() && locationInput) {
+        locationInput.value = customInput.value.trim();
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('locationModal'));
+        if (modal) {
+            modal.hide();
+        }
+    }
+}
+
+function searchLocation(query) {
+    const suggestions = document.getElementById('locationSuggestions');
+    
+    if (!query.trim()) {
+        suggestions.style.display = 'none';
+        return;
+    }
+    
+    // Sample locations for Barangay Burgos
+    const locations = [
+        'Barangay Hall - Burgos',
+        'Plaza Burgos',
+        'Burgos Elementary School',
+        'Burgos High School',
+        'Burgos Health Center',
+        'Burgos Public Market',
+        'Burgos Church (St. Joseph)',
+        'Main Street, Burgos',
+        'Riverside Street, Burgos',
+        'Purok 1, Burgos',
+        'Purok 2, Burgos', 
+        'Purok 3, Burgos',
+        'Purok 4, Burgos',
+        'Basketball Court, Burgos',
+        'Community Center, Burgos',
+        'Day Care Center, Burgos',
+        'Burgos Bridge',
+        'Burgos Cemetery'
+    ];
+    
+    const filtered = locations.filter(loc => 
+        loc.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    if (filtered.length > 0) {
+        suggestions.innerHTML = filtered.map(loc => 
+            `<div class="location-suggestion" onclick="selectLocation('${loc}')">
+                <i class="fas fa-map-marker-alt"></i> ${loc}
+            </div>`
+        ).join('');
+        suggestions.style.display = 'block';
+    } else {
+        suggestions.innerHTML = `<div class="location-suggestion" onclick="selectLocation('${query}')">
+            <i class="fas fa-plus"></i> Use "${query}"
+        </div>`;
+        suggestions.style.display = 'block';
+    }
+}
+
+</script>
+{% endblock %}

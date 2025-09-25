@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{{ title }} - Barangay Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Barangay Government Portal Professional Design */
+:root {
+    --barangay-blue: #1e40af;
+    --barangay-green: #059669;
+    --barangay-orange: #d97706;
+    --barangay-red: #dc2626;
+    --gov-gold: #d97706;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f8fafc;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --border-radius: 16px;
+}
+
+.barangay-page {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.barangay-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.barangay-header {
+    background: linear-gradient(135deg, var(--barangay-blue) 0%, #3b82f6 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.barangay-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150 50L100 100h100L150 50z' fill='%23ffffff' opacity='0.08'/%3E%3Cpath d='M100 100h100v80L150 230 100 180V100z' fill='%23ffffff' opacity='0.05'/%3E%3Ccircle cx='150' cy='40' r='15' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+}
+
+.barangay-seal {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.form-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin: 0;
+    font-weight: 400;
+    position: relative;
+    z-index: 1;
+}
+
+.government-body {
+    padding: 3rem 2rem;
+}
+
+.official-guidelines {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid var(--gov-gold);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.guideline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.guideline-icon {
+    color: #28a745;
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-primary {
+    border: 2px solid #2563eb;
+    color: #2563eb;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.btn-outline-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="barangay-page">
+<div class="container">
+    <div class="form-container">
+        <!-- Barangay Government Header -->
+        <div class="barangay-header">
+            <div class="barangay-seal">
+                <i class="fas fa-camera" style="font-size: 2rem; color: white;"></i>
+            </div>
+            <h1 class="form-title">
+                Gumawa ng Visual Announcement
+            </h1>
+            <p class="form-subtitle">Simple lang - Title + Picture = Boom! Makikita na ng mga residents!</p>
+        </div>
+
+        <!-- Government Guidelines -->
+        <div class="government-body">
+            <div class="official-guidelines">
+                <div class="d-flex align-items-center mb-3">
+                    <div style="width: 50px; height: 50px; background: var(--gov-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <i class="fas fa-camera text-white" style="font-size: 1.25rem;"></i>
+                    </div>
+                    <h3 style="color: #92400e; margin: 0; font-weight: 700;">Super Simple lang!</h3>
+                </div>
+                
+                <div style="display: flex; align-items: flex-start; margin-bottom: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.7); border-radius: 8px; border-left: 4px solid var(--barangay-green);">
+                    <div style="width: 30px; height: 30px; background: var(--barangay-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; margin-right: 1rem;">1</div>
+                    <span style="font-weight: 600; color: #92400e; margin: 0; line-height: 1.5;">Maglagay ng malinaw na titulo</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; margin-bottom: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.7); border-radius: 8px; border-left: 4px solid var(--barangay-green);">
+                    <div style="width: 30px; height: 30px; background: var(--barangay-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; margin-right: 1rem;">2</div>
+                    <span style="font-weight: 600; color: #92400e; margin: 0; line-height: 1.5;">I-upload ang picture/image</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; margin-bottom: 0; padding: 0.75rem; background: rgba(255, 255, 255, 0.7); border-radius: 8px; border-left: 4px solid var(--barangay-green);">
+                    <div style="width: 30px; height: 30px; background: var(--barangay-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; margin-right: 1rem;">3</div>
+                    <span style="font-weight: 600; color: #92400e; margin: 0; line-height: 1.5;">Click publish - Tapos na! Makikita na ng lahat!</span>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form method="post" enctype="multipart/form-data" id="announcementForm">
+                {% csrf_token %}
+                
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">
+                        <i class="fas fa-heading me-2"></i>Titulo ng Announcement
+                        <span class="text-danger">*</span>
+                    </label>
+                    {{ form.title|add_class:"form-control" }}
+                    {% if form.title.help_text %}
+                    <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                    {% endif %}
+                    {% if form.title.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.title.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Image Field - Primary Focus -->
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}" class="form-label">
+                        <i class="fas fa-image me-2"></i>Larawan/Picture
+                        <span class="text-danger">*</span>
+                    </label>
+                    {{ form.image|add_class:"form-control" }}
+                    {% if form.image.help_text %}
+                    <small class="form-text text-muted">{{ form.image.help_text }}</small>
+                    {% endif %}
+                    {% if form.image.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.image.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Content Field - Optional -->
+                <div class="form-group">
+                    <label for="{{ form.content.id_for_label }}" class="form-label">
+                        <i class="fas fa-align-left me-2"></i>Dagdag na Details
+                        <span class="text-muted">(optional)</span>
+                    </label>
+                    {{ form.content|add_class:"form-control" }}
+                    {% if form.content.help_text %}
+                    <small class="form-text text-muted">{{ form.content.help_text }}</small>
+                    {% endif %}
+                    {% if form.content.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.content.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+
+                <!-- Publishing Options -->
+                <div class="form-group">
+                    <div class="form-check mb-3">
+                        {{ form.is_published|add_class:"form-check-input" }}
+                        <label class="form-check-label" for="{{ form.is_published.id_for_label }}">
+                            <i class="fas fa-eye me-2"></i>{{ form.is_published.label }}
+                        </label>
+                        {% if form.is_published.help_text %}
+                        <small class="form-text text-muted d-block">{{ form.is_published.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-check">
+                        {{ form.is_pinned|add_class:"form-check-input" }}
+                        <label class="form-check-label" for="{{ form.is_pinned.id_for_label }}">
+                            <i class="fas fa-thumbtack me-2"></i>{{ form.is_pinned.label }}
+                        </label>
+                        {% if form.is_pinned.help_text %}
+                        <small class="form-text text-muted d-block">{{ form.is_pinned.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Government Action Buttons -->
+                <div style="background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); padding: 2.5rem; border-top: 3px solid var(--barangay-blue); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 0 -2rem -3rem -2rem;">
+                    <a href="{% url 'announcements:announcement_list' %}" style="padding: 1rem 2.5rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; background: white; border: 2px solid var(--barangay-blue); color: var(--barangay-blue); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease;">
+                        <i class="fas fa-arrow-left"></i>
+                        Bumalik sa Announcements
+                    </a>
+                    <button type="submit" style="padding: 1rem 2.5rem; border-radius: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.75rem; border: none; cursor: pointer; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; background: linear-gradient(135deg, var(--barangay-blue) 0%, #3b82f6 100%); color: white; box-shadow: var(--shadow-md); transition: all 0.3s ease;">
+                        <i class="fas fa-bullhorn"></i>
+                        {% if announcement %}
+                        I-update ang Announcement
+                        {% else %}
+                        I-publish ang Announcement
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Character counters
+    function setupCharacterCounter(fieldId, counterId) {
+        const field = document.getElementById(fieldId);
+        const counter = document.getElementById(counterId);
+        
+        if (field && counter) {
+            function updateCounter() {
+                counter.textContent = field.value.length;
+            }
+            
+            field.addEventListener('input', updateCounter);
+            updateCounter(); // Initial count
+        }
+    }
+    
+    setupCharacterCounter('{{ form.title.id_for_label }}', 'title-counter');
+    setupCharacterCounter('{{ form.content.id_for_label }}', 'content-counter');
+    
+    // Form validation
+    const form = document.getElementById('announcementForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const title = document.getElementById('{{ form.title.id_for_label }}').value.trim();
+            const content = document.getElementById('{{ form.content.id_for_label }}').value.trim();
+            const category = document.getElementById('{{ form.category.id_for_label }}').value;
+            const priority = document.getElementById('{{ form.priority.id_for_label }}').value;
+            
+            if (!title || !content || !category || !priority) {
+                e.preventDefault();
+                alert('Pakikompletuhin lahat ng required fields.');
+                return false;
+            }
+            
+            if (title.length < 10) {
+                e.preventDefault();
+                alert('Ang titulo ay dapat na hindi bababa sa 10 characters.');
+                return false;
+            }
+            
+            if (content.length < 20) {
+                e.preventDefault();
+                alert('Ang content ay dapat na hindi bababa sa 20 characters.');
+                return false;
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

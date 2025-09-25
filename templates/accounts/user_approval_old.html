@@ -1,0 +1,577 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Approval - Barangay San Miguel{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    
+    .approval-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        border-left: 5px solid #ffc107;
+    }
+    
+    .approval-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 20px 25px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+    
+    .user-info {
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f3f4;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 120px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .info-value {
+        color: #212529;
+        flex: 1;
+    }
+    
+    .pending-badge {
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .role-badge {
+        background: linear-gradient(135deg, #6f42c1, #e83e8c);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .btn-approve {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-approve::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .btn-approve:hover::before {
+        left: 100%;
+    }
+    
+    .btn-approve:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+    }
+    
+    .btn-reject {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-reject::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .btn-reject:hover::before {
+        left: 100%;
+    }
+    
+    .btn-reject:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+    }
+    
+    .stats-section {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #ffc107;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .empty-icon {
+        font-size: 4rem;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .confirmation-modal .modal-content {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .confirmation-modal .modal-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        border: none;
+    }
+    
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 30px 0;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .action-buttons .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .info-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .info-label {
+            min-width: auto;
+            margin-bottom: 5px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-2"><i class="fas fa-user-check me-3"></i>User Approval</h1>
+                <p class="mb-0 opacity-75">Mga Pending na Rehistrasyon ng mga Residente</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                    <i class="fas fa-clock me-1"></i>{{ users.paginator.count }} Pending
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Statistics Section -->
+    {% if users.paginator.count > 0 %}
+    <div class="stats-section">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">{{ users.paginator.count }}</div>
+                    <div class="stat-label">Pending Approval</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">{{ users|length }}</div>
+                    <div class="stat-label">On This Page</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">
+                        {% if users.has_other_pages %}
+                            {{ users.paginator.num_pages }}
+                        {% else %}
+                            1
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Total Pages</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-label">Awaiting Review</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- User Approval Cards -->
+    <div class="approval-list">
+        {% if users %}
+            {% for user in users %}
+                <div class="approval-card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-1">
+                                    <i class="fas fa-user me-2"></i>{{ user.get_full_name }}
+                                    {% if user.get_full_name != user.username %}
+                                        <small class="text-muted">(@{{ user.username }})</small>
+                                    {% endif %}
+                                </h5>
+                                <div class="d-flex align-items-center gap-2 mt-2">
+                                    <span class="pending-badge">Pending Approval</span>
+                                    <span class="role-badge">{{ user.get_role_display }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>Registered: {{ user.date_joined|date:"M d, Y" }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="user-info">
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                    Email:
+                                </div>
+                                <div class="info-value">{{ user.email|default:"Not provided" }}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-phone text-success"></i>
+                                    Phone:
+                                </div>
+                                <div class="info-value">{{ user.phone_number|default:"Not provided" }}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-map-marker-alt text-danger"></i>
+                                    Address:
+                                </div>
+                                <div class="info-value">{{ user.address|default:"Not provided" }}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-user-tag text-info"></i>
+                                    Role:
+                                </div>
+                                <div class="info-value">{{ user.get_role_display }}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-label">
+                                    <i class="fas fa-clock text-warning"></i>
+                                    Registered:
+                                </div>
+                                <div class="info-value">{{ user.date_joined|date:"F d, Y g:i A" }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-approve" onclick="approveUser('{{ user.id }}', '{{ user.get_full_name }}')">
+                                <i class="fas fa-check me-2"></i>Approve User
+                            </button>
+                            <button type="button" class="btn btn-reject" onclick="showRejectModal('{{ user.id }}', '{{ user.get_full_name }}')">
+                                <i class="fas fa-times me-2"></i>Reject User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="text-success">All Caught Up!</h3>
+                <p class="text-muted mb-4">Walang mga pending na user approval sa ngayon. Lahat ng mga bagong rehistrasyon ay na-approve na o na-reject.</p>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-thumbs-up me-2"></i>
+                            <strong>Great job!</strong> Ang barangay portal ay updated at lahat ng mga residents ay may access na sa mga serbisyo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if users.has_other_pages %}
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="User approval pagination">
+                <ul class="pagination pagination-lg">
+                    {% if users.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ users.previous_page_number }}">
+                                <i class="fas fa-chevron-left me-1"></i>Previous
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for num in users.paginator.page_range %}
+                        {% if users.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > users.number|add:'-3' and num < users.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if users.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ users.next_page_number }}">
+                                Next<i class="fas fa-chevron-right ms-1"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Reject Confirmation Modal -->
+<div class="modal fade confirmation-modal" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirm User Rejection
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-user-times fa-3x text-danger mb-3"></i>
+                    <h5>Are you sure you want to reject this user?</h5>
+                    <p class="text-muted">User: <strong id="rejectUserName"></strong></p>
+                </div>
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Warning:</strong> Rejecting this user will permanently delete their registration. This action cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-danger" id="confirmRejectBtn">
+                    <i class="fas fa-trash me-2"></i>Yes, Reject User
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentUserId = null;
+let currentUserName = '';
+
+function approveUser(userId, userName) {
+    // Show loading state
+    const approveBtn = event.target.closest('.btn-approve');
+    const originalContent = approveBtn.innerHTML;
+    approveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Approving...';
+    approveBtn.disabled = true;
+    
+    // Send approval request
+    window.location.href = `{% url 'accounts:approve_user' 0 %}`.replace('0', userId);
+}
+
+function showRejectModal(userId, userName) {
+    currentUserId = userId;
+    currentUserName = userName;
+    
+    document.getElementById('rejectUserName').textContent = userName;
+    
+    const modal = new bootstrap.Modal(document.getElementById('rejectModal'));
+    modal.show();
+}
+
+document.getElementById('confirmRejectBtn').addEventListener('click', function() {
+    if (currentUserId) {
+        // Show loading state
+        this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Rejecting...';
+        this.disabled = true;
+        
+        // Send rejection request
+        window.location.href = `{% url 'accounts:reject_user' 0 %}`.replace('0', currentUserId);
+    }
+});
+
+// Auto-refresh page every 30 seconds to check for new registrations
+let autoRefreshInterval = setInterval(function() {
+    // Only refresh if there are pending users
+    if ({{ users.paginator.count }} > 0) {
+        // Show subtle notification that we're checking for updates
+        console.log('Checking for new user registrations...');
+    }
+}, 30000);
+
+// Page load animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate cards on load
+    const cards = document.querySelectorAll('.approval-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+    
+    // Add click animations to buttons
+    const buttons = document.querySelectorAll('.btn-approve, .btn-reject');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255,255,255,0.6)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+            
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+});
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

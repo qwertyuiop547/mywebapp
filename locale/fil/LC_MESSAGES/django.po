@@ -1,0 +1,411 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-24 15:53+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fil\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Common UI Elements
+msgid "Change Language"
+msgstr "Palitan ang Wika"
+
+msgid "Barangay Complaint & Feedback Portal"
+msgstr "Portal ng mga Reklamo at Puna ng Barangay"
+
+msgid "Portal Home"
+msgstr "Home ng Portal"
+
+msgid "Profile Settings"
+msgstr "Mga Setting ng Profile"
+
+msgid "Residency Validation" 
+msgstr "Pagpapatunay ng Pagiging Residente"
+
+msgid "Serbisyong Mabilis, Solusyong Tapat"
+msgstr "Fast Service, Honest Solutions"
+
+msgid "File a Complaint"
+msgstr "Mag-file ng Reklamo"
+
+msgid "Submit Feedback"
+msgstr "Magbigay ng Feedback"
+
+msgid "Total Complaints"
+msgstr "Kabuuang Reklamo"
+
+msgid "Resolved"
+msgstr "Nasolusyunan"
+
+# Navigation Elements
+msgid "Complaints"
+msgstr "Reklamo"
+
+msgid "Feedback"
+msgstr "Puna"
+
+msgid "Suggestions"
+msgstr "Mungkahi"
+
+msgid "Announcements"
+msgstr "Paalala"
+
+msgid "User Approval"
+msgstr "Pag-apruba ng User"
+
+msgid "Resident Management"
+msgstr "Pamamahala ng Residente"
+
+msgid "Residents Map"
+msgstr "Mapa ng mga Residente"
+
+msgid "Login History"
+msgstr "Kasaysayan ng Login"
+
+msgid "Resident Portal"
+msgstr "Portal ng Residente"
+
+msgid "Chairman Dashboard"
+msgstr "Dashboard ng Kapitan"
+
+msgid "Secretary Dashboard"
+msgstr "Dashboard ng Kalihim"
+
+msgid "Registered Resident"
+msgstr "Rehistradong Residente"
+
+msgid "Welcome to the official Barangay Burgos Complaint & Feedback System. Here you can submit complaints and feedback for our barangay."
+msgstr "Maligayang pagdating sa opisyal na Sistema ng Reklamo at Feedback ng Barangay Burgos. Dito kayo makakapag-submit ng mga reklamo at feedback para sa aming barangay."
+
+msgid "Complaint Statistics"
+msgstr "Estatistika ng mga Reklamo"
+
+msgid "In Progress"
+msgstr "Ginagawa"
+
+msgid "Quick Actions"
+msgstr "Mabilis na Aksyon"
+
+msgid "Submit a new complaint to the barangay"
+msgstr "Magsumite ng bagong reklamo sa barangay"
+
+msgid "View Complaints"
+msgstr "Tingnan ang mga Reklamo"
+
+msgid "Check the status of your complaints"
+msgstr "Suriin ang status ng inyong mga reklamo"
+
+msgid "Rate the barangay services"
+msgstr "I-rate ang serbisyo ng barangay"
+
+msgid "View Feedback"
+msgstr "Tingnan ang Feedback"
+
+msgid "Read feedback about barangay services"
+msgstr "Basahin ang mga feedback tungkol sa serbisyo ng barangay"
+
+msgid "Welcome to Chairman Dashboard"
+msgstr "Maligayang Pagdating sa Chairman Dashboard"
+
+msgid "Welcome to Secretary Dashboard"
+msgstr "Maligayang Pagdating sa Secretary Dashboard"
+
+msgid "Punong Barangay"
+msgstr "Punong Barangay"
+
+msgid "Barangay Secretary"
+msgstr "Kalihim ng Barangay"
+
+msgid "Welcome to the official Barangay Burgos Chairman Management System. Here you can manage and monitor all operations in our barangay."
+msgstr "Maligayang pagdating sa opisyal na Chairman Management System ng Barangay Burgos. Dito kayo makakapag-manage at makakapag-monitor ng lahat ng operations sa aming barangay."
+
+msgid "Welcome to the official Barangay Burgos Secretary Management System. Here you can manage all administrative operations in our barangay."
+msgstr "Maligayang pagdating sa opisyal na Secretary Management System ng Barangay Burgos. Dito kayo makakapag-manage ng lahat ng administrative operations sa aming barangay."
+
+msgid "Chairman Statistics"
+msgstr "Estatistika ng Punong Barangay"
+
+msgid "Secretary Statistics"
+msgstr "Estatistika ng Secretary"
+
+msgid "Services Delivered"
+msgstr "Mga Serbisyong Naibigay"
+
+msgid "Active Programs"
+msgstr "Mga Aktibong Programa"
+
+msgid "Total Population"
+msgstr "Kabuuang Populasyon"
+
+msgid "Terms & Conditions"
+msgstr "Mga Tuntunin at Kondisyon"
+
+msgid "Privacy Policy"
+msgstr "Patakaran sa Privacy"
+
+msgid "Effective Date"
+msgstr "Petsa ng Pagkakapatupad"
+
+msgid "Acceptance of Terms"
+msgstr "Pagtanggap ng mga Tuntunin"
+
+msgid "Purpose and Scope"
+msgstr "Layunin at Saklaw"
+
+msgid "User Responsibilities"
+msgstr "Mga Responsibilidad ng User"
+
+msgid "Data Collection and Privacy"
+msgstr "Pagkolekta ng Data at Privacy"
+
+msgid "Contact Information"
+msgstr "Impormasyon sa Pakikipag-ugnayan"
+
+msgid "Back to Registration"
+msgstr "Bumalik sa Registration"
+
+msgid "Introduction"
+msgstr "Panimula"
+
+msgid "Information We Collect"
+msgstr "Impormasyong Kinokolekta Namin"
+
+msgid "How We Use Your Information"
+msgstr "Paano Namin Ginagamit ang Inyong Impormasyon"
+
+msgid "Information Sharing"
+msgstr "Pagbabahagi ng Impormasyon"
+
+msgid "Data Security"
+msgstr "Seguridad ng Data"
+
+msgid "Your Rights"
+msgstr "Inyong mga Karapatan"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Home"
+msgstr "Tahanan"
+
+msgid "Login"
+msgstr "Mag-login"
+
+msgid "Register"
+msgstr "Magparehistro"
+
+msgid "Logout"
+msgstr "Mag-logout"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Settings"
+msgstr "Mga Setting"
+
+msgid "Users"
+msgstr "Mga User"
+
+msgid "Complaints"
+msgstr "Mga Reklamo"
+
+msgid "Feedback"
+msgstr "Mga Puna"
+
+msgid "Notifications"
+msgstr "Mga Notipikasyon"
+
+msgid "Submit"
+msgstr "Ipasa"
+
+msgid "Cancel"
+msgstr "Kanselahin"
+
+msgid "Save"
+msgstr "I-save"
+
+msgid "Update"
+msgstr "I-update"
+
+msgid "Delete"
+msgstr "Tanggalin"
+
+msgid "Edit"
+msgstr "I-edit"
+
+msgid "View"
+msgstr "Tingnan"
+
+msgid "Search"
+msgstr "Maghanap"
+
+msgid "Filter"
+msgstr "I-filter"
+
+msgid "All"
+msgstr "Lahat"
+
+msgid "Active"
+msgstr "Aktibo"
+
+msgid "Inactive" 
+msgstr "Hindi Aktibo"
+
+msgid "Pending"
+msgstr "Naghihintay"
+
+msgid "Approved"
+msgstr "Aprubado"
+
+msgid "Rejected"
+msgstr "Tinanggihan"
+
+msgid "Name"
+msgstr "Pangalan"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Phone"
+msgstr "Telepono"
+
+msgid "Address" 
+msgstr "Address"
+
+msgid "Location"
+msgstr "Lokasyon"
+
+msgid "Date"
+msgstr "Petsa"
+
+msgid "Time"
+msgstr "Oras"
+
+msgid "Status"
+msgstr "Katayuan"
+
+msgid "Actions"
+msgstr "Mga Aksyon"
+
+msgid "Welcome"
+msgstr "Maligayang pagdating"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Success"
+msgstr "Tagumpay"
+
+msgid "Warning"
+msgstr "Babala"
+
+msgid "Information"
+msgstr "Impormasyon"
+
+msgid "Loading"
+msgstr "Naglo-load"
+
+msgid "Processing"
+msgstr "Pinoproseso"
+
+msgid "Please wait"
+msgstr "Mangyaring maghintay"
+
+msgid "Required"
+msgstr "Kailangan"
+
+msgid "Optional"
+msgstr "Opsyonal"
+
+msgid "Yes"
+msgstr "Oo"
+
+msgid "No"
+msgstr "Hindi"
+
+msgid "Back"
+msgstr "Bumalik"
+
+msgid "Next"
+msgstr "Susunod"
+
+msgid "Previous"
+msgstr "Nakaraan"
+
+msgid "Continue"
+msgstr "Magpatuloy"
+
+msgid "Confirm"
+msgstr "Kumpirmahin"
+
+msgid "Close"
+msgstr "Isara"
+
+msgid "Open"
+msgstr "Buksan"
+
+msgid "New"
+msgstr "Bago"
+
+msgid "Old"
+msgstr "Luma"
+
+msgid "Recent"
+msgstr "Kamakailang"
+
+msgid "Today"
+msgstr "Ngayong araw"
+
+msgid "Yesterday"
+msgstr "Kahapon"
+
+msgid "This week"
+msgstr "Linggong ito"
+
+msgid "This month"
+msgstr "Buwang ito"
+
+msgid "This year"
+msgstr "Taong ito"
+
+# Barangay-specific terms
+msgid "Barangay"
+msgstr "Barangay"
+
+msgid "Chairman"
+msgstr "Kapitan"
+
+msgid "Secretary"
+msgstr "Kalihim"
+
+msgid "Resident"
+msgstr "Residente"
+
+msgid "Official"
+msgstr "Opisyal"
+
+msgid "Kagawad"
+msgstr "Kagawad"
+
+msgid "Captain"
+msgstr "Kapitan"
+
+msgid "Zone"
+msgstr "Sona"
+
+msgid "Sitio"
+msgstr "Sitio"
+
+msgid "Purok"
+msgstr "Purok"

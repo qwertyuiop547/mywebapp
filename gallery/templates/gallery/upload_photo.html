@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}Upload Photo - Barangay Gallery{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --primary-blue: #2563eb;
+    --primary-green: #16a34a;
+    --primary-orange: #ea580c;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f8fafc;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+.upload-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.upload-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+}
+
+.upload-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--bg-light);
+}
+
+.upload-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.upload-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.image-upload-area {
+    border: 2px dashed #d1d5db;
+    border-radius: var(--border-radius);
+    padding: 3rem 1rem;
+    text-align: center;
+    background: var(--bg-light);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+}
+
+.image-upload-area:hover {
+    border-color: var(--primary-blue);
+    background: #eff6ff;
+}
+
+.image-upload-area.dragover {
+    border-color: var(--primary-green);
+    background: #ecfdf5;
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.upload-text {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.upload-hint {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1rem;
+}
+
+.preview-container {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    display: none;
+}
+
+.clear-image-btn {
+    background: var(--primary-orange);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-upload {
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-upload:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    color: white;
+    text-decoration: none;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .upload-container {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+    
+    .upload-card {
+        padding: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .upload-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="upload-card">
+        <div class="upload-header">
+            <h1 class="upload-title">
+                <i class="fas fa-heart text-primary"></i>
+                Share a Memory
+            </h1>
+            <p class="upload-subtitle">Share your precious moments with our barangay family</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="upload-form">
+            {% csrf_token %}
+            
+            <!-- Image Upload Area -->
+            <div class="image-upload-area" id="upload-area">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="upload-text">Click to select or drag & drop your memory photo here</div>
+                <div class="upload-hint">Share your special moments - JPG, PNG, GIF up to 10MB</div>
+                {{ form.image|add_class:"d-none" }}
+            </div>
+            
+            <!-- Image Preview -->
+            <div class="preview-container" id="preview-container">
+                <img id="image-preview" class="image-preview" alt="Preview">
+                <div>
+                    <button type="button" class="clear-image-btn" id="clear-image">
+                        <i class="fas fa-times"></i> Remove Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- Photo Details -->
+            <div class="form-group">
+                <label class="form-label" for="{{ form.title.id_for_label }}">
+                    Memory Title <span class="text-danger">*</span>
+                </label>
+                {{ form.title|add_class:"form-control" }}
+                {% if form.title.help_text %}
+                    <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.description.id_for_label }}">Tell us about this memory</label>
+                {{ form.description|add_class:"form-control" }}
+                {% if form.description.help_text %}
+                    <small class="form-text text-muted">{{ form.description.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.date_taken.id_for_label }}">Date Taken</label>
+                {{ form.date_taken|add_class:"form-control" }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="{{ form.photographer.id_for_label }}">Photographer</label>
+                {{ form.photographer|add_class:"form-control" }}
+            </div>
+
+            <!-- Form Errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Please correct the following errors:</h6>
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|title }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Submit Buttons -->
+            <div class="d-flex gap-3 justify-content-center mt-4">
+                <a href="{% url 'gallery:gallery_list' %}" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Memories
+                </a>
+                <button type="submit" class="btn-upload">
+                    <i class="fas fa-heart"></i> Share Memory
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('upload-area');
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const clearButton = document.getElementById('clear-image');
+
+    // File input change handler
+    imageInput.addEventListener('change', handleFileSelect);
+    
+    // Clear image handler
+    clearButton.addEventListener('click', clearImage);
+
+    // Drag and drop handlers
+    uploadArea.addEventListener('click', () => imageInput.click());
+    uploadArea.addEventListener('dragover', handleDragOver);
+    uploadArea.addEventListener('dragleave', handleDragLeave);
+    uploadArea.addEventListener('drop', handleDrop);
+
+    function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (file) {
+            validateAndPreviewFile(file);
+        }
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    }
+
+    function handleDragLeave(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            // Set the file to the input
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            imageInput.files = dt.files;
+            validateAndPreviewFile(file);
+        }
+    }
+
+    function validateAndPreviewFile(file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file.');
+            return;
+        }
+
+        // Validate file size (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size must be less than 10MB.');
+            return;
+        }
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            uploadArea.style.display = 'none';
+            previewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearImage() {
+        imageInput.value = '';
+        imagePreview.src = '';
+        uploadArea.style.display = 'block';
+        previewContainer.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

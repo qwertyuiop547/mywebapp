@@ -1,0 +1,1231 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Profile Settings" %} - Barangay Burgos{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        color: white !important;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .page-header * {
+        color: white !important;
+    }
+    
+    .page-header h1,
+    .page-header p,
+    .page-header i {
+        color: white !important;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: white !important;
+    }
+    
+    .page-subtitle {
+        opacity: 0.9;
+        margin-bottom: 0;
+        color: white !important;
+    }
+    
+    .profile-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        margin-bottom: 25px;
+        overflow: hidden;
+    }
+    
+    .card-header-simple {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #2c3e50;
+    }
+    
+    .card-body-simple {
+        padding: 25px;
+    }
+    
+    .user-info-section {
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #bbdefb;
+    }
+    
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        margin-bottom: 15px;
+    }
+    
+    .user-name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .user-role {
+        background: #3498db;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        outline: none;
+    }
+    
+    .btn-update {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .btn-update:hover {
+        background: linear-gradient(135deg, #2980b9, #2471a3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        color: white;
+    }
+    
+    .btn-cancel {
+        background: #95a5a6;
+        border: none;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+    
+    .btn-cancel:hover {
+        background: #7f8c8d;
+        transform: translateY(-1px);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .info-item {
+        padding: 12px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e3f2fd;
+    }
+    
+    .info-label {
+        font-size: 0.85rem;
+        color: #666;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+    
+    .info-value {
+        font-size: 1rem;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .alert-simple {
+        border: none;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+    
+    .alert-success {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border-left: 4px solid #28a745;
+        color: #155724;
+    }
+    
+    .alert-error {
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+    }
+    
+    .breadcrumb-simple {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .breadcrumb-simple a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .breadcrumb-simple a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .page-header {
+            padding: 20px;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+        }
+    }
+    
+    /* Photo preview styles */
+    .photo-upload-section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        border: 2px dashed #dee2e6;
+        transition: all 0.3s ease;
+    }
+    
+    .photo-upload-section:hover {
+        border-color: #3498db;
+        background: #f0f8ff;
+    }
+    
+    .photo-upload-section.has-preview {
+        border-color: #28a745;
+        background: #f0fff0;
+    }
+    
+    .photo-preview-wrapper {
+        text-align: center;
+        margin: 15px 0;
+    }
+    
+    #photo-preview {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    #photo-preview:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    .clear-photo-btn {
+        transition: all 0.3s ease;
+    }
+    
+    .clear-photo-btn:hover {
+        background: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+    
+    .drag-highlight {
+        border-color: #28a745 !important;
+        background: #f0fff0 !important;
+        transform: scale(1.02);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const photoInput = document.getElementById('profile-photo-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const previewContainer = document.getElementById('photo-preview-container');
+    const clearButton = document.getElementById('clear-photo-btn');
+    
+    if (photoInput) {
+        // Handle file selection
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please select a valid image file (JPG, PNG, GIF, BMP, or WebP).');
+                    photoInput.value = '';
+                    return;
+                }
+                
+                // Validate file size (10MB)
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                if (file.size > maxSize) {
+                    alert('File is too large. Maximum size is 10MB.');
+                    photoInput.value = '';
+                    return;
+                }
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoPreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    
+                    // Add success animation
+                    previewContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        previewContainer.style.transition = 'opacity 0.5s ease';
+                        previewContainer.style.opacity = '1';
+                    }, 100);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Hide preview if no file selected
+                previewContainer.style.display = 'none';
+            }
+        });
+        
+        // Handle clear button
+        if (clearButton) {
+            clearButton.addEventListener('click', function() {
+                photoInput.value = '';
+                previewContainer.style.display = 'none';
+                
+                // Optional: Add fade out animation
+                previewContainer.style.transition = 'opacity 0.3s ease';
+                previewContainer.style.opacity = '0';
+                setTimeout(() => {
+                    previewContainer.style.display = 'none';
+                    previewContainer.style.opacity = '1';
+                }, 300);
+            });
+        }
+        
+        // Drag and drop functionality
+        const photoUploadSection = photoInput.closest('.form-group');
+        
+        if (photoUploadSection) {
+            // Prevent default drag behaviors
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                photoUploadSection.addEventListener(eventName, preventDefaults, false);
+                document.body.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            // Highlight drop area when item is dragged over it
+            ['dragenter', 'dragover'].forEach(eventName => {
+                photoUploadSection.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                photoUploadSection.addEventListener(eventName, unhighlight, false);
+            });
+            
+            // Handle dropped files
+            photoUploadSection.addEventListener('drop', handleDrop, false);
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            function highlight(e) {
+                photoUploadSection.classList.add('drag-highlight');
+            }
+            
+            function unhighlight(e) {
+                photoUploadSection.classList.remove('drag-highlight');
+            }
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0) {
+                    photoInput.files = files;
+                    // Trigger change event
+                    const event = new Event('change', { bubbles: true });
+                    photoInput.dispatchEvent(event);
+                }
+            }
+        }
+    }
+});
+</script>
+
+<!-- Leaflet CSS and JS for map functionality -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+let locationMap;
+let locationMarker;
+const BARANGAY_CENTER = [11.2588, 125.0078]; // Barangay Burgos, Basey, Samar
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLocationMap();
+    setupLocationHandlers();
+});
+
+function initializeLocationMap() {
+    // Initialize map
+    locationMap = L.map('location-map').setView(BARANGAY_CENTER, 15);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(locationMap);
+    
+    // Check if user already has coordinates
+    const latInput = document.getElementById('id_latitude');
+    const lngInput = document.getElementById('id_longitude');
+    
+    if (latInput.value && lngInput.value) {
+        const lat = parseFloat(latInput.value);
+        const lng = parseFloat(lngInput.value);
+        if (lat && lng) {
+            addLocationMarker(lat, lng);
+            locationMap.setView([lat, lng], 16);
+        }
+    }
+    
+    // Add click handler to map
+    locationMap.on('click', function(e) {
+        addLocationMarker(e.latlng.lat, e.latlng.lng);
+        updateCoordinateInputs(e.latlng.lat, e.latlng.lng);
+    });
+}
+
+function addLocationMarker(lat, lng) {
+    // Remove existing marker
+    if (locationMarker) {
+        locationMap.removeLayer(locationMarker);
+    }
+    
+    // Add new marker
+    locationMarker = L.marker([lat, lng], {
+        draggable: true,
+        title: 'Your Location (drag to adjust)'
+    }).addTo(locationMap);
+    
+    // Handle marker drag
+    locationMarker.on('dragend', function(e) {
+        const newLatLng = e.target.getLatLng();
+        updateCoordinateInputs(newLatLng.lat, newLatLng.lng);
+    });
+    
+    locationMarker.bindPopup(`
+        <div class="text-center">
+            <strong>Your Location</strong><br>
+            <small>Lat: ${lat.toFixed(6)}<br>Lng: ${lng.toFixed(6)}</small><br>
+            <em>Drag marker to adjust</em>
+        </div>
+    `).openPopup();
+}
+
+function updateCoordinateInputs(lat, lng) {
+    document.getElementById('id_latitude').value = lat.toFixed(8);
+    document.getElementById('id_longitude').value = lng.toFixed(8);
+}
+
+function setupLocationHandlers() {
+    const getCurrentLocationBtn = document.getElementById('get-current-location');
+    const clearLocationBtn = document.getElementById('clear-location');
+    
+    if (getCurrentLocationBtn) {
+        getCurrentLocationBtn.addEventListener('click', function() {
+            if ("geolocation" in navigator) {
+                getCurrentLocationBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Getting Location...';
+                getCurrentLocationBtn.disabled = true;
+                
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    addLocationMarker(lat, lng);
+                    updateCoordinateInputs(lat, lng);
+                    locationMap.setView([lat, lng], 16);
+                    
+                    getCurrentLocationBtn.innerHTML = '<i class="fas fa-crosshairs me-2"></i>Use Current Location';
+                    getCurrentLocationBtn.disabled = false;
+                }, function(error) {
+                    alert('Error getting location: ' + error.message);
+                    getCurrentLocationBtn.innerHTML = '<i class="fas fa-crosshairs me-2"></i>Use Current Location';
+                    getCurrentLocationBtn.disabled = false;
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        });
+    }
+    
+    if (clearLocationBtn) {
+        clearLocationBtn.addEventListener('click', function() {
+            if (locationMarker) {
+                locationMap.removeLayer(locationMarker);
+                locationMarker = null;
+            }
+            document.getElementById('id_latitude').value = '';
+            document.getElementById('id_longitude').value = '';
+            locationMap.setView(BARANGAY_CENTER, 15);
+        });
+    }
+}
+
+function updateLocationFromInputs() {
+    const latInput = document.getElementById('id_latitude');
+    const lngInput = document.getElementById('id_longitude');
+    
+    const lat = parseFloat(latInput.value);
+    const lng = parseFloat(lngInput.value);
+    
+    if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+        addLocationMarker(lat, lng);
+        locationMap.setView([lat, lng], 16);
+    }
+}
+
+// === RESIDENCY VALIDATION FUNCTIONALITY ===
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Load validation status on page load
+    loadValidationStatus();
+    
+    // Set up validation button handlers
+    setupValidationHandlers();
+});
+
+function setupValidationHandlers() {
+    const checkBtn = document.getElementById('check-residency');
+    const refreshBtn = document.getElementById('refresh-validation');
+    
+    if (checkBtn) {
+        checkBtn.addEventListener('click', function() {
+            validateResidency();
+        });
+    }
+    
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function() {
+            loadValidationStatus();
+        });
+    }
+}
+
+function loadValidationStatus() {
+    fetch('/accounts/validation-status/', {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.has_validation) {
+                displayValidationResults(data.validation, data.feedback);
+            } else {
+                displayNoValidation(data.feedback);
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error loading validation status:', error);
+    });
+}
+
+function validateResidency() {
+    const checkBtn = document.getElementById('check-residency');
+    const originalText = checkBtn.innerHTML;
+    
+    // Show loading state
+    checkBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Validating...';
+    checkBtn.disabled = true;
+    
+    fetch('/accounts/validate-residency/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayValidationResults(data.validation, data.validation.feedback);
+            
+            // Show success message
+            showValidationMessage('Residency validation completed!', 'success');
+        } else {
+            showValidationMessage('Error: ' + data.error, 'danger');
+        }
+    })
+    .catch(error => {
+        console.error('Error validating residency:', error);
+        showValidationMessage('Error validating residency. Please try again.', 'danger');
+    })
+    .finally(() => {
+        // Restore button
+        checkBtn.innerHTML = originalText;
+        checkBtn.disabled = false;
+    });
+}
+
+function displayValidationResults(validation, feedback) {
+    // Update status alert
+    const statusDiv = document.getElementById('validation-status');
+    const alertClass = getAlertClass(feedback.color);
+    statusDiv.innerHTML = `
+        <div class="alert alert-${alertClass}" role="alert">
+            <i class="fas fa-${getStatusIcon(feedback.status)} me-2"></i>
+            ${feedback.message}
+        </div>
+    `;
+    
+    // Show validation details
+    const detailsDiv = document.getElementById('validation-details');
+    detailsDiv.classList.remove('d-none');
+    
+    // Update location status
+    document.getElementById('location-status-text').innerHTML = getStatusBadge(validation.location_status);
+    
+    // Update address status
+    document.getElementById('address-status-text').innerHTML = getStatusBadge(validation.address_status);
+    
+    // Update progress bar
+    const progress = document.getElementById('validation-progress');
+    const scoreText = document.getElementById('validation-score-text');
+    const score = validation.score;
+    
+    progress.style.width = score + '%';
+    progress.className = `progress-bar ${getProgressBarClass(score)}`;
+    scoreText.textContent = `${score}/100`;
+    
+    // Show validation notes if available
+    if (validation.notes) {
+        const notesDiv = document.getElementById('validation-notes');
+        const notesList = document.getElementById('validation-notes-list');
+        
+        const notes = validation.notes.split('\n').filter(note => note.trim());
+        if (notes.length > 0) {
+            notesList.innerHTML = notes.map(note => `<li>${note}</li>`).join('');
+            notesDiv.classList.remove('d-none');
+        }
+    }
+    
+    // Show refresh button
+    document.getElementById('refresh-validation').classList.remove('d-none');
+}
+
+function displayNoValidation(feedback) {
+    const statusDiv = document.getElementById('validation-status');
+    statusDiv.innerHTML = `
+        <div class="alert alert-secondary" role="alert">
+            <i class="fas fa-clock me-2"></i>
+            ${feedback.message}
+        </div>
+    `;
+    
+    // Hide details
+    document.getElementById('validation-details').classList.add('d-none');
+    document.getElementById('refresh-validation').classList.add('d-none');
+}
+
+function getStatusBadge(status) {
+    const badges = {
+        'valid_location': '<span class="badge bg-success">✓ Valid</span>',
+        'invalid_location': '<span class="badge bg-danger">✗ Invalid</span>',
+        'valid_address': '<span class="badge bg-success">✓ Valid</span>',
+        'invalid_address': '<span class="badge bg-danger">✗ Invalid</span>',
+        'pending': '<span class="badge bg-secondary">⏳ Pending</span>',
+        'auto_approved': '<span class="badge bg-success">🎉 Auto-Approved</span>',
+        'requires_manual': '<span class="badge bg-warning">⚠ Manual Review</span>',
+    };
+    return badges[status] || '<span class="badge bg-secondary">Unknown</span>';
+}
+
+function getAlertClass(color) {
+    const classes = {
+        'success': 'success',
+        'warning': 'warning', 
+        'danger': 'danger',
+        'info': 'info',
+        'secondary': 'secondary'
+    };
+    return classes[color] || 'secondary';
+}
+
+function getStatusIcon(status) {
+    const icons = {
+        'approved': 'check-circle',
+        'needs_review': 'exclamation-triangle',
+        'pending': 'clock',
+        'not_validated': 'question-circle'
+    };
+    return icons[status] || 'question-circle';
+}
+
+function getProgressBarClass(score) {
+    if (score >= 80) return 'bg-success';
+    if (score >= 50) return 'bg-warning';
+    return 'bg-danger';
+}
+
+function showValidationMessage(message, type) {
+    // Create and show a temporary alert
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-2`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    const validationSection = document.querySelector('.validation-section');
+    validationSection.appendChild(alertDiv);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 5000);
+}
+
+function getCsrfToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-simple">
+        <nav>
+            <a href="{% url 'dashboard:home' %}">Dashboard</a>
+            <span class="mx-2">›</span>
+            <span class="text-muted">Profile Settings</span>
+        </nav>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="page-title">
+                    <i class="fas fa-user-cog me-3"></i>Profile Settings
+                </h1>
+                <p class="page-subtitle">Update your personal information and account preferences</p>
+            </div>
+            <div class="col-auto">
+                <div class="d-flex align-items-center text-white">
+                    <i class="fas fa-calendar me-2"></i>
+                    <span>{{ "now"|date:"F d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-simple alert-{{ message.tags }}">
+                <i class="fas fa-check-circle me-2"></i>{{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <!-- User Info Card -->
+        <div class="col-lg-4">
+            <div class="profile-card">
+                <div class="card-header-simple">
+                    <i class="fas fa-user me-2"></i>Account Information
+                </div>
+                <div class="card-body-simple">
+                    <div class="user-info-section text-center">
+                        <div class="user-avatar mx-auto">
+                            {% if user.profile_photo %}
+                                <img src="{{ user.profile_photo.url }}" alt="{{ user.get_full_name|default:user.username }}" 
+                                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </div>
+                        <div class="user-name">{{ user.get_full_name|default:user.username }}</div>
+                        <div class="user-role">
+                            {% if user.role == 'chairman' %}
+                                Barangay Chairman
+                            {% elif user.role == 'secretary' %}
+                                Barangay Secretary
+                            {% else %}
+                                Resident
+                            {% endif %}
+                        </div>
+                        <p class="small text-muted mb-0">
+                            <i class="fas fa-map-marker-alt me-1"></i>
+                            Barangay Burgos, Basey, Samar
+                        </p>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Username</div>
+                            <div class="info-value">{{ user.username }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">{{ user.email }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Member Since</div>
+                            <div class="info-value">{{ user.date_joined|date:"M Y" }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Status</div>
+                            <div class="info-value">
+                                {% if user.is_approved %}
+                                    <span class="text-success">✓ Approved</span>
+                                {% else %}
+                                    <span class="text-warning">⏳ Pending</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-lg-8">
+            <div class="profile-card">
+                <div class="card-header-simple">
+                    <i class="fas fa-edit me-2"></i>Update Profile Information
+                </div>
+                <div class="card-body-simple">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-id-card me-2 text-primary"></i>Username
+                                    </label>
+                                    {{ form.username }}
+                                    {% if form.username.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.username.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    <small class="text-muted d-block mt-1">This name appears on your complaints and public profile.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user me-2 text-primary"></i>First Name
+                                    </label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.first_name.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user me-2 text-primary"></i>Last Name
+                                    </label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.last_name.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                                    </label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.email.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            {% if form.phone_number %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone me-2 text-primary"></i>Phone Number
+                                    </label>
+                                    {{ form.phone_number }}
+                                    {% if form.phone_number.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.phone_number.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if form.address %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-home me-2 text-primary"></i>Address
+                                    </label>
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.address.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Location/Map Section -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Residence Location
+                            </label>
+                            <div class="location-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px; border: 2px dashed #dee2e6;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <i class="fas fa-globe me-2 text-info"></i>Latitude
+                                            </label>
+                                            {{ form.latitude }}
+                                            {% if form.latitude.errors %}
+                                                <div class="text-danger small mt-1">
+                                                    {{ form.latitude.errors.0 }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <i class="fas fa-globe me-2 text-info"></i>Longitude
+                                            </label>
+                                            {{ form.longitude }}
+                                            {% if form.longitude.errors %}
+                                                <div class="text-danger small mt-1">
+                                                    {{ form.longitude.errors.0 }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Map Container -->
+                                <div class="map-container mt-3">
+                                    <div id="location-map" style="height: 300px; border-radius: 8px; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #6c757d;">
+                                        <div class="text-center">
+                                            <i class="fas fa-map-marked-alt fa-3x mb-2"></i>
+                                            <p class="mb-0">Click on the map to set your residence location</p>
+                                            <small class="text-muted">Or enter coordinates manually above</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <button type="button" id="get-current-location" class="btn btn-outline-primary btn-sm me-2">
+                                        <i class="fas fa-crosshairs me-1"></i>Use My Current Location
+                                    </button>
+                                    <button type="button" id="clear-location" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-times me-1"></i>Clear Location
+                                    </button>
+                                </div>
+                                
+                                <small class="text-muted d-block mt-2">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Your location will be used to display your residence on the barangay map for official purposes.
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Automatic Residency Validation -->
+                        <div class="form-group mt-4">
+                            <label class="form-label">
+                                <i class="fas fa-shield-check me-2 text-success"></i>{% trans "Residency Validation" %}
+                            </label>
+                            <div class="validation-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px; border: 2px dashed #dee2e6;">
+                                
+                                <!-- Validation Status Display -->
+                                <div id="validation-status" class="mb-3">
+                                    <div class="alert alert-secondary" role="alert">
+                                        <i class="fas fa-clock me-2"></i>
+                                        Click "Check Residency" to validate your information
+                                    </div>
+                                </div>
+
+                                <!-- Validation Details -->
+                                <div id="validation-details" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="validation-item">
+                                                <strong>Location Status:</strong>
+                                                <span id="location-status-text" class="ms-2"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="validation-item">
+                                                <strong>Address Status:</strong>
+                                                <span id="address-status-text" class="ms-2"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <strong>Validation Score:</strong>
+                                        <div class="progress mt-2" style="height: 25px;">
+                                            <div id="validation-progress" class="progress-bar" role="progressbar" style="width: 0%">
+                                                <span id="validation-score-text">0/100</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Validation Notes -->
+                                    <div id="validation-notes" class="mt-3 d-none">
+                                        <strong>Validation Details:</strong>
+                                        <ul id="validation-notes-list" class="mt-2 mb-0">
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="mt-3">
+                                    <button type="button" id="check-residency" class="btn btn-success btn-sm me-2">
+                                        <i class="fas fa-search me-1"></i>Check Residency
+                                    </button>
+                                    <button type="button" id="refresh-validation" class="btn btn-outline-info btn-sm d-none">
+                                        <i class="fas fa-sync-alt me-1"></i>Refresh Status
+                                    </button>
+                                </div>
+
+                                <small class="text-muted d-block mt-2">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Automatic validation checks if your location and address are within Barangay Burgos boundaries.
+                                </small>
+                            </div>
+                        </div>
+
+                        {% if form.profile_photo %}
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-camera me-2 text-primary"></i>Profile Photo
+                            </label>
+                            
+                            <!-- Current Photo Display -->
+                            <div class="current-photo-container mb-3">
+                                <div class="current-photo-wrapper" style="display: inline-block; position: relative;">
+                                    {% if user.profile_photo %}
+                                        <img id="current-profile-photo" src="{{ user.profile_photo.url }}" 
+                                             alt="Current Profile Photo" 
+                                             style="width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 3px solid #e9ecef;">
+                                        <div class="photo-overlay" style="position: absolute; bottom: -5px; right: -5px; background: #3498db; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-camera" style="font-size: 12px;"></i>
+                                        </div>
+                                    {% else %}
+                                        <div id="current-profile-photo" style="width: 120px; height: 120px; border-radius: 10px; background: linear-gradient(135deg, #3498db, #2980b9); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; border: 3px solid #e9ecef;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="current-photo-info mt-2">
+                                    <small class="text-muted">Current profile photo</small>
+                                </div>
+                            </div>
+
+
+                            <!-- Photo Preview Container -->
+                            <div id="photo-preview-container" class="mb-3" style="display: none;">
+                                <label class="form-label text-success">
+                                    <i class="fas fa-eye me-2"></i>Preview New Photo
+                                </label>
+                                <div class="preview-photo-wrapper" style="display: inline-block; position: relative;">
+                                    <img id="photo-preview" alt="Photo Preview" 
+                                         style="width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 3px solid #28a745;">
+                                    <div class="preview-overlay" style="position: absolute; bottom: -5px; right: -5px; background: #28a745; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-check" style="font-size: 12px;"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-photo-info mt-2">
+                                    <small class="text-success">New photo preview</small>
+                                    <button type="button" id="clear-photo-btn" class="btn btn-outline-secondary btn-sm ms-3">
+                                        <i class="fas fa-times me-1"></i>Clear
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- File Input -->
+                            {{ form.profile_photo }}
+                            {% if form.profile_photo.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.profile_photo.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text mt-1">
+                                {{ form.profile_photo.help_text }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <div>
+                                <a href="{% url 'dashboard:home' %}" class="btn-cancel">
+                                    <i class="fas fa-arrow-left me-2"></i>Cancel
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-update">
+                                    <i class="fas fa-save me-2"></i>Update Profile
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Security Info -->
+            <div class="profile-card">
+                <div class="card-header-simple">
+                    <i class="fas fa-shield-alt me-2"></i>Account Security
+                </div>
+                <div class="card-body-simple">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Last Login</div>
+                                <div class="info-value">
+                                    {% if user.last_login %}
+                                        {{ user.last_login|date:"M d, Y - g:i A" }}
+                                    {% else %}
+                                        Never logged in
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Account Created</div>
+                                <div class="info-value">{{ user.date_joined|date:"M d, Y - g:i A" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 p-3 bg-light rounded">
+                        <h6 class="mb-2">
+                            <i class="fas fa-info-circle text-primary me-2"></i>Security Notice
+                        </h6>
+                        <p class="small text-muted mb-0">
+                            For password changes and other security settings, please contact the Barangay Secretary or Chairman for assistance.
+                        </p>
+                    </div>
+                    
+                    <!-- Delete Account Section (Only for approved residents, not officials) -->
+                    {% if user.is_approved and user.role != 'chairman' and user.role != 'secretary' %}
+                        <div class="mt-4 p-3 border border-danger rounded" style="background: #fff5f5;">
+                            <h6 class="mb-2 text-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Danger Zone
+                            </h6>
+                            <p class="small text-muted mb-3">
+                                Once you delete your account, there is no going back. Please be certain.
+                            </p>
+                            <a href="{% url 'accounts:delete_account_confirm' %}" 
+                               class="btn btn-outline-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to proceed to delete your account? This action cannot be undone.')">
+                                <i class="fas fa-trash-alt me-2"></i>Delete My Account
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

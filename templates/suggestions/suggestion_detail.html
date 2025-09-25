@@ -1,0 +1,442 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{{ suggestion.title }} - {% trans "Barangay Portal" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+.suggestion-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.suggestion-content {
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.status-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.priority-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.meta-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.engagement-section {
+    background: #e3f2fd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.like-btn {
+    border: 2px solid #2196f3;
+    background: transparent;
+    color: #2196f3;
+    transition: all 0.3s ease;
+}
+
+.like-btn.liked {
+    background: #2196f3;
+    color: white;
+}
+
+.like-btn:hover {
+    background: #2196f3;
+    color: white;
+    transform: scale(1.05);
+}
+
+.comment-section {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.comment-item {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 1rem;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-official {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.admin-response {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.implementation-info {
+    background: #cce5ff;
+    border: 1px solid #99d6ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.location-map {
+    height: 200px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <!-- Header -->
+    <div class="suggestion-content">
+        <div class="suggestion-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">{{ suggestion.title }}</h1>
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        <span class="badge status-badge 
+                            {% if suggestion.status == 'pending' %}bg-warning text-dark
+                            {% elif suggestion.status == 'under_review' %}bg-info
+                            {% elif suggestion.status == 'approved' %}bg-success
+                            {% elif suggestion.status == 'implemented' %}bg-primary
+                            {% elif suggestion.status == 'rejected' %}bg-danger
+                            {% else %}bg-secondary{% endif %}">
+                            {{ suggestion.get_status_display }}
+                        </span>
+                        <span class="badge priority-badge 
+                            {% if suggestion.priority == 'urgent' %}bg-danger
+                            {% elif suggestion.priority == 'high' %}bg-warning text-dark
+                            {% elif suggestion.priority == 'medium' %}bg-info
+                            {% else %}bg-secondary{% endif %}">
+                            {{ suggestion.get_priority_display }}
+                        </span>
+                        {% if suggestion.is_featured %}
+                        <span class="badge bg-light text-dark">
+                            <i class="fas fa-star text-warning"></i>
+                            {% trans "Featured" %}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="d-flex flex-column align-items-md-end gap-2">
+                        {% if user.is_authenticated and user.role == 'chairman' %}
+                        <a href="{% url 'suggestions:update_suggestion' suggestion.id %}" class="btn btn-light">
+                            <i class="fas fa-edit"></i>
+                            {% trans "Update" %}
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'suggestions:suggestion_list' %}" class="btn btn-outline-light">
+                            <i class="fas fa-arrow-left"></i>
+                            {% trans "Back to List" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meta Information -->
+        <div class="p-4">
+            <div class="meta-info">
+                <div class="row">
+                    <div class="col-md-3 col-6 mb-2">
+                        <strong>{% trans "Submitted by:" %}</strong><br>
+                        <span class="text-muted">{{ suggestion.submitter_name }}</span>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <strong>{% trans "Category:" %}</strong><br>
+                        <span class="badge bg-primary">{{ suggestion.category.name }}</span>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <strong>{% trans "Submitted on:" %}</strong><br>
+                        <span class="text-muted">{{ suggestion.submitted_at|date:"F d, Y" }}</span>
+                    </div>
+                    <div class="col-md-3 col-6 mb-2">
+                        <strong>{% trans "Last updated:" %}</strong><br>
+                        <span class="text-muted">{{ suggestion.updated_at|date:"F d, Y" }}</span>
+                    </div>
+                </div>
+                
+                {% if suggestion.location %}
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <strong>{% trans "Location:" %}</strong><br>
+                        <span class="text-muted">
+                            <i class="fas fa-map-marker-alt text-danger"></i>
+                            {{ suggestion.location }}
+                        </span>
+                        {% if suggestion.coordinates %}
+                        <div class="location-map">
+                            <span class="text-muted">
+                                <i class="fas fa-map"></i>
+                                {% trans "Map integration would be displayed here" %}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if suggestion.contact_phone %}
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <strong>{% trans "Contact:" %}</strong><br>
+                        <span class="text-muted">
+                            <i class="fas fa-phone text-success"></i>
+                            {{ suggestion.contact_phone }}
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Suggestion Description -->
+            <div class="mb-4">
+                <h3>{% trans "Description" %}</h3>
+                <div class="border rounded p-3" style="background: #fafafa;">
+                    {{ suggestion.description|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Official Response -->
+            {% if suggestion.public_response %}
+            <div class="admin-response">
+                <h4>
+                    <i class="fas fa-reply text-success"></i>
+                    {% trans "Official Response" %}
+                </h4>
+                <p class="mb-2">{{ suggestion.public_response|linebreaks }}</p>
+                {% if suggestion.reviewed_by and suggestion.reviewed_at %}
+                <small class="text-muted">
+                    {% trans "Response by" %} {{ suggestion.reviewed_by.get_full_name|default:suggestion.reviewed_by.username }}
+                    {% trans "on" %} {{ suggestion.reviewed_at|date:"F d, Y \a\t H:i" }}
+                </small>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Implementation Information -->
+            {% if suggestion.status == 'approved' or suggestion.status == 'implemented' %}
+            <div class="implementation-info">
+                <h4>
+                    <i class="fas fa-tools text-info"></i>
+                    {% trans "Implementation Information" %}
+                </h4>
+                {% if suggestion.estimated_budget %}
+                <p>
+                    <strong>{% trans "Estimated Budget:" %}</strong>
+                    ₱{{ suggestion.estimated_budget|floatformat:2 }}
+                </p>
+                {% endif %}
+                {% if suggestion.implementation_date %}
+                <p>
+                    <strong>{% trans "Target Implementation Date:" %}</strong>
+                    {{ suggestion.implementation_date|date:"F d, Y" }}
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Engagement Section -->
+            <div class="engagement-section">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="text-center">
+                                <div class="fw-bold fs-4">{{ suggestion.likes }}</div>
+                                <small>{% trans "Likes" %}</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="fw-bold fs-4">{{ suggestion.views }}</div>
+                                <small>{% trans "Views" %}</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="fw-bold fs-4">{{ comments.count }}</div>
+                                <small>{% trans "Comments" %}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        {% if user.is_authenticated %}
+                        <button type="button" class="btn like-btn {% if user_liked %}liked{% endif %}" 
+                                onclick="toggleLike('{{ suggestion.id }}')">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span id="likeText">
+                                {% if user_liked %}
+                                    {% trans "Unlike" %}
+                                {% else %}
+                                    {% trans "Like" %}
+                                {% endif %}
+                            </span>
+                            (<span id="likeCount">{{ suggestion.likes }}</span>)
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comment-section">
+                <div class="p-3 border-bottom bg-light">
+                    <h4 class="mb-0">
+                        <i class="fas fa-comments"></i>
+                        {% trans "Comments" %} ({{ comments.count }})
+                    </h4>
+                </div>
+                
+                {% if user.is_authenticated %}
+                <!-- Add Comment Form -->
+                <div class="p-3 border-bottom">
+                    <form method="post" id="commentForm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ comment_form.comment|add_class:"form-control" }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            {% trans "Add Comment" %}
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+                
+                <!-- Comments List -->
+                {% for comment in comments %}
+                <div class="comment-item {% if comment.is_official %}comment-official{% endif %}">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <strong>
+                                {{ comment.user.get_full_name|default:comment.user.username }}
+                                {% if comment.is_official %}
+                                <span class="badge bg-warning text-dark ms-1">
+                                    <i class="fas fa-shield-alt"></i>
+                                    {% trans "Official" %}
+                                </span>
+                                {% endif %}
+                            </strong>
+                        </div>
+                        <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+                    </div>
+                    <p class="mb-0">{{ comment.comment|linebreaks }}</p>
+                </div>
+                {% empty %}
+                <div class="p-3 text-center text-muted">
+                    <i class="fas fa-comment fa-2x mb-2"></i>
+                    <p>{% trans "No comments yet. Be the first to comment!" %}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ suggestion.id|json_script:"suggestion-data" }}
+<script type="application/json" id="user-data">
+{
+    "isAuthenticated": {% if user.is_authenticated %}true{% else %}false{% endif %},
+    "messages": {
+        "error": "{% trans 'An error occurred. Please try again.' %}",
+        "login": "{% trans 'Please log in to like suggestions.' %}",
+        "unlike": "{% trans 'Unlike' %}",
+        "like": "{% trans 'Like' %}",
+        "commentValidation": "{% trans 'Please enter a comment before submitting.' %}"
+    },
+    "csrfToken": "{{ csrf_token }}"
+}
+</script>
+
+<script>
+// Parse server data
+const userData = JSON.parse(document.getElementById('user-data').textContent);
+const suggestionData = JSON.parse(document.getElementById('suggestion-data').textContent);
+
+// Get translated messages
+const errorMessage = userData.messages.error;
+const loginMessage = userData.messages.login;
+const unlikeText = userData.messages.unlike;
+const likeText = userData.messages.like;
+const commentValidationMessage = userData.messages.commentValidation;
+
+// Check authentication status
+const isAuthenticated = userData.isAuthenticated;
+
+function toggleLike(suggestionId) {
+    if (!isAuthenticated) {
+        alert(loginMessage);
+        return;
+    }
+    
+    fetch('/suggestions/' + suggestionId + '/like/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': userData.csrfToken,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('likeCount').textContent = data.like_count;
+            const button = document.querySelector('.like-btn');
+            const likeTextElement = document.getElementById('likeText');
+            
+            if (data.user_liked) {
+                button.classList.add('liked');
+                likeTextElement.textContent = unlikeText;
+            } else {
+                button.classList.remove('liked');
+                likeTextElement.textContent = likeText;
+            }
+        } else {
+            alert('Error updating like status');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(errorMessage);
+    });
+}
+
+// Comment validation message already defined above
+
+// Form validation for comments
+document.addEventListener('DOMContentLoaded', function() {
+    const commentForm = document.getElementById('commentForm');
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(e) {
+            const commentText = this.querySelector('textarea').value.trim();
+            if (!commentText) {
+                e.preventDefault();
+                alert(commentValidationMessage);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

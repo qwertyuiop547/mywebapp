@@ -1,0 +1,475 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update Complaint - {{ complaint.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .update-complaint-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .update-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+    
+    .update-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .update-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+    
+    .update-header p {
+        margin: 10px 0 0 0;
+        opacity: 0.9;
+        font-size: 1rem;
+    }
+    
+    .update-body {
+        padding: 40px;
+    }
+    
+    .complaint-summary {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .complaint-summary h5 {
+        color: #495057;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .summary-row:last-child {
+        border-bottom: none;
+    }
+    
+    .summary-label {
+        font-weight: 500;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+    
+    .summary-value {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+    }
+    
+    .section-title {
+        color: #495057;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-title i {
+        margin-right: 10px;
+        color: #667eea;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 8px;
+        display: inline-block;
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        outline: none;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-in_progress { background: #cce5ff; color: #004085; }
+    .status-resolved { background: #d4edda; color: #155724; }
+    
+    .priority-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    
+    .priority-low { background: #d4edda; color: #155724; }
+    .priority-medium { background: #fff3cd; color: #856404; }
+    .priority-high { background: #f8d7da; color: #721c24; }
+    .priority-urgent { background: #f5c6cb; color: #721c24; }
+    
+    .btn-group-custom {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 12px 30px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4c93 100%);
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        border: none;
+        padding: 12px 30px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+    }
+    
+    .form-help-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    
+    .warning-box {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .warning-box .warning-icon {
+        color: #856404;
+        margin-right: 10px;
+    }
+    
+    .warning-box .warning-text {
+        color: #856404;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .update-body {
+            padding: 25px;
+        }
+        
+        .btn-group-custom {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .summary-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="update-complaint-container">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="update-card">
+            <div class="update-header">
+                <h2><i class="fas fa-edit me-2"></i>Update Complaint</h2>
+                <p>Complaint #{{ complaint.id }} - {{ complaint.title|truncatechars:50 }}</p>
+            </div>
+            
+            <div class="update-body">
+                <!-- Current Complaint Summary -->
+                <div class="complaint-summary">
+                    <h5><i class="fas fa-info-circle me-2"></i>Current Complaint Details</h5>
+                    <div class="summary-row">
+                        <span class="summary-label">Complainant:</span>
+                        <span class="summary-value">{{ complaint.complainant.get_full_name|default:complaint.complainant.username }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Category:</span>
+                        <span class="summary-value">{{ complaint.category.name }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Current Status:</span>
+                        <span class="summary-value">
+                            <span class="status-badge status-{{ complaint.status }}">
+                                {{ complaint.get_status_display }}
+                            </span>
+                        </span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Current Priority:</span>
+                        <span class="summary-value">
+                            <span class="priority-badge priority-{{ complaint.priority }}">
+                                {{ complaint.get_priority_display }}
+                            </span>
+                        </span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Currently Assigned To:</span>
+                        <span class="summary-value">
+                            {% if complaint.assigned_to %}
+                                {{ complaint.assigned_to.get_full_name|default:complaint.assigned_to.username }}
+                            {% else %}
+                                <em>Unassigned</em>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Created:</span>
+                        <span class="summary-value">{{ complaint.created_at|date:"F d, Y g:i A" }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Last Updated:</span>
+                        <span class="summary-value">{{ complaint.updated_at|date:"F d, Y g:i A" }}</span>
+                    </div>
+                </div>
+
+                <!-- Warning for Resolution -->
+                {% if complaint.status != 'resolved' %}
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle warning-icon"></i>
+                    <span class="warning-text">
+                        Changing the status to "Resolved" will automatically set the resolution timestamp and notify the complainant.
+                    </span>
+                </div>
+                {% endif %}
+
+                <!-- Update Form -->
+                <form method="post" class="needs-validation">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-cog"></i>
+                            Update Management Settings
+                        </h4>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.status.id_for_label }}" class="form-label">
+                                        Status <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.status }}
+                                    {% if form.status.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.status.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-text">
+                                        Current status determines how the complaint is handled and what actions are available.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.priority.id_for_label }}" class="form-label">
+                                        Priority <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.priority }}
+                                    {% if form.priority.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.priority.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-help-text">
+                                        Priority affects how quickly the complaint should be addressed.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.assigned_to.id_for_label }}" class="form-label">
+                                Assign To
+                            </label>
+                            {{ form.assigned_to }}
+                            {% if form.assigned_to.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.assigned_to.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <div class="form-help-text">
+                                Assign this complaint to a secretary or chairman for handling. Leave blank to keep unassigned.
+                            </div>
+                        </div>
+
+                        <!-- Resolution Fields (shown when status is resolved) -->
+                        <div id="resolution-fields" class="resolution-section" style="display: none;">
+                            <hr class="my-4">
+                            <h5 class="mb-3">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Resolution Information
+                            </h5>
+                            <p class="text-muted mb-3">
+                                When marking a complaint as resolved, please provide proof of resolution and notes explaining how the issue was addressed.
+                            </p>
+
+                            <div class="form-group">
+                                <label for="{{ form.resolution_proof.id_for_label }}" class="form-label">
+                                    Resolution Proof <span class="text-danger">*</span>
+                                </label>
+                                {{ form.resolution_proof }}
+                                {% if form.resolution_proof.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.resolution_proof.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help-text">
+                                    Upload a photo or document showing the completed resolution (JPEG, PNG, PDF, or DOC files).
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.resolution_notes.id_for_label }}" class="form-label">
+                                    Resolution Notes <span class="text-danger">*</span>
+                                </label>
+                                {{ form.resolution_notes }}
+                                {% if form.resolution_notes.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.resolution_notes.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                <div class="form-help-text">
+                                    Provide detailed notes about how the complaint was resolved, what actions were taken, and any follow-up required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="btn-group-custom">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>
+                            Update Complaint
+                        </button>
+                        <a href="{% url 'complaints:complaint_detail' complaint.id %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Simple form validation and resolution fields handling
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.querySelector('#id_status');
+    const form = document.querySelector('form');
+    const resolutionFields = document.querySelector('#resolution-fields');
+    
+    console.log('DEBUG: JavaScript loaded');
+    console.log('DEBUG: Status select found:', statusSelect);
+    console.log('DEBUG: Form found:', form);
+    console.log('DEBUG: Resolution fields found:', resolutionFields);
+    
+    // Function to toggle resolution fields
+    function toggleResolutionFields() {
+        if (statusSelect && resolutionFields) {
+            if (statusSelect.value === 'resolved') {
+                resolutionFields.style.display = 'block';
+                console.log('DEBUG: Showing resolution fields');
+            } else {
+                resolutionFields.style.display = 'none';
+                console.log('DEBUG: Hiding resolution fields');
+            }
+        }
+    }
+    
+    // Initial check on page load
+    toggleResolutionFields();
+    
+    // Show/hide resolution fields when status changes
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            console.log('DEBUG: Status changed to:', this.value);
+            toggleResolutionFields();
+        });
+    }
+    
+    if (statusSelect && form) {
+        form.addEventListener('submit', function(e) {
+            console.log('DEBUG: Form submitted, status value:', statusSelect.value);
+            console.log('DEBUG: Current complaint status:', '{{ complaint.status }}');
+            // Direct submit with no confirmation dialogs
+            console.log('DEBUG: Form submission allowed');
+        });
+    }
+});
+</script>
+{% endblock %}

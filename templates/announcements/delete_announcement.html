@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Delete Announcement - Barangay Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+.delete-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.delete-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.delete-header {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.delete-content {
+    padding: 2rem;
+}
+
+.announcement-preview {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn-delete-final {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-delete-final:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    color: white;
+}
+
+.warning-box {
+    background: linear-gradient(135deg, #fef3f2 0%, #fee2e2 100%);
+    border: 1px solid #fecaca;
+    border-left: 5px solid #dc2626;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+    <!-- Back Button -->
+    <div class="mb-3">
+        <a href="{% url 'announcements:manage_announcements' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Manage Announcements
+        </a>
+    </div>
+
+    <div class="delete-card">
+        <div class="delete-header">
+            <h1 class="mb-2">
+                <i class="fas fa-trash-alt me-3"></i>
+                Delete Announcement
+            </h1>
+            <p class="mb-0 opacity-90">Permanently remove this announcement</p>
+        </div>
+
+        <div class="delete-content">
+            <div class="warning-box">
+                <h5 class="text-danger mb-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Warning: This action cannot be undone!
+                </h5>
+                <ul class="mb-0">
+                    <li>This announcement will be permanently deleted</li>
+                    <li>The image and all content will be removed</li>
+                    <li>Residents will no longer be able to see this announcement</li>
+                    <li>This action cannot be reversed</li>
+                </ul>
+            </div>
+
+            <div class="announcement-preview">
+                <h3 class="mb-3">{{ announcement.title }}</h3>
+                
+                {% if announcement.image %}
+                <div class="text-center mb-3">
+                    <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" 
+                         class="img-fluid rounded" style="max-height: 300px;">
+                </div>
+                {% endif %}
+
+                {% if announcement.content %}
+                <div class="mb-3">
+                    <p>{{ announcement.content|linebreaks }}</p>
+                </div>
+                {% endif %}
+
+                <div class="row text-muted">
+                    <div class="col-md-6">
+                        <small>
+                            <i class="fas fa-user me-1"></i>
+                            <strong>Created by:</strong> {{ announcement.created_by.get_full_name|default:announcement.created_by.username }}
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <small>
+                            <i class="fas fa-calendar me-1"></i> 
+                            <strong>Created:</strong> {{ announcement.created_at|date:"M d, Y g:i A" }}
+                        </small>
+                    </div>
+                </div>
+
+                {% if announcement.approval_status %}
+                <div class="mt-2">
+                    <small>
+                        <i class="fas fa-info-circle me-1"></i>
+                        <strong>Status:</strong> 
+                        {% if announcement.approval_status == 'approved' %}
+                            <span class="text-success">Approved</span>
+                        {% elif announcement.approval_status == 'pending' %}
+                            <span class="text-warning">Pending Approval</span>
+                        {% else %}
+                            <span class="text-danger">Rejected</span>
+                        {% endif %}
+                    </small>
+                </div>
+                {% endif %}
+            </div>
+
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                
+                <p class="text-muted mb-4">
+                    Are you absolutely sure you want to delete "<strong>{{ announcement.title }}</strong>"?
+                </p>
+                
+                <button type="submit" class="btn-delete-final me-3">
+                    <i class="fas fa-trash-alt me-2"></i>
+                    Yes, Delete This Announcement Permanently
+                </button>
+                
+                <a href="{% url 'announcements:manage_announcements' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

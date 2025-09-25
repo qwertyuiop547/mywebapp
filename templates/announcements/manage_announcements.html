@@ -1,0 +1,446 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Manage Announcements - Barangay Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Management Dashboard Design */
+:root {
+    --primary-blue: #2563eb;
+    --primary-green: #16a34a;
+    --primary-orange: #ea580c;
+    --primary-red: #dc2626;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-light: #f8fafc;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+.page-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #1d4ed8 100%);
+    color: white;
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #ffffff !important;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.management-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.management-header {
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.management-body {
+    padding: 1.5rem;
+}
+
+.announcement-item {
+    border: 1px solid #e5e7eb;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.announcement-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-blue);
+}
+
+.announcement-content {
+    padding: 1.5rem;
+}
+
+.announcement-meta {
+    padding: 1rem 1.5rem;
+    background: var(--bg-light);
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-published { background: #dcfce7; color: var(--primary-green); }
+.status-draft { background: #fef3c7; color: #d97706; }
+.status-pinned { background: #fed7aa; color: var(--primary-orange); }
+
+.btn-primary {
+    background: var(--primary-blue);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.filter-panel {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #e5e7eb;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: 1rem 0;
+        min-height: 100px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .announcement-meta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="page-title mb-2">
+                <i class="fas fa-cogs me-3"></i>
+                Manage Announcements
+            </h1>
+            <p class="page-subtitle mb-3">Pamahalaan ang mga Visual Announcements</p>
+            
+            <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+                {% if user.role == 'chairman' %}
+                    <a href="{% url 'announcements:pending_approvals' %}" class="btn btn-danger">
+                        <i class="fas fa-gavel me-2"></i>
+                        Chairman Approvals 📋
+                    </a>
+                {% endif %}
+                <a href="{% url 'announcements:create_announcement' %}" class="btn btn-warning">
+                    <i class="fas fa-plus me-2"></i>
+                    Gumawa ng Bagong Announcement
+                </a>
+                <a href="{% url 'announcements:announcement_list' %}" class="btn btn-outline-light">
+                    <i class="fas fa-list me-2"></i>
+                    Tingnan ang Public List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                {{ filter_form.search }}
+            </div>
+            <div class="col-md-3">
+                {{ filter_form.category }}
+            </div>
+            <div class="col-md-3">
+                {{ filter_form.priority }}
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-2"></i>Hanapin
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Management Dashboard -->
+    <div class="management-card">
+        <div class="management-header">
+            <h3><i class="fas fa-bullhorn me-2"></i>Your Announcements</h3>
+            <p class="mb-0 text-muted">Manage your visual announcements and their status</p>
+        </div>
+
+        <div class="management-body">
+            {% if announcements %}
+                {% for announcement in announcements %}
+                <div class="announcement-item">
+                    <div class="announcement-content">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="mb-1">
+                                    {% if announcement.is_pinned %}
+                                    <i class="fas fa-thumbtack text-warning me-2"></i>
+                                    {% endif %}
+                                    {{ announcement.title }}
+                                </h5>
+                                <div class="mb-2">
+                                    {% if announcement.is_published %}
+                                        <span class="status-badge status-published">Published</span>
+                                    {% else %}
+                                        <span class="status-badge status-draft">Draft</span>
+                                    {% endif %}
+                                    
+                                    {% if announcement.is_pinned %}
+                                        <span class="status-badge status-pinned ms-2">Pinned</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="text-muted">
+                                <i class="fas fa-eye me-1"></i>{{ announcement.views }} views
+                            </div>
+                        </div>
+
+                        {% if announcement.image %}
+                        <div class="mb-3">
+                            <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" 
+                                 class="img-thumbnail" style="max-height: 150px; max-width: 200px;">
+                        </div>
+                        {% endif %}
+
+                        {% if announcement.content %}
+                        <p class="text-muted">{{ announcement.content|truncatewords:20 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="announcement-meta">
+                        <div>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                Created: {{ announcement.created_at|date:"M d, Y g:i A" }}
+                            </small>
+                            {% if announcement.updated_at != announcement.created_at %}
+                            <small class="text-muted ms-3">
+                                <i class="fas fa-edit me-1"></i>
+                                Updated: {{ announcement.updated_at|date:"M d, Y g:i A" }}
+                            </small>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{% url 'announcements:announcement_detail' announcement.pk %}" 
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye me-1"></i>
+                                View
+                            </a>
+                            {% if announcement.created_by == user or user.role == 'chairman' %}
+                            <a href="{% url 'announcements:edit_announcement' announcement.pk %}" 
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>
+                                Edit
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm delete-announcement-btn" 
+                                    data-announcement-id="{{ announcement.pk }}" 
+                                    data-announcement-title="{{ announcement.title }}">
+                                <i class="fas fa-trash me-1"></i>
+                                Delete
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for page_num in page_obj.paginator.page_range %}
+                            {% if page_num == page_obj.number %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_num }}&{{ request.GET.urlencode }}">{{ page_num }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-bullhorn text-muted" style="font-size: 4rem; opacity: 0.3;"></i>
+                    <h4 class="mt-3 text-muted">No Announcements Yet</h4>
+                    <p class="text-muted">You haven't created any visual announcements yet.</p>
+                    <a href="{% url 'announcements:create_announcement' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>
+                        Create Your First Announcement
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle delete announcement buttons
+    const deleteButtons = document.querySelectorAll('.delete-announcement-btn');
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const announcementId = this.dataset.announcementId;
+            const announcementTitle = this.dataset.announcementTitle;
+            
+            // Show loading state immediately (no confirmation)
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Deleting...';
+            this.disabled = true;
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
+                             '{{ csrf_token }}';
+
+            // Make AJAX request
+            fetch(`{% url 'announcements:delete_announcement' 0 %}`.replace('0', announcementId), {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Remove announcement card with animation
+                    const announcementCard = this.closest('.announcement-item');
+                    if (announcementCard) {
+                        announcementCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        announcementCard.style.opacity = '0';
+                        announcementCard.style.transform = 'translateX(-100%)';
+                        
+                        setTimeout(() => {
+                            announcementCard.remove();
+                            
+                            // Check if no more announcements
+                            const announcementsContainer = document.querySelector('.management-body');
+                            const remainingCards = announcementsContainer.querySelectorAll('.announcement-item');
+                            if (remainingCards.length === 0) {
+                                announcementsContainer.innerHTML = `
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-bullhorn text-muted" style="font-size: 4rem; opacity: 0.3;"></i>
+                                        <h4 class="mt-3 text-muted">No Announcements</h4>
+                                        <p class="text-muted">All announcements have been deleted.</p>
+                                        <a href="{% url 'announcements:create_announcement' %}" class="btn btn-primary mt-3">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Create New Announcement
+                                        </a>
+                                    </div>
+                                `;
+                            }
+                        }, 300);
+                    }
+                } else {
+                    // Show error and restore button
+                    alert(data.error || 'Failed to delete announcement');
+                    this.innerHTML = '<i class="fas fa-trash me-1"></i> Delete';
+                    this.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the announcement');
+                
+                // Restore button
+                this.innerHTML = '<i class="fas fa-trash me-1"></i> Delete';
+                this.disabled = false;
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

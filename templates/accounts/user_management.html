@@ -1,0 +1,603 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Resident Management" %} - {% trans "Barangay Portal" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Modern Resident Management Design */
+body {
+    background: #f8fafc;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.management-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Header Section */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.user-info-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.user-details h6 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.user-role {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Statistics Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+/* Search and Filter Section */
+.search-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.form-control, .form-select {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* Residents Grid */
+.residents-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.resident-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.resident-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.resident-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.resident-info h5 {
+    margin: 0 0 0.25rem 0;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.resident-email {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.resident-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-inactive {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-pending {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.resident-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+}
+
+.btn-info {
+    background: #06b6d4;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #0891b2;
+}
+
+.btn-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #d97706;
+}
+
+.btn-success {
+    background: #10b981;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #6b7280;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .management-container {
+        padding: 0 0.5rem;
+        margin: 1rem auto;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .search-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .resident-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .resident-meta {
+        justify-content: center;
+    }
+    
+    .resident-actions {
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="management-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div>
+                <h1 class="page-title">
+                    <i class="fas fa-users"></i>
+                    {% trans "Resident Management" %}
+                </h1>
+                <p class="page-subtitle">
+                    {% trans "Manage and monitor resident accounts and their activities" %}
+                </p>
+            </div>
+            <div class="user-info-card">
+                <div class="user-avatar">
+                    {% if user.profile_photo %}
+                        <img src="{{ user.profile_photo.url }}" alt="{{ user.get_full_name|default:user.username }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        {{ user.first_name|first|default:"B" }}{{ user.last_name|first|default:"C" }}
+                    {% endif %}
+                </div>
+                <div class="user-details">
+                    <h6>{{ user.get_full_name|default:user.username }}</h6>
+                    <p class="user-role">{% trans "Barangay Chairman" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_residents }}</div>
+            <div class="stat-label">{% trans "Total Residents" %}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ page_obj|length }}</div>
+            <div class="stat-label">{% trans "Showing Results" %}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ active_count }}</div>
+            <div class="stat-label">{% trans "Active Residents" %}</div>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="search-section">
+        <div class="search-header">
+            <i class="fas fa-search"></i>
+            {% trans "Search & Filter Residents" %}
+        </div>
+        <form method="GET" class="search-form">
+            <div class="form-group">
+                <label class="form-label">{% trans "Search Residents" %}</label>
+                <input type="text" name="search" class="form-control" 
+                       placeholder="{% trans 'Search by name, username, or email...' %}"
+                       value="{{ request.GET.search }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{% trans "Account Status" %}</label>
+                <select name="status" class="form-select">
+                    <option value="">{% trans "All Status" %}</option>
+                    <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>{% trans "Active" %}</option>
+                    <option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>{% trans "Inactive" %}</option>
+                    <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>{% trans "Pending" %}</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+                {% trans "Filter Results" %}
+            </button>
+            {% if request.GET.search or request.GET.status %}
+            <a href="{% url 'accounts:user_management' %}" class="btn btn-outline">
+                <i class="fas fa-times"></i>
+                {% trans "Clear" %}
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Residents List -->
+    <div class="residents-grid">
+        {% if page_obj %}
+            {% for resident in page_obj %}
+            <div class="resident-card">
+                <div class="resident-avatar">
+                    {% if resident.profile_photo %}
+                        <img src="{{ resident.profile_photo.url }}" alt="{{ resident.get_full_name|default:resident.username }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        {{ resident.first_name|first|default:"R" }}{{ resident.last_name|first|default:"E" }}
+                    {% endif %}
+                </div>
+                <div class="resident-info">
+                    <h5>{{ resident.get_full_name|default:resident.username }}</h5>
+                    <div class="resident-email">{{ resident.email }}</div>
+                    <div class="resident-meta">
+                        <span><i class="fas fa-calendar"></i> {% trans "Joined" %} {{ resident.date_joined|date:"M d, Y" }}</span>
+                        <span><i class="fas fa-phone"></i> {{ resident.phone_number|default:"N/A" }}</span>
+                        {% if resident.is_active %}
+                        <span class="status-badge status-active">{% trans "Active" %}</span>
+                        {% else %}
+                        <span class="status-badge status-inactive">{% trans "Inactive" %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="resident-actions">
+                    <a href="{% url 'accounts:view_user_profile' resident.id %}" 
+                       class="btn btn-info btn-sm" title="{% trans 'View Profile' %}">
+                        <i class="fas fa-eye"></i>
+                        {% trans "View" %}
+                    </a>
+                    {% if resident.is_active %}
+                    <a href="{% url 'accounts:deactivate_user' resident.id %}" 
+                       class="btn btn-warning btn-sm" title="{% trans 'Deactivate Account' %}"
+                       onclick="return confirmDeactivate()">
+                        <i class="fas fa-user-times"></i>
+                        {% trans "Deactivate" %}
+                    </a>
+                    {% else %}
+                    <a href="{% url 'accounts:activate_user' resident.id %}" 
+                       class="btn btn-success btn-sm" title="{% trans 'Activate Account' %}"
+                       onclick="return confirmActivate()">
+                        <i class="fas fa-user-check"></i>
+                        {% trans "Activate" %}
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'accounts:delete_user_account' resident.id %}" 
+                       class="btn btn-danger btn-sm" title="{% trans 'Delete Account' %}"
+                       onclick="return confirmDelete()">
+                        <i class="fas fa-trash"></i>
+                        {% trans "Delete" %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-users"></i>
+                <h4>{% trans "No Residents Found" %}</h4>
+                <p>{% trans "No residents match your current search criteria." %}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav aria-label="{% trans 'Residents pagination' %}" style="margin-top: 2rem;">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+<script type="application/json" id="confirmation-messages">
+{
+    "deactivate": "{% trans 'Are you sure you want to deactivate this resident account?' %}",
+    "activate": "{% trans 'Are you sure you want to activate this resident account?' %}",
+    "delete": "{% trans 'Are you sure you want to permanently delete this resident account? This action cannot be undone.' %}"
+}
+</script>
+<script>
+const messages = JSON.parse(document.getElementById('confirmation-messages').textContent);
+
+function confirmDeactivate() {
+    return confirm(messages.deactivate);
+}
+
+function confirmActivate() {
+    return confirm(messages.activate);
+}
+
+function confirmDelete() {
+    return confirm(messages.delete);
+}
+</script>
+{% endblock %}

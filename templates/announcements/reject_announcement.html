@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Reject Announcement - Chairman{% endblock %}
+
+{% block extra_css %}
+<style>
+.rejection-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.rejection-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.rejection-header {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.rejection-content {
+    padding: 2rem;
+}
+
+.announcement-preview {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn-reject-final {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-reject-final:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    color: white;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="rejection-container">
+    <!-- Back Button -->
+    <div class="mb-3">
+        <a href="{% url 'announcements:pending_approvals' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Pending Approvals
+        </a>
+    </div>
+
+    <div class="rejection-card">
+        <div class="rejection-header">
+            <h1 class="mb-2">
+                <i class="fas fa-times-circle me-3"></i>
+                Reject Announcement
+            </h1>
+            <p class="mb-0 opacity-90">Provide feedback and reject this announcement</p>
+        </div>
+
+        <div class="rejection-content">
+            <div class="announcement-preview">
+                <h3 class="mb-3">{{ announcement.title }}</h3>
+                
+                {% if announcement.image %}
+                <div class="text-center mb-3">
+                    <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" 
+                         class="img-fluid rounded" style="max-height: 300px;">
+                </div>
+                {% endif %}
+
+                {% if announcement.content %}
+                <div class="mb-3">
+                    <p>{{ announcement.content|linebreaks }}</p>
+                </div>
+                {% endif %}
+
+                <div class="row text-muted">
+                    <div class="col-md-6">
+                        <small>
+                            <i class="fas fa-user me-1"></i>
+                            <strong>Created by:</strong> {{ announcement.created_by.get_full_name|default:announcement.created_by.username }}
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <small>
+                            <i class="fas fa-calendar me-1"></i>
+                            <strong>Created:</strong> {{ announcement.created_at|date:"M d, Y g:i A" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="reason" class="form-label">
+                        <i class="fas fa-comment-alt me-2"></i>
+                        <strong>Reason for Rejection (Required)</strong>
+                    </label>
+                    <textarea name="reason" id="reason" class="form-control" rows="4" 
+                              placeholder="Please explain why you are rejecting this announcement. This will help the Secretary improve future submissions." 
+                              required></textarea>
+                    <small class="form-text text-muted">
+                        The Secretary will see this reason to understand what needs to be improved.
+                    </small>
+                </div>
+
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>What happens when you reject:</strong>
+                    <ul class="mb-0 mt-2">
+                        <li>This announcement will NOT be published</li>
+                        <li>The Secretary will be notified with your feedback</li>
+                        <li>They can create a new announcement addressing your concerns</li>
+                    </ul>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn-reject-final me-3">
+                        <i class="fas fa-times me-2"></i>
+                        Reject This Announcement
+                    </button>
+                    
+                    <a href="{% url 'announcements:pending_approvals' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

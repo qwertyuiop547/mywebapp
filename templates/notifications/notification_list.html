@@ -1,0 +1,911 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notifications - Barangay Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Barangay Government Portal Professional Design */
+    :root {
+        --barangay-blue: #1e40af;
+        --barangay-green: #059669;
+        --barangay-orange: #d97706;
+        --barangay-red: #dc2626;
+        --gov-gold: #d97706;
+        --text-dark: #1f2937;
+        --text-muted: #6b7280;
+        --bg-light: #f8fafc;
+        --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        --border-radius: 16px;
+    }
+
+    /* Page Layout */
+    .notifications-page {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+        position: relative;
+    }
+
+    .notifications-page::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    .barangay-notifications-header {
+        background: linear-gradient(135deg, var(--barangay-blue) 0%, #3b82f6 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .barangay-notifications-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150 50L100 100h100L150 50z' fill='%23ffffff' opacity='0.08'/%3E%3Cpath d='M100 100h100v80L150 230 100 180V100z' fill='%23ffffff' opacity='0.05'/%3E%3Ccircle cx='150' cy='40' r='15' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E") no-repeat center;
+        background-size: contain;
+    }
+
+    .barangay-seal {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
+    
+    .page-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
+    
+    .header-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-header {
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-header.primary {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border-color: #3b82f6;
+        color: white;
+    }
+    
+    .btn-header.secondary {
+        background: white;
+        border-color: #e5e7eb;
+        color: #374151;
+    }
+    
+    .btn-header:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+    
+    .btn-header.primary:hover {
+        color: white;
+    }
+    
+    .btn-header.secondary:hover {
+        border-color: #3b82f6;
+        color: #1e40af;
+    }
+    
+    /* Stats Card */
+    .stats-container {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(30, 58, 138, 0.3);
+    }
+    
+    .stats-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        backdrop-filter: blur(10px);
+    }
+    
+    .stats-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .stats-subtitle {
+        opacity: 0.9;
+        margin: 0;
+        font-size: 1.1rem;
+    }
+    
+    .btn-mark-all {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+    }
+    
+    .btn-mark-all:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+        color: white;
+        text-decoration: none;
+    }
+    
+    /* Notification Items */
+    .notification-item {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e8ecf4;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .notification-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        border-color: #3b82f6;
+    }
+    
+    .notification-item.unread {
+        border-left: 5px solid #3b82f6;
+        background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+    }
+    
+    .notification-item.read {
+        opacity: 0.8;
+    }
+    
+    .notification-content {
+        padding: 1.5rem;
+    }
+    
+    .notification-title {
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+    
+    .notification-message {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .notification-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .notification-type {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.375rem 0.875rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        letter-spacing: 0.025em;
+    }
+    
+    .type-complaint_created { background: #dbeafe; color: #1e40af; }
+    .type-complaint_updated { background: #fed7aa; color: #ea580c; }
+    .type-complaint_resolved { background: #bbf7d0; color: #16a34a; }
+    .type-complaint_rejected { background: #fecaca; color: #dc2626; }
+    .type-feedback_received { background: #e9d5ff; color: #7c3aed; }
+    .type-user_approved { background: #a7f3d0; color: #047857; }
+    .type-system_announcement { background: #fbcfe8; color: #be185d; }
+    
+    .notification-time {
+        color: #94a3b8;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    
+    .notification-actions {
+        padding: 1rem 1.5rem;
+        background: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-action {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-action.primary {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        color: white;
+    }
+    
+    .btn-action.secondary {
+        background: white;
+        border: 1px solid #d1d5db;
+        color: #374151;
+    }
+    
+    .btn-action:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+    
+    .btn-action.primary:hover {
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        color: white;
+    }
+    
+    .btn-action.secondary:hover {
+        border-color: #3b82f6;
+        color: #1e40af;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-action.danger {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        color: white;
+        border: none;
+    }
+    
+    .btn-action.danger:hover {
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        color: white;
+    }
+    
+    .read-status {
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        color: #64748b;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #e8ecf4;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .empty-state-icon {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .empty-state-icon i {
+        font-size: 3rem;
+        color: #3b82f6;
+    }
+    
+    .empty-state h4 {
+        color: #1e293b;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+    }
+    
+    .empty-state p {
+        color: #64748b;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .empty-state-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    /* Pagination */
+    .pagination {
+        margin-top: 2rem;
+        justify-content: center;
+    }
+    
+    .pagination .page-link {
+        border-radius: 10px;
+        margin: 0 0.25rem;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .pagination .page-link:hover {
+        border-color: #3b82f6;
+        color: #1e40af;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border-color: #3b82f6;
+        color: white;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .notifications-page {
+            padding: 1rem 0;
+        }
+        
+        .page-header {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+        }
+        
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .stats-container {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .notification-content {
+            padding: 1rem;
+        }
+        
+        .notification-actions {
+            padding: 1rem;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .action-buttons {
+            justify-content: center;
+        }
+        
+        .read-status {
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="notifications-page">
+    <!-- Barangay Government Header -->
+    <div class="barangay-notifications-header">
+        <div class="container">
+            <div class="barangay-seal">
+                <i class="fas fa-bell" style="font-size: 2.5rem; color: white;"></i>
+            </div>
+            <h1 class="page-title">
+                Barangay Notification Center
+            </h1>
+            <p class="page-subtitle">Stay updated with your complaint and feedback activities</p>
+            
+            <div class="d-flex justify-content-center gap-3 mt-4" style="position: relative; z-index: 1;">
+                <a href="{% url 'notifications:preferences' %}" style="padding: 0.75rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: white; backdrop-filter: blur(10px); transition: all 0.3s ease;">
+                    <i class="fas fa-cog"></i> Preferences
+                </a>
+                <a href="{% url 'dashboard:home' %}" style="padding: 0.75rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: white; backdrop-filter: blur(10px); transition: all 0.3s ease;">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+<div class="container" style="position: relative; z-index: 1;">
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>{{ message|capfirst }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Government Statistics Card -->
+    <div style="background: linear-gradient(135deg, var(--gov-gold) 0%, #f59e0b 100%); border-radius: var(--border-radius); padding: 2rem; margin-bottom: 2rem; color: white; position: relative; overflow: hidden; box-shadow: var(--shadow-lg);">
+        <div style="position: absolute; top: -20%; right: -10%; width: 200px; height: 200px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; backdrop-filter: blur(10px);"></div>
+        
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; position: relative; z-index: 1;">
+                    <div style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+                        <i class="fas fa-inbox" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.75rem; font-weight: 800; margin: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            Official Notification Center
+                        </h2>
+                        <p style="font-size: 1.1rem; opacity: 0.95; margin: 0; font-weight: 400;">
+                            You have {{ notifications.paginator.count }} total notification{{ notifications.paginator.count|pluralize }}
+                            {% if unread_count > 0 %}
+                                ({{ unread_count }} unread)
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="d-flex gap-2 flex-wrap justify-content-md-end justify-content-center" style="position: relative; z-index: 1;">
+                    {% if unread_count > 0 %}
+                        <a href="?mark_all_read=1" style="background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-check-double"></i>
+                            Mark All Read
+                        </a>
+                    {% endif %}
+                    {% if notifications.paginator.count > 0 %}
+                        <button type="button" style="background: rgba(220, 38, 38, 0.8); border: 1px solid rgba(239, 68, 68, 0.8); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(10px); cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;" onclick="deleteAllNotifications()">
+                            <i class="fas fa-trash"></i>
+                            Delete All
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications List -->
+    {% if notifications %}
+        <div class="notifications-container">
+            {% for notification in notifications %}
+                <div class="notification-item {% if not notification.is_read %}unread{% else %}read{% endif %}">
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            {{ notification.title }}
+                        </div>
+                        <div class="notification-message">
+                            {{ notification.message }}
+                        </div>
+                        <div class="notification-meta">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="notification-type type-{{ notification.notification_type }}">
+                                    <i class="fas fa-tag"></i>
+                                    {{ notification.get_notification_type_display }}
+                                </span>
+                            </div>
+                            <div class="notification-time">
+                                <i class="fas fa-clock"></i>
+                                {{ notification.created_at|timesince }} ago
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-actions">
+                        <div class="action-buttons">
+                            {% if notification.notification_type == 'complaint_rejected' %}
+                                <a href="{% url 'notifications:notification_detail' notification.id %}" class="btn-action primary">
+                                    <i class="fas fa-eye"></i>
+                                    View Rejection Notice
+                                </a>
+                            {% endif %}
+                            {% if notification.get_link != "/dashboard/" %}
+                                <a href="{{ notification.get_link }}" class="btn-action primary">
+                                    <i class="fas fa-file-alt"></i>
+                                    View Complaint
+                                </a>
+                            {% endif %}
+                            {% if not notification.is_read %}
+                                <a href="{% url 'notifications:mark_read' notification.id %}" class="btn-action secondary">
+                                    <i class="fas fa-check"></i>
+                                    Mark as Read
+                                </a>
+                            {% endif %}
+                            <button type="button" class="btn-action danger" 
+                                    data-notification-id="{{ notification.id }}" 
+                                    data-notification-title="{{ notification.title }}"
+                                    onclick="deleteNotificationFromList(this.dataset.notificationId, this.dataset.notificationTitle)">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </div>
+                        <div class="read-status">
+                            {% if notification.is_read %}
+                                <i class="fas fa-check-circle text-success"></i>
+                                Read on {{ notification.read_at|date:"M d, Y g:i A" }}
+                            {% else %}
+                                <i class="fas fa-circle text-primary"></i>
+                                Unread
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if notifications.has_other_pages %}
+            <nav aria-label="Notifications pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if notifications.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ notifications.previous_page_number }}">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in notifications.paginator.page_range %}
+                        {% if notifications.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > notifications.number|add:'-3' and num < notifications.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if notifications.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ notifications.next_page_number }}">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ notifications.paginator.num_pages }}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+
+    {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="fas fa-bell-slash"></i>
+            </div>
+            <h4>No Notifications Yet</h4>
+            <p>You'll see notifications here when there are updates about your complaints, feedback, or important announcements from the Barangay.</p>
+            <div class="empty-state-actions">
+                <a href="{% url 'complaints:create_complaint' %}" class="btn-header primary">
+                    <i class="fas fa-plus"></i> Submit a Complaint
+                </a>
+                <a href="{% url 'feedback:submit_feedback' %}" class="btn-header secondary">
+                    <i class="fas fa-comment"></i> Give Feedback
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function deleteNotificationFromList(notificationId, notificationTitle) {
+        // Show loading state
+        const deleteBtn = document.querySelector(`[data-notification-id="${notificationId}"]`);
+        if (deleteBtn) {
+            deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+            deleteBtn.disabled = true;
+        }
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                         document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
+                         '{{ csrf_token }}';
+
+        // Make AJAX request
+        fetch(`{% url 'notifications:delete_notification' 0 %}`.replace('0', notificationId), {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Remove notification from DOM with animation
+                const notificationItem = deleteBtn.closest('.notification-item');
+                if (notificationItem) {
+                    notificationItem.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    notificationItem.style.opacity = '0';
+                    notificationItem.style.transform = 'translateX(-100%)';
+                    
+                    setTimeout(() => {
+                        notificationItem.remove();
+                        
+                        // Check if no more notifications and show empty state
+                        const notificationsContainer = document.querySelector('.notifications-container');
+                        if (notificationsContainer && notificationsContainer.children.length === 0) {
+                            // Show empty state instead of reloading
+                            notificationsContainer.innerHTML = `
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-bell-slash"></i>
+                                    </div>
+                                    <h4>All notifications deleted</h4>
+                                    <p>You have successfully deleted all notifications.</p>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }
+                
+                // Silent success - no popup message
+            } else {
+                // Show error message
+                showMessage('error', data.error || 'Failed to delete notification');
+                
+                // Restore button
+                if (deleteBtn) {
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                    deleteBtn.disabled = false;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('error', 'An error occurred while deleting the notification');
+            
+            // Restore button
+            if (deleteBtn) {
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                deleteBtn.disabled = false;
+            }
+        });
+}
+
+function deleteAllNotifications() {
+    const notificationCount = document.querySelectorAll('.notification-item').length;
+    
+    if (confirm(`Are you sure you want to delete all ${notificationCount} notifications? This action cannot be undone.`)) {
+        // Show loading state
+        const deleteAllBtn = document.querySelector('[onclick="deleteAllNotifications()"]');
+        if (deleteAllBtn) {
+            deleteAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Deleting All...';
+            deleteAllBtn.disabled = true;
+        }
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                         document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        // Make AJAX request
+        fetch('{% url "notifications:delete_all_notifications" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Remove all notifications with animation
+                const notificationItems = document.querySelectorAll('.notification-item');
+                notificationItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(-100%)';
+                        
+                        setTimeout(() => {
+                            item.remove();
+                        }, 300);
+                    }, index * 100);
+                });
+                
+                // Show empty state after all animations
+                setTimeout(() => {
+                    const notificationsContainer = document.querySelector('.notifications-container');
+                    if (notificationsContainer) {
+                        notificationsContainer.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-bell-slash"></i>
+                                </div>
+                                <h4>All notifications deleted</h4>
+                                <p>You have successfully deleted all ${notificationCount} notifications.</p>
+                            </div>
+                        `;
+                    }
+                    
+                    // Hide the delete all button
+                    if (deleteAllBtn) {
+                        deleteAllBtn.style.display = 'none';
+                    }
+                }, notificationItems.length * 100 + 300);
+                
+                // Silent success - no popup message
+            } else {
+                // Show error message
+                showMessage('error', data.error || 'Failed to delete notifications');
+                
+                // Restore button
+                if (deleteAllBtn) {
+                    deleteAllBtn.innerHTML = '<i class="fas fa-trash me-2"></i> Delete All';
+                    deleteAllBtn.disabled = false;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting notifications');
+            
+            // Restore button
+            if (deleteAllBtn) {
+                deleteAllBtn.innerHTML = '<i class="fas fa-trash me-2"></i> Delete All';
+                deleteAllBtn.disabled = false;
+            }
+        });
+    }
+}
+
+// Show message function
+function showMessage(type, message) {
+    const alertHtml = `
+        <div class="alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
+            <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    
+    // Find or create messages container
+    let messagesContainer = document.querySelector('.container .messages-container');
+    if (!messagesContainer) {
+        const mainContainer = document.querySelector('.notifications-page .container');
+        if (mainContainer) {
+            messagesContainer = document.createElement('div');
+            messagesContainer.className = 'messages-container mt-3';
+            mainContainer.insertBefore(messagesContainer, mainContainer.firstChild);
+        }
+    }
+    
+    if (messagesContainer) {
+        messagesContainer.innerHTML = alertHtml;
+        
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            const alert = messagesContainer.querySelector('.alert');
+            if (alert) {
+                alert.remove();
+            }
+        }, 5000);
+    }
+}
+</script>
+{% endblock %}

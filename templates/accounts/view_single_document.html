@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}View Document - {{ user_account.get_full_name|default:user_account.username }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+    
+    .back-btn {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .back-btn:hover {
+        background: #5a6268;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .document-viewer {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        min-height: 80vh;
+    }
+    
+    .document-header {
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .document-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 5px;
+    }
+    
+    .document-meta {
+        color: #64748b;
+        font-size: 14px;
+    }
+    
+    .document-content {
+        text-align: center;
+        padding: 40px 20px;
+    }
+    
+    .document-preview {
+        max-width: 100%;
+        max-height: 600px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .document-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .btn-download {
+        background: #48bb78;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-download:hover {
+        background: #38a169;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btn-open-new {
+        background: #4a90e2;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-open-new:hover {
+        background: #357abd;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .no-preview {
+        color: #64748b;
+        font-size: 16px;
+    }
+    
+    .file-icon {
+        font-size: 64px;
+        color: #4a90e2;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Back Button -->
+    <a href="{% url 'accounts:view_documents' user_account.id %}" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to View Documents
+    </a>
+
+    <!-- Document Viewer -->
+    <div class="document-viewer">
+        <div class="document-header">
+            <div class="document-title">
+                <i class="fas fa-file me-2"></i>
+                {{ document.file.name|default:"Document" }}
+            </div>
+            <div class="document-meta">
+                <i class="fas fa-user me-1"></i>{{ user_account.get_full_name|default:user_account.username }} • 
+                <i class="fas fa-calendar me-1"></i>Uploaded {{ document.uploaded_at|date:"M d, Y g:i A" }}
+                {% if document.document_type %}
+                • <i class="fas fa-tag me-1"></i>{{ document.document_type }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="document-content">
+            {% if document.file.url|slice:"-4:" == ".pdf" %}
+                <!-- PDF Preview -->
+                <iframe src="{{ document.file.url }}" width="100%" height="600px" style="border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <p>Your browser does not support PDFs. <a href="{{ document.file.url }}" target="_blank">Click here to view the PDF</a>.</p>
+                </iframe>
+            {% elif document.file.url|slice:"-4:" == ".jpg" or document.file.url|slice:"-4:" == ".png" or document.file.url|slice:"-5:" == ".jpeg" or document.file.url|slice:"-4:" == ".gif" %}
+                <!-- Image Preview -->
+                <img src="{{ document.file.url }}" alt="Document" class="document-preview">
+            {% elif document.file.url|slice:"-4:" == ".txt" %}
+                <!-- Text File Preview -->
+                <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 8px; max-height: 400px; overflow-y: auto;">
+                    <pre style="white-space: pre-wrap; font-family: monospace;">{{ document.file.read|default:"Unable to preview text content" }}</pre>
+                </div>
+            {% else %}
+                <!-- Generic File -->
+                <div class="no-preview">
+                    <i class="fas fa-file file-icon"></i>
+                    <h4>{{ document.file.name }}</h4>
+                    <p>Preview not available for this file type.</p>
+                    <p class="text-muted">Use the buttons below to download or open in a new tab.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="document-actions">
+            <a href="{{ document.file.url }}" download class="btn-download">
+                <i class="fas fa-download"></i>
+                Download Document
+            </a>
+            <a href="{{ document.file.url }}" target="_blank" class="btn-open-new">
+                <i class="fas fa-external-link-alt"></i>
+                Open in New Tab
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

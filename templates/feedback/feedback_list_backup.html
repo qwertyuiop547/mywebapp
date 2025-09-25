@@ -1,0 +1,686 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Community Feedback Management - Barangay San Lorenzo Ruiz{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+    }
+    
+    .stat-card.total::before {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .stat-card.average::before {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    }
+    
+    .stat-card.pending::before {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+    
+    .stat-card.reviewed::before {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .filter-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .feedback-card {
+        background: white;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .feedback-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .feedback-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+    }
+    
+    .feedback-card.rating-5::before {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    }
+    
+    .feedback-card.rating-4::before {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    }
+    
+    .feedback-card.rating-3::before {
+        background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    }
+    
+    .feedback-card.rating-2::before {
+        background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+    }
+    
+    .feedback-card.rating-1::before {
+        background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+    }
+    
+    .feedback-header {
+        padding: 25px;
+        border-bottom: 1px solid #f1f3f4;
+    }
+    
+    .feedback-body {
+        padding: 25px;
+    }
+    
+    .feedback-footer {
+        padding: 20px 25px;
+        background: #f8f9fa;
+        border-top: 1px solid #f1f3f4;
+    }
+    
+    .rating-display {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .stars {
+        display: flex;
+        gap: 2px;
+    }
+    
+    .star {
+        width: 20px;
+        height: 20px;
+        color: #ffd700;
+    }
+    
+    .star.empty {
+        color: #e0e0e0;
+    }
+    
+    .rating-number {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .category-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #e9ecef;
+        color: #495057;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .category-usability { background: #cfe2ff; color: #0a58ca; }
+    .category-feature { background: #d1e7dd; color: #0a3622; }
+    .category-bug { background: #f8d7da; color: #58151c; }
+    .category-general { background: #e2e3f1; color: #41197f; }
+    .category-service { background: #fff3cd; color: #664d03; }
+    
+    .feedback-text {
+        color: #495057;
+        line-height: 1.6;
+        font-size: 1rem;
+        margin: 15px 0;
+    }
+    
+    .feedback-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .response-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #f1f3f4;
+    }
+    
+    .admin-response {
+        background: #f8f9fa;
+        border-left: 4px solid #28a745;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+    
+    .response-author {
+        font-weight: 600;
+        color: #28a745;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .response-text {
+        color: #495057;
+        line-height: 1.5;
+    }
+    
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .btn-primary-custom:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+    
+    .btn-success-custom {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        border: none;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-success-custom:hover {
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-reviewed {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6c757d;
+    }
+    
+    .no-data i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+    
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        align-items: end;
+    }
+    
+    .form-group label {
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        display: block;
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .response-form {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 15px;
+    }
+    
+    .response-form textarea {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .feedback-header, .feedback-body, .feedback-footer {
+            padding: 20px;
+        }
+        
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+        
+        .feedback-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-2">
+                            <i class="fas fa-comments me-3"></i>
+                            Community Feedback Management
+                        </h1>
+                        <p class="mb-0 opacity-90">
+                            Monitor community satisfaction and respond to resident feedback
+                        </p>
+                        <small class="opacity-75">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            {{ "now"|date:"l, F j, Y" }} - {{ "now"|date:"g:i A" }}
+                        </small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        {% if user.is_resident %}
+                            <a href="{% url 'feedback:submit_feedback' %}" class="btn btn-success-custom">
+                                <i class="fas fa-plus me-2"></i>
+                                Submit Feedback
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <div class="stat-number">{{ feedback_list.count|default:"0" }}</div>
+            <div class="stat-label">Total Feedback</div>
+        </div>
+        
+        <div class="stat-card average">
+            <div class="stat-number">{{ average_rating|floatformat:1|default:"0.0" }}</div>
+            <div class="stat-label">Average Rating</div>
+        </div>
+        
+        <div class="stat-card pending">
+            <div class="stat-number">{{ pending_count|default:"0" }}</div>
+            <div class="stat-label">Pending Review</div>
+        </div>
+        
+        <div class="stat-card reviewed">
+            <div class="stat-number">{{ reviewed_count|default:"0" }}</div>
+            <div class="stat-label">Reviewed</div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Search and Filter -->
+    <div class="filter-card">
+        <h5 class="mb-3">
+            <i class="fas fa-filter me-2 text-primary"></i>
+            Filter Feedback
+        </h5>
+        <form method="GET" class="filter-form">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category" class="form-select">
+                    <option value="">All Categories</option>
+                    <option value="usability" {% if request.GET.category == "usability" %}selected{% endif %}>Usability</option>
+                    <option value="feature" {% if request.GET.category == "feature" %}selected{% endif %}>Feature Request</option>
+                    <option value="bug" {% if request.GET.category == "bug" %}selected{% endif %}>Bug Report</option>
+                    <option value="service" {% if request.GET.category == "service" %}selected{% endif %}>Service Quality</option>
+                    <option value="general" {% if request.GET.category == "general" %}selected{% endif %}>General</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select name="rating" id="rating" class="form-select">
+                    <option value="">All Ratings</option>
+                    <option value="5" {% if request.GET.rating == "5" %}selected{% endif %}>5 Stars</option>
+                    <option value="4" {% if request.GET.rating == "4" %}selected{% endif %}>4 Stars</option>
+                    <option value="3" {% if request.GET.rating == "3" %}selected{% endif %}>3 Stars</option>
+                    <option value="2" {% if request.GET.rating == "2" %}selected{% endif %}>2 Stars</option>
+                    <option value="1" {% if request.GET.rating == "1" %}selected{% endif %}>1 Star</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Pending</option>
+                    <option value="reviewed" {% if request.GET.status == "reviewed" %}selected{% endif %}>Reviewed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary-custom w-100">
+                    <i class="fas fa-search me-2"></i>
+                    Filter
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Feedback List -->
+    <div class="row">
+        <div class="col-12">
+            {% if feedback_list %}
+                {% for feedback in feedback_list %}
+                    <div class="feedback-card rating-{{ feedback.rating }}">
+                        <div class="feedback-header">
+                            <div class="feedback-meta">
+                                <div class="user-info">
+                                    <div class="user-avatar">
+                                        {{ feedback.user.get_full_name.0|default:feedback.user.username.0|upper }}
+                                    </div>
+                                    <div>
+                                        <strong>{{ feedback.user.get_full_name|default:feedback.user.username }}</strong>
+                                        <div class="text-muted small">
+                                            {{ feedback.created_at|date:"F d, Y g:i A" }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="status-badge status-{% if feedback.is_reviewed %}reviewed{% else %}pending{% endif %}">
+                                        {% if feedback.is_reviewed %}Reviewed{% else %}Pending{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="rating-display">
+                                <div class="stars">
+                                    {% for i in "12345" %}
+                                        <i class="fas fa-star star {% if forloop.counter > feedback.rating %}empty{% endif %}"></i>
+                                    {% endfor %}
+                                </div>
+                                <span class="rating-number">{{ feedback.rating }}/5</span>
+                                <span class="category-badge category-{{ feedback.category }}">
+                                    {{ feedback.get_category_display }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-body">
+                            <div class="feedback-text">
+                                {{ feedback.message|linebreaks }}
+                            </div>
+                            
+                            {% if feedback.admin_response %}
+                                <div class="response-section">
+                                    <div class="admin-response">
+                                        <div class="response-author">
+                                            <i class="fas fa-user-tie"></i>
+                                            Official Response
+                                        </div>
+                                        <div class="response-text">
+                                            {{ feedback.admin_response|linebreaks }}
+                                        </div>
+                                        <small class="text-muted">
+                                            Responded on {{ feedback.response_date|date:"F d, Y g:i A" }}
+                                        </small>
+                                    </div>
+                                </div>
+                            {% elif user.can_manage_complaints %}
+                                <div class="response-section">
+                                    <button class="btn btn-primary-custom btn-sm" onclick="toggleResponseForm({{ feedback.id }})">
+                                        <i class="fas fa-reply me-1"></i>
+                                        Respond to Feedback
+                                    </button>
+                                    
+                                    <div id="responseForm{{ feedback.id }}" class="response-form" style="display: none;">
+                                        <form method="post" action="{% url 'feedback:respond' feedback.id %}">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="response{{ feedback.id }}" class="form-label">
+                                                    <strong>Official Response</strong>
+                                                </label>
+                                                <textarea name="admin_response" id="response{{ feedback.id }}" 
+                                                         class="form-control" placeholder="Write your official response to this feedback..."></textarea>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button type="submit" class="btn btn-primary-custom">
+                                                    <i class="fas fa-paper-plane me-1"></i>
+                                                    Send Response
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-sm" 
+                                                       onclick="toggleResponseForm({{ feedback.id }})">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-data">
+                    <i class="fas fa-comment-slash"></i>
+                    <h4>No Feedback Found</h4>
+                    <p class="text-muted">
+                        {% if request.GET %}
+                            No feedback matches your filter criteria. Try adjusting your filters.
+                        {% else %}
+                            No community feedback has been submitted yet.
+                        {% endif %}
+                    </p>
+                    {% if user.is_resident and not request.GET %}
+                        <a href="{% url 'feedback:submit_feedback' %}" class="btn btn-primary-custom mt-3">
+                            <i class="fas fa-plus me-2"></i>
+                            Submit First Feedback
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Feedback pagination">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    <li class="page-item active">
+                        <span class="page-link">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </li>
+                    
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleResponseForm(feedbackId) {
+    const form = document.getElementById('responseForm' + feedbackId);
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        form.querySelector('textarea').focus();
+    } else {
+        form.style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

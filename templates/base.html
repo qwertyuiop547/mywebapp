@@ -1,0 +1,819 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}{% trans "Barangay Complaint & Feedback Portal" %}{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/barangay-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/enhanced-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/portal-tabs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+    
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggMTVMMS4xNCA4SDguODZMMTUgMTVIOFoiIGZpbGw9IiMxZTNhOGEiLz4KPHBhdGggZD0iTTggNi4xNEwxIDRINy44NEwxNSA2LjE0VjEyTDggNi4xNFoiIGZpbGw9IiNmYmJmMjQiLz4KPHN2Zz4K">
+    
+    <!-- Language Toggle Styling -->
+    <style>
+        .dropdown-form {
+            margin: 0;
+        }
+        
+        .dropdown-form .dropdown-item {
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            padding: 8px 16px;
+            transition: background-color 0.15s ease-in-out;
+        }
+        
+        .dropdown-form .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .dropdown-form .dropdown-item.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        
+        .dropdown-form .dropdown-item.active:hover {
+            background-color: #0b5ed7;
+        }
+        
+        #languageDropdown .bi-translate {
+            font-size: 1.1em;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Government Header -->
+    <header class="government-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <div class="barangay-logo">
+                            <img src="{% static 'images/basey-seal.png' %}" alt="Municipality of Basey Official Seal" class="seal-image">
+                        </div>
+                        <div class="barangay-info">
+                            <h1>BARANGAY BURGOS</h1>
+                            <div class="subtitle">Complaint & Feedback Management System / Sistema ng Reklamo at Puna</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-info">
+                        <div><i class="fas fa-phone"></i> (055) 251-2345</div>
+                        <div><i class="fas fa-envelope"></i> info@brgyburgosbasey.gov.ph</div>
+                        <div><i class="fas fa-map-marker-alt"></i> Burgos, Basey, Samar</div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <span class="me-2">🇺🇸 English</span> | 
+                                <span class="ms-2">🇵🇭 Filipino</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% if user.is_authenticated %}{% url 'dashboard:home' %}{% else %}{% url 'home' %}{% endif %}">
+                <i class="bi bi-house-door"></i> {% trans "Portal Home" %}
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" title="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="bi bi-house"></i> Home
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard:home' %}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'complaints:complaint_list' %}">
+                                <i class="bi bi-exclamation-triangle"></i> {% trans "Complaints" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'feedback:feedback_list' %}">
+                                <i class="bi bi-chat-square-text"></i> {% trans "Feedback" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'suggestions:suggestion_list' %}">
+                                <i class="fas fa-lightbulb"></i> {% trans "Suggestions" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'announcements:announcement_list' %}">
+                                <i class="fas fa-bullhorn"></i> {% trans "Announcements" %}
+                            </a>
+                        </li>
+                        {% if user.can_approve_users %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:user_approval' %}">
+                                    <i class="bi bi-person-check"></i> {% trans "User Approval" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:user_management' %}">
+                                    <i class="bi bi-people"></i> {% trans "Resident Management" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:residents_map' %}">
+                                    <i class="bi bi-geo-alt"></i> {% trans "Residents Map" %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if user.can_manage_complaints %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'accounts:login_history' %}">
+                                    <i class="fas fa-history"></i> {% trans "Login History" %}
+                                </a>
+                            </li>
+                            {% comment %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'analytics:overview' %}">
+                                    <i class="fas fa-chart-line"></i> Analytics
+                                </a>
+                            </li>
+                            {% endcomment %}
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                
+                <ul class="navbar-nav">
+                    {% if not user.is_authenticated %}
+                    <!-- Language Toggle (Home Page Only) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{% trans 'Change Language' %}">
+                            <i class="bi bi-translate"></i>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == 'fil' %}
+                                <span class="d-none d-md-inline">Filipino</span>
+                            {% else %}
+                                <span class="d-none d-md-inline">English</span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" class="dropdown-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="language" value="en">
+                                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                    <button type="submit" class="dropdown-item {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                                        <i class="bi bi-flag-fill me-2"></i>English
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" class="dropdown-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="language" value="fil">
+                                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                    <button type="submit" class="dropdown-item {% if LANGUAGE_CODE == 'fil' %}active{% endif %}">
+                                        <i class="bi bi-flag-fill me-2"></i>Filipino
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    
+                    {% if user.is_authenticated %}
+                        <!-- Notifications -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                                <i class="bi bi-bell" aria-label="Notifications"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge" id="notification-count">
+                                    0
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+                                <li class="dropdown-header">
+                                    <strong>Notifications</strong>
+                                    <a href="#" class="float-end text-muted" id="mark-all-read" title="Mark all as read">
+                                        <i class="bi bi-check2-all"></i>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <div id="notification-list">
+                                    <li class="text-center text-muted p-3">No new notifications</li>
+                                </div>
+                                <li><hr class="dropdown-divider"></li>
+                                <li class="text-center p-2">
+                                    <a href="{% url 'notifications:notification_list' %}" class="text-decoration-none">
+                                        <small>View all notifications</small>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <!-- User Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> 
+                                {{ user.get_full_name|default:user.username }}
+                                {% if user.role == 'chairman' %}
+                                    <span class="badge bg-warning text-dark ms-1">Chairman</span>
+                                {% elif user.role == 'secretary' %}
+                                    <span class="badge bg-info ms-1">Secretary</span>
+                                {% else %}
+                                    <span class="badge bg-primary ms-1">Resident</span>
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                    <i class="bi bi-person"></i> Profile Settings
+                                </a></li>
+                                <li><a class="dropdown-item" href="{% url 'notifications:preferences' %}">
+                                    <i class="bi bi-gear"></i> Notification Preferences
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:register' %}">
+                                <i class="bi bi-person-plus"></i> Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1">
+        <!-- Alerts -->
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="bi {% if message.tags == 'success' %}bi-check-circle{% elif message.tags == 'error' %}bi-exclamation-triangle{% elif message.tags == 'warning' %}bi-exclamation-circle{% else %}bi-info-circle{% endif %}"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" title="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-building"></i> Barangay Burgos</h5>
+                    <p class="mb-2">Your trusted local government unit dedicated to serving the community with excellence and transparency.</p>
+                    <p class="mb-1"><i class="fas fa-map-marker-alt"></i> Burgos, Basey, Samar</p>
+                    <p class="mb-1"><i class="fas fa-phone"></i> (02) 8123-4567</p>
+                    <p class="mb-1"><i class="fas fa-envelope"></i> info@brgyburgosbasey.gov.ph</p>
+                </div>
+                <div class="col-md-3">
+                    <h5><i class="fas fa-link"></i> Quick Links / Mga Link</h5>
+                    <ul class="list-unstyled">
+                        {% if not user.is_authenticated or user.role not in 'secretary,chairman' %}
+                        <li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Submit Complaint / Magreklamo</a></li>
+                        {% else %}
+                        <li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Manage Complaints / Pamahalaan ang Reklamo</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'feedback:feedback_list' %}"><i class="fas fa-chevron-right"></i> Give Feedback / Magbigay ng Puna</a></li>
+                        <li><a href="{% url 'services:list' %}"><i class="fas fa-chevron-right"></i> Barangay Services / Serbisyo</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Programs / Programa</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Hotlines / Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5><i class="fas fa-clock"></i> Office Hours</h5>
+                    <p class="mb-1">Monday - Friday: 8:00 AM - 5:00 PM</p>
+                    <p class="mb-1">Saturday: 8:00 AM - 12:00 PM</p>
+                    <p class="mb-3">Sunday: Closed</p>
+                    <h5><i class="fas fa-phone-alt"></i> Emergency</h5>
+                    <p class="mb-1">Police: 117</p>
+                    <p class="mb-1">Fire: 116</p>
+                    <p class="mb-1">Medical: 911</p>
+                </div>
+                <div class="col-md-2">
+                    <h5><i class="fas fa-share-alt"></i> Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="me-2"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-youtube fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ current_year|default:"2025" }} Barangay Burgos Basey Samar. All rights reserved. | 
+                   Developed with ❤️ for the community</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <!-- Notification System -->
+    {% if user.is_authenticated %}
+    <script>
+        // Notification polling system
+        let notificationCount = 0;
+        let lastNotificationCheck = new Date();
+
+        function updateNotificationBadge(count) {
+            const badge = document.getElementById('notification-count');
+            if (count > 0) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function fetchNotifications() {
+            fetch('{% url "notifications:api_list" %}')
+                .then(response => response.json())
+                .then(data => {
+                    const unreadCount = data.filter(n => !n.is_read).length;
+                    updateNotificationBadge(unreadCount);
+                    
+                    const notificationList = document.getElementById('notification-list');
+                    if (data.length === 0) {
+                        notificationList.innerHTML = '<li class="text-center text-muted p-3">No new notifications</li>';
+                    } else {
+                        notificationList.innerHTML = data.slice(0, 5).map(notification => `
+                            <li class="notification-item ${!notification.is_read ? 'unread' : ''}">
+                                <a href="${notification.link}" class="text-decoration-none" onclick="markAsReadAndNavigate(event, ${notification.id}, '${notification.link}')">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <strong>${notification.title}</strong>
+                                            <div class="text-muted small">${notification.message}</div>
+                                            <div class="text-muted small">${new Date(notification.created_at).toLocaleString()}</div>
+                                        </div>
+                                        ${!notification.is_read ? '<div class="text-primary"><i class="bi bi-circle-fill"></i></div>' : ''}
+                                    </div>
+                                </a>
+                            </li>
+                        `).join('');
+                    }
+                })
+                .catch(error => console.error('Error fetching notifications:', error));
+        }
+
+        function markAsRead(notificationId) {
+            fetch(`{% url "notifications:mark_read" 0 %}`.replace('0', notificationId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    fetchNotifications();
+                }
+            })
+            .catch(error => console.error('Error marking notification as read:', error));
+        }
+
+        function markAsReadAndNavigate(event, notificationId, link) {
+            event.preventDefault();
+            
+            // Mark as read and then navigate
+            fetch(`{% url "notifications:mark_read" 0 %}`.replace('0', notificationId), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Navigate to the notification link
+                    window.location.href = link;
+                }
+            })
+            .catch(error => {
+                console.error('Error marking notification as read:', error);
+                // Navigate anyway even if marking as read fails
+                window.location.href = link;
+            });
+        }
+
+        function markAllAsRead() {
+            fetch('{% url "notifications:mark_all_read" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    fetchNotifications();
+                }
+            })
+            .catch(error => console.error('Error marking all notifications as read:', error));
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchNotifications();
+            setInterval(fetchNotifications, 30000); // Check every 30 seconds
+            
+            const markAllBtn = document.getElementById('mark-all-read');
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    markAllAsRead();
+                });
+            }
+        });
+    </script>
+    {% endif %}
+
+    <!-- AJAX Delete Complaint Function -->
+    <script>
+        function deleteComplaintAjax(complaintId, complaintTitle) {
+            // DIRECT DELETE - No confirmation dialog needed
+            
+            // Show loading indicator
+            const deleteBtn = document.querySelector(`[data-complaint-id="${complaintId}"] .delete-btn`);
+            if (deleteBtn) {
+                deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                deleteBtn.disabled = true;
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            // Make AJAX request
+            fetch(`/complaints/${complaintId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove complaint from DOM
+                    const complaintRow = document.querySelector(`[data-complaint-id="${complaintId}"]`);
+                    if (complaintRow) {
+                        // Fade out animation
+                        complaintRow.style.transition = 'opacity 0.3s ease';
+                        complaintRow.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            complaintRow.remove();
+                            
+                            // Check if no more complaints
+                            const complaintsList = document.querySelector('.complaints-list');
+                            if (complaintsList && complaintsList.children.length === 0) {
+                                complaintsList.innerHTML = '<div class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3"></i><p class="mb-0">No complaints found</p></div>';
+                            }
+                        }, 300);
+                    }
+                    
+                    // Show success message
+                    showMessage('success', data.message);
+                } else {
+                    // Show error message
+                    showMessage('error', data.error || 'Failed to delete complaint');
+                    
+                    // Restore delete button
+                    if (deleteBtn) {
+                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                        deleteBtn.disabled = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('error', 'An error occurred while deleting the complaint');
+                
+                // Restore delete button
+                if (deleteBtn) {
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                    deleteBtn.disabled = false;
+                }
+            });
+        }
+
+        // Show message function
+        function showMessage(type, message) {
+            const alertHtml = `
+                <div class="alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
+                    <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            // Find or create messages container
+            let messagesContainer = document.querySelector('.container .messages-container');
+            if (!messagesContainer) {
+                const mainContainer = document.querySelector('main .container');
+                if (mainContainer) {
+                    messagesContainer = document.createElement('div');
+                    messagesContainer.className = 'messages-container mt-3';
+                    mainContainer.insertBefore(messagesContainer, mainContainer.firstChild);
+                }
+            }
+            
+            if (messagesContainer) {
+                messagesContainer.innerHTML = alertHtml;
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    const alert = messagesContainer.querySelector('.alert');
+                    if (alert) {
+                        alert.remove();
+                    }
+                }, 5000);
+            }
+        }
+    </script>
+
+    <!-- AJAX Mark Resolved Function -->
+    <script>
+        function markComplaintResolved(complaintId, complaintTitle) {
+
+            // Show loading indicator
+            const resolveBtn = document.querySelector('.mark-resolved-btn');
+            if (resolveBtn) {
+                resolveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Marking as Resolved...';
+                resolveBtn.disabled = true;
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            // Make AJAX request
+            fetch(`/complaints/${complaintId}/mark-resolved/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update status badge
+                    const statusBadge = document.querySelector('.status-badge');
+                    if (statusBadge) {
+                        statusBadge.className = 'status-badge status-resolved';
+                        statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Resolved';
+                    }
+                    
+                    // Update resolved timestamp
+                    const resolvedInfo = document.querySelector('.resolved-info');
+                    if (resolvedInfo) {
+                        resolvedInfo.innerHTML = `<i class="fas fa-check-circle text-success me-1"></i> Resolved on ${data.resolved_at}`;
+                        resolvedInfo.style.display = 'block';
+                    }
+                    
+                    // Hide the mark resolved button
+                    if (resolveBtn) {
+                        resolveBtn.style.display = 'none';
+                    }
+                    
+                    // Show success message
+                    showMessage('success', data.message);
+                } else {
+                    // Show error message
+                    showMessage('error', data.error || 'Failed to mark complaint as resolved');
+                    
+                    // Restore button
+                    if (resolveBtn) {
+                        resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
+                        resolveBtn.disabled = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('error', 'An error occurred while marking the complaint as resolved');
+                
+                // Restore button
+                if (resolveBtn) {
+                    resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
+                    resolveBtn.disabled = false;
+                }
+            });
+        }
+    </script>
+
+    <!-- AJAX Accept Complaint Function -->
+    <script>
+        function acceptComplaint(complaintId, complaintTitle) {
+
+            // Show loading indicator
+            const acceptBtn = document.querySelector('.accept-complaint-btn');
+            if (acceptBtn) {
+                acceptBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Accepting...';
+                acceptBtn.disabled = true;
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            // Make AJAX request
+            fetch(`/complaints/${complaintId}/accept/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update status badge
+                    const statusBadge = document.querySelector('.status-badge');
+                    if (statusBadge) {
+                        statusBadge.className = 'status-badge status-in_progress';
+                        statusBadge.innerHTML = '<i class="fas fa-hourglass-half me-1"></i> In Progress';
+                    }
+                    
+                    // Hide accept button and show mark resolved button
+                    if (acceptBtn) {
+                        acceptBtn.style.display = 'none';
+                    }
+                    
+                    // Show mark resolved button
+                    const actionButtons = document.querySelector('.workflow-actions');
+                    if (actionButtons) {
+                        const resolveBtn = document.createElement('button');
+                        resolveBtn.type = 'button';
+                        resolveBtn.className = 'btn btn-success me-2 mark-resolved-btn';
+                        resolveBtn.onclick = () => markComplaintResolved(complaintId, complaintTitle);
+                        resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
+                        actionButtons.appendChild(resolveBtn);
+                    }
+                    
+                    // Show success message
+                    showMessage('success', data.message);
+                } else {
+                    // Show error message
+                    showMessage('error', data.error || 'Failed to accept complaint');
+                    
+                    // Restore button
+                    if (acceptBtn) {
+                        acceptBtn.innerHTML = '<i class="fas fa-thumbs-up me-1"></i> Accept Complaint';
+                        acceptBtn.disabled = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('error', 'An error occurred while accepting the complaint');
+                
+                // Restore button
+                if (acceptBtn) {
+                    acceptBtn.innerHTML = '<i class="fas fa-thumbs-up me-1"></i> Accept Complaint';
+                    acceptBtn.disabled = false;
+                }
+            });
+        }
+
+        function closeComplaint(complaintId, complaintTitle) {
+
+            // Show loading indicator
+            const closeBtn = document.querySelector('.close-complaint-btn');
+            if (closeBtn) {
+                closeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Closing...';
+                closeBtn.disabled = true;
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            // Make AJAX request
+            fetch(`/complaints/${complaintId}/close/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update status badge
+                    const statusBadge = document.querySelector('.status-badge');
+                    if (statusBadge) {
+                        statusBadge.className = 'status-badge status-closed';
+                        statusBadge.innerHTML = '<i class="fas fa-times-circle me-1"></i> Closed';
+                    }
+                    
+                    // Hide close button and show delete button
+                    if (closeBtn) {
+                        closeBtn.style.display = 'none';
+                    }
+                    
+                    // Show delete button
+                    const actionButtons = document.querySelector('.workflow-actions');
+                    if (actionButtons) {
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.type = 'button';
+                        deleteBtn.className = 'btn btn-danger delete-btn';
+                        deleteBtn.setAttribute('data-complaint-id', complaintId);
+                        deleteBtn.onclick = () => deleteComplaintAjax(complaintId, complaintTitle);
+                        deleteBtn.innerHTML = '<i class="fas fa-trash me-1"></i> Delete';
+                        actionButtons.appendChild(deleteBtn);
+                    }
+                    
+                    // Show success message
+                    showMessage('success', data.message);
+                } else {
+                    // Show error message
+                    showMessage('error', data.error || 'Failed to close complaint');
+                    
+                    // Restore button
+                    if (closeBtn) {
+                        closeBtn.innerHTML = '<i class="fas fa-times-circle me-1"></i> Close Complaint';
+                        closeBtn.disabled = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('error', 'An error occurred while closing the complaint');
+                
+                // Restore button
+                if (closeBtn) {
+                    closeBtn.innerHTML = '<i class="fas fa-times-circle me-1"></i> Close Complaint';
+                    closeBtn.disabled = false;
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot JavaScript -->
+    <script src="{% static 'js/chatbot.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

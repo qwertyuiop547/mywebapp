@@ -1,0 +1,736 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{% trans "Manage Gallery" %} - {% trans "Barangay Gallery" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Official Philippine Government Portal Design - EXACT COPY FROM GALLERY LIST */
+    :root {
+        --ph-blue: #0038a8;
+        --ph-red: #ce1126;
+        --ph-yellow: #fcd116;
+        --gov-primary: #003f7f;
+        --gov-secondary: #f8f9fa;
+        --gov-success: #28a745;
+        --gov-danger: #dc3545;
+        --gov-warning: #ffc107;
+        --gov-info: #17a2b8;
+        --gov-accent: #e83e8c;
+        --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        --border-radius: 8px;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    /* Dashboard Welcome Section - EXACT COPY */
+    .dashboard-welcome {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin: 25px 0 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    .welcome-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .welcome-title,
+    .dashboard-welcome h1,
+    .dashboard-welcome h2 {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    .welcome-message,
+    .dashboard-welcome p {
+        color: rgba(255,255,255,0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        font-size: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255,255,255,0.1) !important;
+        padding: 15px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+    
+    .user-info * {
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    /* Portal Tabs - EXACT COPY */
+    .portal-tabs {
+        display: flex;
+        gap: 15px;
+        margin: 25px 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 0 15px;
+    }
+
+    .portal-tab {
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        color: #495057;
+        padding: 15px 25px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    .portal-tab:hover {
+        background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
+        color: #212529;
+        text-decoration: none;
+    }
+
+    .portal-tab.active {
+        background: linear-gradient(145deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        border-color: #0056b3;
+        box-shadow: 0 6px 12px rgba(0,123,255,0.3), 0 2px 4px rgba(0,123,255,0.2);
+        transform: translateY(-2px);
+    }
+
+    /* Dashboard Stats Cards - EXACT COPY */
+    .stats-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08), 0 2px 5px rgba(0,0,0,0.05);
+        border: 1px solid #e9ecef;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--ph-blue), var(--ph-red));
+        opacity: 0.8;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .stats-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-label {
+        font-size: 0.95rem;
+        color: #6c757d;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .total-card .stats-icon { background: linear-gradient(45deg, #007bff, #0056b3); }
+    .approved-card .stats-icon { background: linear-gradient(45deg, #28a745, #1e7e34); }
+    .pending-card .stats-icon { background: linear-gradient(45deg, #ffc107, #e0a800); }
+    .featured-card .stats-icon { background: linear-gradient(45deg, #dc3545, #c82333); }
+
+    /* Filter Panel */
+    .filter-panel {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #e9ecef;
+    }
+
+    .filter-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Photo Management Grid */
+    .photo-management-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .photo-management-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        border: 2px solid transparent;
+    }
+
+    .photo-management-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .photo-management-card.pending {
+        border-color: #ffc107;
+    }
+
+    .photo-management-card.approved {
+        border-color: #28a745;
+    }
+
+    .photo-management-card.featured {
+        border-color: #dc3545;
+    }
+
+    .photo-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .photo-management-content {
+        padding: 1.5rem;
+    }
+
+    .photo-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .photo-description {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+    .photo-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: #868e96;
+        margin-bottom: 1rem;
+    }
+
+    .photo-meta .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .management-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    .btn-approve {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-approve:hover {
+        background: #1e7e34;
+        color: white;
+    }
+
+    .btn-reject {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-reject:hover {
+        background: #c82333;
+        color: white;
+    }
+
+    .btn-feature {
+        background: #ffc107;
+        color: #212529;
+    }
+
+    .btn-feature:hover {
+        background: #e0a800;
+        color: #212529;
+    }
+
+    .btn-view {
+        background: #17a2b8;
+        color: white;
+    }
+
+    .btn-view:hover {
+        background: #138496;
+        color: white;
+    }
+
+    .status-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .status-approved { background: #d4edda; color: #155724; }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-featured { background: #f8d7da; color: #721c24; }
+    .status-rejected { background: #f5c6cb; color: #721c24; }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .empty-state .icon {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--ph-blue);
+        box-shadow: 0 0 0 0.2rem rgba(0, 56, 168, 0.25);
+    }
+
+    .btn-filter {
+        background: linear-gradient(45deg, var(--ph-blue), #0056b3);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-filter:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0,56,168,0.3);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Welcome Section - EXACT COPY STYLE -->
+<div class="container">
+    <div class="dashboard-welcome">
+        <div class="welcome-header">
+            <div class="welcome-content">
+                <h1 class="welcome-title">
+                    <i class="fas fa-cogs"></i>
+                    {% trans "Manage Gallery" %}
+                </h1>
+                <p class="welcome-message">
+                    <i class="fas fa-shield-alt"></i>
+                    {% trans "Photo Management Portal" %} | Pamamahala ng Larawan
+                </p>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-shield fs-4"></i>
+                <div>
+                    <div class="fw-bold">{{ user.get_full_name|default:user.username }}</div>
+                    <small>
+                        {% if user.role == 'chairman' %}
+                            {% trans "Barangay Chairman" %}
+                        {% elif user.role == 'secretary' %}
+                            {% trans "Barangay Secretary" %}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+            <a href="{% url 'gallery:gallery_list' %}" class="btn btn-outline-light">
+                <i class="fas fa-images me-2"></i>
+                Gallery
+            </a>
+            <a href="{% url 'gallery:upload_photo' %}" class="btn btn-warning">
+                <i class="fas fa-plus me-2"></i>
+                Upload Photo
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Management Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stats-card total-card">
+                <div class="stats-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <div class="stats-number">{{ stats.total }}</div>
+                <div class="stats-label">Total Photos</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stats-card pending-card">
+                <div class="stats-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stats-number">{{ stats.pending }}</div>
+                <div class="stats-label">Pending Review</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stats-card approved-card">
+                <div class="stats-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stats-number">{{ stats.approved }}</div>
+                <div class="stats-label">Approved</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stats-card featured-card">
+                <div class="stats-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stats-number">{{ stats.featured }}</div>
+                <div class="stats-label">Featured</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portal Type Tabs -->
+    <div class="portal-tabs">
+        <a href="{% url 'suggestions:suggestion_list' %}" class="portal-tab">
+            <i class="fas fa-lightbulb me-2"></i>
+            {% trans "Suggestions" %}
+        </a>
+        <a href="{% url 'complaints:complaint_list' %}" class="portal-tab">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {% trans "Complaints" %}
+        </a>
+        <a href="{% url 'gallery:gallery_list' %}" class="portal-tab">
+            <i class="fas fa-heart me-2"></i>
+            {% trans "Memories" %}
+        </a>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+        <h3 class="filter-title">
+            <i class="fas fa-filter"></i>
+            Filter Photos
+        </h3>
+        <form method="GET">
+            <div class="row align-items-end">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label small text-muted">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="pending" {% if current_status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if current_status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="featured" {% if current_status == 'featured' %}selected{% endif %}>Featured</option>
+                        <option value="rejected" {% if current_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label small text-muted">Category</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if current_category.id == category.id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button type="submit" class="btn btn-filter">
+                        <i class="fas fa-search me-2"></i>
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Photo Management Grid -->
+    {% if page_obj %}
+        <div class="photo-management-grid">
+            {% for photo in page_obj %}
+                <div class="photo-management-card {{ photo.status }}" data-photo-id="{{ photo.id }}">
+                    <span class="status-badge status-{{ photo.status }}">{{ photo.get_status_display }}</span>
+                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="photo-image">
+                    <div class="photo-management-content">
+                        <h3 class="photo-title">{{ photo.title }}</h3>
+                        <p class="photo-description">{{ photo.description|truncatewords:20 }}</p>
+                        
+                        <div class="photo-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>{{ photo.uploaded_by.get_full_name|default:photo.uploaded_by.username }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>{{ photo.uploaded_at|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-tag"></i>
+                                <span>{{ photo.category.name }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-eye"></i>
+                                <span>{{ photo.views }} views</span>
+                            </div>
+                        </div>
+
+                        <div class="management-actions">
+                            {% if photo.status == 'pending' %}
+                                <button class="action-btn btn-approve" onclick="approvePhoto('{{ photo.id }}')">
+                                    <i class="fas fa-check"></i>
+                                    Approve
+                                </button>
+                                <button class="action-btn btn-reject" onclick="rejectPhoto('{{ photo.id }}')">
+                                    <i class="fas fa-times"></i>
+                                    Reject
+                                </button>
+                            {% endif %}
+                            {% if photo.status == 'approved' and user.role == 'chairman' %}
+                                <button class="action-btn btn-feature" onclick="featurePhoto('{{ photo.id }}')">
+                                    <i class="fas fa-star"></i>
+                                    Feature
+                                </button>
+                            {% endif %}
+                            <a href="{% url 'gallery:photo_detail' photo.id %}" class="action-btn btn-view">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if current_category %}&category={{ current_category.id }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if current_status %}&status={{ current_status }}{% endif %}{% if current_category %}&category={{ current_category.id }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if current_category %}&category={{ current_category.id }}{% endif %}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="icon">
+                <i class="fas fa-images"></i>
+            </div>
+            <h3>No Photos to Manage</h3>
+            <p class="text-muted">There are currently no photos matching your filter criteria.</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+// Photo Management Actions
+function approvePhoto(photoId) {
+    if (confirm('Are you sure you want to approve this photo?')) {
+        fetch(`/gallery/photo/${photoId}/approve/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error approving photo: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while approving the photo.');
+        });
+    }
+}
+
+function rejectPhoto(photoId) {
+    const reason = prompt('Please provide a reason for rejection (optional):');
+    if (reason !== null) {
+        fetch(`/gallery/photo/${photoId}/reject/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reason: reason })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error rejecting photo: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rejecting the photo.');
+        });
+    }
+}
+
+function featurePhoto(photoId) {
+    if (confirm('Are you sure you want to feature this photo?')) {
+        fetch(`/gallery/photo/${photoId}/feature/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error featuring photo: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while featuring the photo.');
+        });
+    }
+}
+</script>
+{% endblock %}

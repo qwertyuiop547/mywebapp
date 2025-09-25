@@ -1,0 +1,47 @@
+[build]
+  # Build command for Django application
+  command = "echo 'Django application - no build step required'"
+  
+  # Directory where static files are served from
+  publish = "staticfiles"
+
+[build.environment]
+  # Python version
+  PYTHON_VERSION = "3.11"
+  
+  # Django settings
+  DJANGO_SETTINGS_MODULE = "barangay_portal.settings"
+  
+  # Disable Django's collectstatic during build since we're handling it differently
+  DISABLE_COLLECTSTATIC = "1"
+
+[[redirects]]
+  # Redirect all requests to Django application
+  from = "/*"
+  to = "/.netlify/functions/django"
+  status = 200
+
+# For Django applications, we need serverless functions
+[functions]
+  directory = "netlify/functions"
+
+# Headers for static files
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';"
