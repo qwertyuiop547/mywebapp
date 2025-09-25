@@ -10,7 +10,7 @@ from PIL import Image
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
-{{ ... }}
+
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=False)  # Make email optional
     first_name = forms.CharField(max_length=150, required=False)  # Optional, increased max_length
