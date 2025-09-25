@@ -22,21 +22,50 @@ class AccountsConfig(AppConfig):
             
             User = get_user_model()
             
-            # Create default admin if not exists
-            if not User.objects.filter(username='chairman').exists():
-                User.objects.create_user(
-                    username='chairman',
-                    email='chairman@brgyburgosbasey.gov.ph',
-                    password='burgos2025',
-                    first_name='Barangay',
-                    last_name='Chairman',
-                    role='chairman',
-                    is_approved=True,
-                    is_staff=True,
-                    is_superuser=True
-                )
-                print("✅ Default admin user 'chairman' created successfully!")
-            else:
-                print("ℹ️ Admin user 'chairman' already exists.")
+            # Default users to create
+            default_users = [
+                {
+                    'username': 'chairman',
+                    'email': 'chairman@brgyburgosbasey.gov.ph',
+                    'password': 'burgos2025',
+                    'first_name': 'Barangay',
+                    'last_name': 'Chairman',
+                    'role': 'chairman',
+                    'is_approved': True,
+                    'is_staff': True,
+                    'is_superuser': True
+                },
+                {
+                    'username': 'secretary',
+                    'email': 'secretary@brgyburgosbasey.gov.ph',
+                    'password': 'secretary2025',
+                    'first_name': 'Barangay',
+                    'last_name': 'Secretary',
+                    'role': 'secretary',
+                    'is_approved': True,
+                    'is_staff': True,
+                    'is_superuser': False
+                },
+                {
+                    'username': 'resident',
+                    'email': 'resident@brgyburgosbasey.gov.ph',
+                    'password': 'resident2025',
+                    'first_name': 'Test',
+                    'last_name': 'Resident',
+                    'role': 'resident',
+                    'is_approved': True,
+                    'is_staff': False,
+                    'is_superuser': False
+                }
+            ]
+            
+            # Create default users
+            for user_data in default_users:
+                if not User.objects.filter(username=user_data['username']).exists():
+                    User.objects.create_user(**user_data)
+                    print(f"✅ Default {user_data['role']} user '{user_data['username']}' created successfully!")
+                else:
+                    print(f"ℹ️ User '{user_data['username']}' already exists.")
+                    
         except Exception as e:
-            print(f"❌ Error creating admin user: {e}")
+            print(f"❌ Error creating default users: {e}")
