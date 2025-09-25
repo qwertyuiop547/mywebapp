@@ -2,16 +2,14 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
-User = get_user_model()
-
 class Command(BaseCommand):
     help = 'Create admin user with chairman role'
 
     def handle(self, *args, **options):
-        # Admin credentials
-        username = 'admin'
-        email = 'admin@barangaysanmiguel.gov.ph'
-        password = 'admin123'
+        # Admin credentials for Barangay Burgos
+        username = 'chairman'
+        email = 'chairman@brgyburgosbasey.gov.ph'
+        password = 'burgos2025'
         first_name = 'Barangay'
         last_name = 'Chairman'
         
