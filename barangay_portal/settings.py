@@ -32,9 +32,15 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,mywebapp-pr
 # CSRF Settings for Railway deployment
 CSRF_TRUSTED_ORIGINS = [
     'https://mywebapp-production-cd0d.up.railway.app',
+    'https://*.railway.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000'
 ]
+
+# Additional CSRF settings for production
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = False
 
 # Application definition
 
