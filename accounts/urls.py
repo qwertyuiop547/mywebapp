@@ -8,6 +8,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.profile_view, name='profile'),
+    path('change-password/', views.change_password_view, name='change_password'),
     path('wait-approval/', views.wait_approval_view, name='wait_approval'),
     path('user-approval/', views.user_approval_list, name='user_approval'),
     path('approve-user/<int:user_id>/', views.approve_user, name='approve_user'),

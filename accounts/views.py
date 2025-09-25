@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
 from .models import User, UserVerificationDocument, BarangayArea, ResidencyValidation, UserLoginHistory
-from .forms import UserRegistrationForm, UserProfileForm, UserLoginForm
+from .forms import UserRegistrationForm, UserProfileForm, UserLoginForm, CustomPasswordChangeForm
 import logging
 
 def register_view(request):
@@ -696,3 +696,31 @@ def terminate_user_sessions(request, user_id):
     }
     
     return render(request, 'accounts/terminate_sessions_confirm.html', context)
+
+
+@login_required
+def change_password_view(request):
+    """Allow users to change their password"""
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important! Keep user logged in
+            
+            messages.success(request, 'Your password has been changed successfully!')
+            
+            # Redirect based on user role
+            if request.user.role == 'chairman':
+                return redirect('dashboard:chairman')
+            elif request.user.role == 'secretary':
+                return redirect('dashboard:secretary')
+            else:  # resident
+                return redirect('dashboard:resident')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    
+    context = {
+        'form': form,
+        'page_title': 'Change Password'
+    }
+    return render(request, 'accounts/change_password.html', context)

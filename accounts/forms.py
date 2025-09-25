@@ -1,13 +1,16 @@
 from django import forms
-import os
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate
-from .models import User, UserVerificationDocument
+from django.core.exceptions import ValidationError
+from .models import User
+import re
+from PIL import Image
 
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
+{{ ... }}
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=False)  # Make email optional
     first_name = forms.CharField(max_length=150, required=False)  # Optional, increased max_length
@@ -207,3 +210,35 @@ class UserLoginForm(forms.Form):
                 raise forms.ValidationError("Your account is pending approval by the Barangay Chairman")
         
         return self.cleaned_data
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    """Custom password change form with Bootstrap styling"""
+    
+    old_password = forms.CharField(
+        label="Current Password",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your current password',
+            'autocomplete': 'current-password'
+        })
+    )
+    
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter new password',
+            'autocomplete': 'new-password'
+        }),
+        help_text="Password must be at least 8 characters long and contain letters and numbers."
+    )
+    
+    new_password2 = forms.CharField(
+        label="Confirm New Password",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirm your new password',
+            'autocomplete': 'new-password'
+        })
+    )
