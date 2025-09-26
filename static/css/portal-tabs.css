@@ -1,46 +1,45 @@
-/* Unified Portal Tabs Styling - Simple & Compact */
+/* Unified Portal Tabs Styling - Ultra Compact */
 .portal-tabs {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
+    gap: 2px;
+    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+    background: #e9ecef;
+    padding: 2px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    overflow-x: auto;
 }
 
 .portal-tab {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     background: transparent;
-    border: 1px solid transparent;
-    border-radius: 6px;
+    border: none;
+    border-radius: 4px;
     color: #6c757d;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    position: relative;
+    gap: 0.3rem;
     flex: 1;
+    white-space: nowrap;
 }
 
 .portal-tab:hover {
-    background: white;
+    background: #f8f9fa;
     color: #495057;
     text-decoration: none;
-    border-color: #dee2e6;
 }
 
 .portal-tab.active {
     background: white;
     color: #007bff;
-    border-color: #007bff;
     font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 /* Loading animation */
@@ -83,18 +82,34 @@ main.loading {
     transform: scale(0.98);
 }
 
+/* Force compact design - override any large card styling */
+.portal-navigation,
+.portal-cards,
+.navigation-cards {
+    display: none !important;
+}
+
+/* Override any large card containers */
+.large-card,
+.navigation-card,
+.portal-section-card {
+    max-height: 60px !important;
+    padding: 0.5rem !important;
+    margin: 0.25rem !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .portal-tabs {
-        gap: 0.3rem;
-        padding: 0.4rem;
-        margin-bottom: 1rem;
+        gap: 1px;
+        padding: 2px;
+        margin-bottom: 0.5rem;
     }
     
     .portal-tab {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-        min-height: 36px;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        min-height: 32px;
         flex: 1;
     }
 }
