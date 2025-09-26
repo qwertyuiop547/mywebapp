@@ -4,6 +4,29 @@
 
 {% block extra_css %}
 <style>
+/* CRITICAL MOBILE OVERRIDES - MUST BE FIRST */
+@media screen and (max-width: 768px) {
+    * {
+        box-sizing: border-box !important;
+    }
+    
+    .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        max-width: 100% !important;
+    }
+    
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    [class*="col-"] {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}
+
 /* Official Philippine Government Portal Design - EXACT COPY FROM CHAIRMAN DASHBOARD */
 :root {
     --ph-blue: #0038a8;
@@ -478,75 +501,121 @@ div[class*="portal"]:not(.portal-tabs):not(.portal-tab):not(.portal-card) {
     display: none !important;
 }
 
-/* Mobile responsive fixes */
-@media (max-width: 768px) {
-    /* Fix statistics cards alignment */
-    .row.mb-4 {
-        margin: 0 -5px !important;
+/* FORCE MOBILE FIXES - HIGHEST SPECIFICITY */
+@media screen and (max-width: 768px) {
+    /* FORCE STATISTICS CARDS ALIGNMENT */
+    .container .row.mb-4 {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin: 0 -8px !important;
+        justify-content: center !important;
     }
     
-    .row.mb-4 .col-md-3,
-    .row.mb-4 .col-sm-6 {
-        padding: 0 5px !important;
-        margin-bottom: 10px !important;
+    .container .row.mb-4 > div {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        padding: 0 8px !important;
+        margin-bottom: 15px !important;
     }
     
-    .stats-card {
-        padding: 15px 10px !important;
+    .container .row.mb-4 .stats-card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
         text-align: center !important;
-        min-height: 120px !important;
+        padding: 15px 8px !important;
+        min-height: 110px !important;
+        background: white !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        border: 1px solid #e9ecef !important;
     }
     
-    .stats-number {
-        font-size: 1.8rem !important;
-        font-weight: 700 !important;
-    }
-    
-    .stats-label {
-        font-size: 0.8rem !important;
-        margin-top: 5px !important;
-    }
-    
-    .stats-icon {
+    .container .row.mb-4 .stats-icon {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         margin-bottom: 8px !important;
-        font-size: 1.2rem !important;
+        font-size: 1.1rem !important;
     }
     
-    /* Fix filter panel and buttons */
+    .container .row.mb-4 .stats-number {
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        color: #2c3e50 !important;
+        margin: 5px 0 !important;
+        line-height: 1 !important;
+    }
+    
+    .container .row.mb-4 .stats-label {
+        font-size: 0.75rem !important;
+        color: #666 !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        margin: 0 !important;
+        text-align: center !important;
+    }
+    
+    /* FORCE FILTER PANEL AND BUTTONS TO BE VISIBLE */
     .filter-panel {
-        padding: 15px !important;
-        margin-bottom: 20px !important;
+        background: white !important;
+        border-radius: 8px !important;
+        padding: 20px 15px !important;
+        margin: 20px 10px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        border: 1px solid #e9ecef !important;
     }
     
     .filter-panel .row {
         margin: 0 !important;
     }
     
-    .filter-panel .col-md-4,
-    .filter-panel .col-md-2 {
+    .filter-panel .row > div {
         padding: 0 5px !important;
         margin-bottom: 15px !important;
+        width: 100% !important;
+        flex: none !important;
     }
     
-    /* Make buttons visible and properly sized */
+    .filter-panel .col-md-4:last-child {
+        width: 100% !important;
+    }
+    
     .filter-panel .d-flex {
+        display: flex !important;
         flex-direction: column !important;
-        gap: 8px !important;
+        gap: 10px !important;
+        width: 100% !important;
     }
     
     .filter-panel .btn {
+        display: block !important;
         width: 100% !important;
-        padding: 10px 15px !important;
+        padding: 12px 20px !important;
         font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        border-radius: 6px !important;
+        text-align: center !important;
         white-space: nowrap !important;
+        margin: 0 !important;
     }
     
     .filter-panel .btn-primary {
-        order: 1;
+        background: #007bff !important;
+        border: 1px solid #007bff !important;
+        color: white !important;
+        order: 1 !important;
     }
     
     .filter-panel .btn-outline-primary {
-        order: 2;
+        background: white !important;
+        border: 1px solid #007bff !important;
+        color: #007bff !important;
+        order: 2 !important;
     }
 }
 
