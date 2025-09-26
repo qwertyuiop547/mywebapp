@@ -478,6 +478,104 @@ div[class*="portal"]:not(.portal-tabs):not(.portal-tab):not(.portal-card) {
     display: none !important;
 }
 
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+    /* Fix statistics cards alignment */
+    .row.mb-4 {
+        margin: 0 -5px !important;
+    }
+    
+    .row.mb-4 .col-md-3,
+    .row.mb-4 .col-sm-6 {
+        padding: 0 5px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .stats-card {
+        padding: 15px 10px !important;
+        text-align: center !important;
+        min-height: 120px !important;
+    }
+    
+    .stats-number {
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
+    }
+    
+    .stats-label {
+        font-size: 0.8rem !important;
+        margin-top: 5px !important;
+    }
+    
+    .stats-icon {
+        margin-bottom: 8px !important;
+        font-size: 1.2rem !important;
+    }
+    
+    /* Fix filter panel and buttons */
+    .filter-panel {
+        padding: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .filter-panel .row {
+        margin: 0 !important;
+    }
+    
+    .filter-panel .col-md-4,
+    .filter-panel .col-md-2 {
+        padding: 0 5px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Make buttons visible and properly sized */
+    .filter-panel .d-flex {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    .filter-panel .btn {
+        width: 100% !important;
+        padding: 10px 15px !important;
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+    }
+    
+    .filter-panel .btn-primary {
+        order: 1;
+    }
+    
+    .filter-panel .btn-outline-primary {
+        order: 2;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Extra small screens */
+    .stats-card {
+        padding: 12px 8px !important;
+        min-height: 100px !important;
+    }
+    
+    .stats-number {
+        font-size: 1.5rem !important;
+    }
+    
+    .stats-label {
+        font-size: 0.75rem !important;
+    }
+    
+    .filter-panel {
+        padding: 10px !important;
+    }
+    
+    .filter-panel .col-md-4,
+    .filter-panel .col-md-2 {
+        width: 100% !important;
+        flex: none !important;
+    }
+}
+
 .btn-primary {
     background: var(--primary-blue);
     border: none;
