@@ -454,6 +454,30 @@ body {
     font-weight: 500;
 }
 
+/* Force remove any large cards */
+.portal-section,
+.navigation-section,
+.portal-navigation-cards {
+    display: none !important;
+}
+
+/* Override any large styling */
+.card,
+.portal-card {
+    max-height: 300px !important;
+}
+
+/* Force compact portal elements */
+div[class*="portal"],
+div[class*="navigation"] {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+div[class*="portal"]:not(.portal-tabs):not(.portal-tab):not(.portal-card) {
+    display: none !important;
+}
+
 .btn-primary {
     background: var(--primary-blue);
     border: none;
@@ -669,6 +693,7 @@ body {
             <i class="fas fa-heart me-2"></i>
             {% trans "Memories" %}
         </a>
+    </div>
 
     <!-- Simple Filter Panel -->
     <div class="filter-panel">
