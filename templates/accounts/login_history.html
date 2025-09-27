@@ -209,13 +209,66 @@
         letter-spacing: 1px !important;
     }
     
+    /* Enhanced Page Header - Beautiful Glass Morphism */
     .page-header {
-        background: white;
-        border-radius: 10px;
-        padding: 25px;
-        margin: 25px 0;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border-left: 5px solid #0038a8;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-radius: 20px !important;
+        padding: 35px !important;
+        margin: 30px 0 !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-left: 6px solid var(--ph-blue) !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+        color: white !important;
+    }
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(0, 56, 168, 0.1) 0%, 
+            transparent 50%,
+            rgba(206, 17, 38, 0.05) 100%
+        );
+        pointer-events: none;
+        border-radius: 20px;
+    }
+    
+    .page-header:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    }
+    
+    .page-header * {
+        color: white !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+    
+    .page-header h1,
+    .page-header h2,
+    .page-header h3 {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+    }
+    
+    .page-header i {
+        color: var(--ph-yellow) !important;
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
     }
     
     .stats-grid {
