@@ -21,9 +21,19 @@
         --border-radius: 16px;
     }
 
+    /* Beautiful aerial background */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
+
     /* Page Layout */
     .notifications-page {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        background: transparent;
         min-height: 100vh;
         padding: 2rem 0;
         position: relative;
