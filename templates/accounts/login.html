@@ -3,6 +3,10 @@
 
 {% block title %}Sign In - Barangay Portal{% endblock %}
 
+{% block footer %}
+<!-- Footer completely hidden on login page -->
+{% endblock %}
+
 {% block extra_css %}
 <style>
     /* Remove any default body styling */
@@ -18,14 +22,9 @@
         overflow-x: hidden !important;
     }
     
-    /* Hide any potential footer or navigation elements */
-    .navbar, .footer, nav, footer, 
-    .main-footer, .site-footer, 
-    .bottom-bar, .footer-bar,
-    [class*="footer"], [class*="nav"] {
+    /* Hide footer only on this specific login template */
+    .footer {
         display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
     }
     
     /* Ensure full coverage */
