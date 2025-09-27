@@ -28,7 +28,12 @@
     }
     
     body {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         color: #333;
@@ -36,11 +41,13 @@
     
     /* Dashboard Welcome Section */
     .dashboard-welcome {
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
         border-radius: var(--border-radius);
         padding: 25px;
         margin: 25px 0;
-        box-shadow: var(--shadow-light);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-left: 5px solid var(--ph-blue);
     }
     
@@ -107,12 +114,14 @@
     }
     
     .section-header {
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
         padding: 20px 25px;
         border-radius: var(--border-radius) var(--border-radius) 0 0;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-left: 5px solid var(--ph-blue);
         margin-bottom: 0;
-        box-shadow: var(--shadow-light);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     }
     
     .section-title {
@@ -129,16 +138,19 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 0;
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
         padding: 0;
         border-radius: 0 0 var(--border-radius) var(--border-radius);
-        box-shadow: var(--shadow-light);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-top: none;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         overflow: hidden;
         align-items: stretch;
     }
     
     .stat-card {
-        background: white !important;
+        background: transparent !important;
         padding: 30px 20px !important;
         border: none !important;
         border-radius: 0 !important;
