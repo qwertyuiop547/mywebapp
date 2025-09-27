@@ -6,6 +6,16 @@
 
 {% block extra_css %}
 <style>
+    /* Beautiful aerial background for home page */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
+
     /* Government Portal Theme */
     :root {
         /* Philippine flag theme (for consistency across portal) */
@@ -193,7 +203,7 @@
     /* Services Overview Section */
     .services-section {
         padding: 80px 0;
-        background: var(--gov-light);
+        background: transparent;
     }
     
     .section-header {
@@ -204,9 +214,10 @@
     .section-title {
         font-size: 2.5rem;
         font-weight: 700;
-        color: var(--gov-primary);
+        color: white;
         margin-bottom: 15px;
         position: relative;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     .section-title::after {
@@ -223,9 +234,10 @@
     
     .section-subtitle {
         font-size: 1.1rem;
-        color: #6c757d;
+        color: rgba(255, 255, 255, 0.9);
         max-width: 600px;
         margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
     
     .service-grid {
@@ -236,12 +248,14 @@
     }
     
     .service-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
         padding: 40px 30px;
         border-radius: 15px;
         text-align: center;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-top: 4px solid var(--gov-primary);
         position: relative;
         overflow: hidden;
