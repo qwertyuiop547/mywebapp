@@ -51,6 +51,88 @@
             background-color: #0b5ed7;
         }
         
+        /* Enhanced User Dropdown Navigation - Beautiful Glass Morphism */
+        #userDropdown {
+            background: rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 25px !important;
+            padding: 8px 20px !important;
+            color: white !important;
+            font-weight: 600 !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        }
+        
+        #userDropdown:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+            color: white !important;
+        }
+        
+        #userDropdown i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 8px !important;
+            font-size: 1.2rem !important;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)) !important;
+        }
+        
+        #userDropdown .badge {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            color: white !important;
+            font-size: 0.75rem !important;
+            padding: 4px 8px !important;
+            border-radius: 12px !important;
+            box-shadow: 0 2px 8px rgba(0,56,168,0.3) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+        }
+        
+        #userDropdown .badge.bg-warning {
+            background: linear-gradient(135deg, var(--ph-yellow, #fcd116), #f8c146) !important;
+            color: var(--ph-blue, #0038a8) !important;
+            font-weight: 700 !important;
+        }
+        
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
+            padding: 10px 0 !important;
+            margin-top: 10px !important;
+        }
+        
+        .dropdown-item {
+            padding: 10px 20px !important;
+            border-radius: 10px !important;
+            margin: 2px 8px !important;
+            transition: all 0.2s ease !important;
+            color: #333 !important;
+            font-weight: 500 !important;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            color: white !important;
+            transform: translateX(5px) !important;
+        }
+        
+        .dropdown-item i {
+            color: var(--ph-blue, #0038a8) !important;
+            margin-right: 10px !important;
+            width: 20px !important;
+            text-align: center !important;
+        }
+        
+        .dropdown-item:hover i {
+            color: var(--ph-yellow, #fcd116) !important;
+        }
+        
         #languageDropdown .bi-translate {
             font-size: 1.1em;
         }

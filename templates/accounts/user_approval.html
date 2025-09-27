@@ -33,16 +33,50 @@
         color: #333;
     }
     
-    /* Dashboard Welcome Section - EXACT COPY FROM CHAIRMAN DASHBOARD */
+    /* Enhanced Dashboard Welcome Section - Beautiful Glass Morphism */
     .dashboard-welcome {
-        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
         color: white !important;
-        border-radius: 15px !important;
-        padding: 30px !important;
-        margin: 25px 0 !important;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        border-radius: 20px !important;
+        padding: 35px !important;
+        margin: 30px 0 !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-left: 6px solid var(--ph-blue) !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
         position: relative !important;
         z-index: 10 !important;
+    }
+    
+    .dashboard-welcome::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(0, 56, 168, 0.1) 0%, 
+            transparent 50%,
+            rgba(206, 17, 38, 0.05) 100%
+        );
+        pointer-events: none;
+        border-radius: 20px;
+    }
+    
+    .dashboard-welcome:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
     }
     
     .welcome-header {
