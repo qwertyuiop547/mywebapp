@@ -414,14 +414,14 @@ const monthlyTrendsChart = new Chart(ctx1, {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
         datasets: [{
             label: 'Complaints',
-            data: {{ monthly_complaints|default:"[12, 15, 8, 20, 14, 18, 22, 16, 13]"|safe }},
+            data: [12, 15, 8, 20, 14, 18, 22, 16, 13],
             borderColor: '#e74c3c',
             backgroundColor: 'rgba(231, 76, 60, 0.1)',
             borderWidth: 3,
             fill: true
         }, {
             label: 'Resolutions',
-            data: {{ monthly_resolutions|default:"[10, 13, 9, 18, 12, 16, 19, 14, 12]"|safe }},
+            data: [10, 13, 9, 18, 12, 16, 19, 14, 12],
             borderColor: '#27ae60',
             backgroundColor: 'rgba(39, 174, 96, 0.1)',
             borderWidth: 3,
@@ -450,12 +450,7 @@ const complaintStatusChart = new Chart(ctx2, {
     data: {
         labels: ['Pending', 'In Progress', 'Resolved', 'Closed'],
         datasets: [{
-            data: [
-                {{ complaint_stats.pending|default:"8" }},
-                {{ complaint_stats.in_progress|default:"15" }},
-                {{ complaint_stats.resolved|default:"20" }},
-                {{ complaint_stats.closed|default:"4" }}
-            ],
+            data: [8, 15, 20, 4],
             backgroundColor: [
                 '#f39c12',
                 '#3498db',
