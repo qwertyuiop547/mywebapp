@@ -3,10 +3,34 @@
 
 {% block title %}Create Account - Barangay Portal{% endblock %}
 
+{% block footer %}
+<!-- Footer completely hidden on register page -->
+{% endblock %}
+
 {% block extra_css %}
 <style>
+    /* Beautiful aerial background */
     body {
-        background-color: #f8f9fa;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Hide footer on register page */
+    .footer {
+        display: none !important;
+    }
+    
+    /* Ensure full coverage */
+    html, body {
+        height: 100% !important;
+        width: 100% !important;
     }
     
     .register-container {
@@ -15,17 +39,33 @@
         align-items: center;
         justify-content: center;
         padding: 30px 20px;
-        margin-top: -80px;
+        margin: 0 !important;
+        position: relative;
+        width: 100vw;
+    }
+    
+    .register-container::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1;
     }
     
     .register-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
         border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         padding: 50px 40px;
         width: 100%;
         max-width: 700px;
-        border: 1px solid #e9ecef;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 10;
     }
     
     @media (max-width: 768px) {
