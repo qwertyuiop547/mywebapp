@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Analytics Overview - Barangay Burgos{% endblock %}
 
@@ -6,7 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     body {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
