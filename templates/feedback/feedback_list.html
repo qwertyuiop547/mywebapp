@@ -402,13 +402,118 @@
         margin-top: 3px !important;
     }
     
+    /* Enhanced Control Panel - Beautiful Glass Morphism */
     .control-panel {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        border: 1px solid #e9ecef;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-radius: 20px !important;
+        padding: 30px !important;
+        margin-bottom: 30px !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-left: 6px solid var(--ph-blue) !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .control-panel::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(0, 56, 168, 0.1) 0%, 
+            transparent 50%,
+            rgba(206, 17, 38, 0.05) 100%
+        );
+        pointer-events: none;
+        border-radius: 20px;
+    }
+    
+    .control-panel:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    }
+    
+    .control-panel * {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+    
+    .control-panel .form-label {
+        color: white !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .control-panel .form-control {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 10px !important;
+        padding: 12px 15px !important;
+        color: #333 !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .control-panel .form-control:focus {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: var(--ph-blue) !important;
+        box-shadow: 0 0 0 3px rgba(0,56,168,0.1) !important;
+        outline: none !important;
+    }
+    
+    .control-panel .btn-search {
+        background: linear-gradient(135deg, var(--ph-blue), #2989d8) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(0,56,168,0.3) !important;
+    }
+    
+    .control-panel .btn-search:hover {
+        background: linear-gradient(135deg, #0b4db8, #3a99e8) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 20px rgba(0,56,168,0.4) !important;
+    }
+    
+    .control-panel .btn-search i {
+        color: var(--ph-yellow) !important;
+        filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)) !important;
+    }
+    
+    .control-panel .btn-reset {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 12px !important;
+        padding: 12px 15px !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .control-panel .btn-reset:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: translateY(-1px) !important;
+        text-decoration: none !important;
     }
     
     .search-form {
