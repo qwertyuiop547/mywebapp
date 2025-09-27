@@ -78,58 +78,163 @@
         }
         
         .navbar-nav #userDropdown.nav-link.dropdown-toggle i,
-        .navbar-nav #userDropdown i {
+        .navbar-nav #userDropdown i,
+        .navbar .nav-item .nav-link#userDropdown i {
             color: var(--ph-yellow, #fcd116) !important;
-            margin-right: 8px !important;
-            font-size: 1.2rem !important;
-            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)) !important;
+            margin-right: 10px !important;
+            font-size: 1.3rem !important;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
+            position: relative !important;
+            z-index: 2 !important;
         }
         
         .navbar-nav #userDropdown.nav-link.dropdown-toggle .badge,
-        .navbar-nav #userDropdown .badge {
+        .navbar-nav #userDropdown .badge,
+        .navbar .nav-item .nav-link#userDropdown .badge {
             background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
             color: white !important;
-            font-size: 0.75rem !important;
-            padding: 4px 8px !important;
-            border-radius: 12px !important;
-            box-shadow: 0 2px 8px rgba(0,56,168,0.3) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
+            font-size: 0.8rem !important;
+            padding: 6px 12px !important;
+            border-radius: 15px !important;
+            box-shadow: 
+                0 4px 12px rgba(0,56,168,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            margin-left: 8px !important;
+            position: relative !important;
+            z-index: 2 !important;
+            transition: all 0.3s ease !important;
         }
         
         .navbar-nav #userDropdown.nav-link.dropdown-toggle .badge.bg-warning,
-        .navbar-nav #userDropdown .badge.bg-warning {
+        .navbar-nav #userDropdown .badge.bg-warning,
+        .navbar .nav-item .nav-link#userDropdown .badge.bg-warning {
             background: linear-gradient(135deg, var(--ph-yellow, #fcd116), #f8c146) !important;
             color: var(--ph-blue, #0038a8) !important;
-            font-weight: 700 !important;
+            font-weight: 800 !important;
+            box-shadow: 
+                0 4px 15px rgba(252,209,22,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.4) !important;
+            text-shadow: 1px 1px 2px rgba(0,56,168,0.3) !important;
         }
         
-        /* Force visibility against all backgrounds */
+        .navbar .nav-item .nav-link#userDropdown:hover .badge,
+        .navbar .nav-item .nav-link#userDropdown.show .badge {
+            transform: scale(1.05) !important;
+            box-shadow: 
+                0 6px 20px rgba(0,56,168,0.6),
+                inset 0 2px 0 rgba(255,255,255,0.3) !important;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown:hover .badge.bg-warning,
+        .navbar .nav-item .nav-link#userDropdown.show .badge.bg-warning {
+            box-shadow: 
+                0 6px 25px rgba(252,209,22,0.7),
+                inset 0 2px 0 rgba(255,255,255,0.5) !important;
+        }
+        
+        /* Glass Morphism UserDropdown - Perfectly Matched to System */
         .navbar .nav-item .nav-link#userDropdown {
-            background: rgba(255, 255, 255, 0.2) !important;
-            backdrop-filter: blur(15px) !important;
-            -webkit-backdrop-filter: blur(15px) !important;
-            border: 2px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 30px !important;
-            padding: 10px 25px !important;
-            color: white !important;
-            font-weight: 700 !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.15)
+            ) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-left: 4px solid var(--ph-blue, #0038a8) !important;
+            border-radius: 25px !important;
+            padding: 12px 20px !important;
+            color: black !important;
+            font-weight: 600 !important;
+            text-shadow: none !important;
             box-shadow: 
                 0 8px 25px rgba(0,0,0,0.2),
                 inset 0 1px 0 rgba(255,255,255,0.3) !important;
+            transition: all 0.3s ease !important;
             position: relative !important;
             z-index: 1000 !important;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(0, 56, 168, 0.1) 0%, 
+                transparent 50%,
+                rgba(206, 17, 38, 0.05) 100%
+            );
+            pointer-events: none;
+            border-radius: 25px;
         }
         
         .navbar .nav-item .nav-link#userDropdown:hover,
         .navbar .nav-item .nav-link#userDropdown:focus,
         .navbar .nav-item .nav-link#userDropdown.show {
-            background: rgba(255, 255, 255, 0.35) !important;
-            transform: translateY(-2px) scale(1.02) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35), 
+                rgba(255, 255, 255, 0.25)
+            ) !important;
+            transform: translateY(-2px) !important;
             box-shadow: 
                 0 12px 35px rgba(0,0,0,0.3),
                 inset 0 2px 0 rgba(255,255,255,0.4) !important;
-            color: white !important;
+            color: black !important;
+        }
+        
+        /* Premium UserDropdown Text */
+        .navbar .nav-item .nav-link#userDropdown {
+            font-family: 'Segoe UI', system-ui, sans-serif !important;
+            font-size: 0.95rem !important;
+            letter-spacing: 0.3px !important;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--ph-blue) 0%, 
+                var(--ph-yellow) 50%, 
+                var(--ph-red) 100%);
+            border-radius: 27px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown:hover::after {
+            opacity: 0.3;
+        }
+        
+        /* Enhanced Dropdown Arrow */
+        .navbar .nav-item .nav-link#userDropdown::after {
+            display: none !important;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown.dropdown-toggle::after {
+            content: '▼' !important;
+            border: none !important;
+            font-size: 0.7rem !important;
+            color: var(--ph-yellow) !important;
+            margin-left: 8px !important;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)) !important;
+            transition: transform 0.3s ease !important;
+        }
+        
+        .navbar .nav-item .nav-link#userDropdown.dropdown-toggle.show::after {
+            transform: rotate(180deg) !important;
+            color: var(--ph-yellow) !important;
         }
         
         .dropdown-menu {
