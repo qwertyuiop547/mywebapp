@@ -3,12 +3,25 @@
 
 {% block title %}Waiting for Approval - Barangay Portal{% endblock %}
 
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <div class="card shadow-sm border-0" style="border-radius: 15px;">
-                <div class="card-body text-center p-5">
+{{ ... }}
                     <!-- Philippine Government Seal -->
                     <div class="mb-4">
                         <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle" 
