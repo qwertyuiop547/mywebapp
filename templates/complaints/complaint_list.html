@@ -442,33 +442,62 @@
     border: 1px solid #e5e7eb;
 }
 
+/* Enhanced Portal Tabs - Beautiful Glass Morphism */
 .portal-tabs {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding: 0.25rem;
-    background: var(--bg-light);
-    border-radius: var(--border-radius);
+    gap: 8px;
+    margin-bottom: 30px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 25px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
 }
 
 .portal-tab {
     flex: 1;
     text-align: center;
-    padding: 0.75rem 1rem;
-    background: transparent;
-    border: none;
-    border-radius: calc(var(--border-radius) - 2px);
-    font-weight: 500;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: all 0.2s ease;
+    padding: 12px 20px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-decoration: none !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
 }
 
-.portal-tab:hover,
+.portal-tab:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+    text-decoration: none !important;
+}
+
 .portal-tab.active {
-    background: white;
-    color: var(--primary-blue);
-    box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(0,56,168,0.3) !important;
+    text-decoration: none !important;
+}
+
+.portal-tab.active:hover {
+    background: linear-gradient(135deg, #0b4db8, #3a99e8) !important;
+    transform: translateY(-1px) !important;
+}
+
+.portal-tab i {
+    color: var(--ph-yellow, #fcd116) !important;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)) !important;
+    margin-right: 8px !important;
 }
 
 .complaint-meta {
