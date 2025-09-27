@@ -5,12 +5,33 @@
 
 {% block extra_css %}
 <style>
+    /* Remove any default body styling */
     body {
-        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center;
-        background-size: cover;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Hide any potential footer or navigation elements */
+    .navbar, .footer, nav, footer, 
+    .main-footer, .site-footer, 
+    .bottom-bar, .footer-bar,
+    [class*="footer"], [class*="nav"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    /* Ensure full coverage */
+    html, body {
+        height: 100% !important;
+        width: 100% !important;
     }
     
     .login-container {
@@ -19,19 +40,20 @@
         align-items: center;
         justify-content: center;
         padding: 20px;
-        margin-top: -60px;
+        margin: 0 !important;
         position: relative;
+        width: 100vw;
     }
     
     .login-container::before {
         content: '';
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 50, 100, 0.3);
-        backdrop-filter: blur(1px);
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1;
     }
     
     .login-card {
@@ -44,7 +66,7 @@
         max-width: 400px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         position: relative;
-        z-index: 2;
+        z-index: 10;
     }
     
     .login-header {
