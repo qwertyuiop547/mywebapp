@@ -708,12 +708,12 @@
         <form method="GET">
             <div class="row align-items-end">
                 <div class="col-md-4 mb-3">
-                    <label class="form-label small text-muted">Hanapin</label>
-                    <input type="text" name="search" class="form-control" placeholder="Hanapin ang reklamo..." value="{{ request.GET.search }}">
+                    <label for="search" class="form-label small text-muted">Hanapin</label>
+                    <input id="search" type="text" name="search" class="form-control" placeholder="Hanapin ang reklamo..." value="{{ request.GET.search }}">
                 </div>
                 <div class="col-md-2 mb-3">
-                    <label class="form-label small text-muted">Kategorya</label>
-                    <select name="category" class="form-select">
+                    <label for="category" class="form-label small text-muted">Kategorya</label>
+                    <select id="category" name="category" class="form-select">
                         <option value="">Lahat</option>
                         {% for category in categories %}
                             <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
@@ -721,8 +721,8 @@
                     </select>
                 </div>
                 <div class="col-md-2 mb-3">
-                    <label class="form-label small text-muted">Status</label>
-                    <select name="status" class="form-select">
+                    <label for="status" class="form-label small text-muted">Status</label>
+                    <select id="status" name="status" class="form-select">
                         <option value="">Lahat</option>
                         <option value="pending" {% if request.GET.status == "pending" %}selected{% endif %}>Naghihintay</option>
                         <option value="in_progress" {% if request.GET.status == "in_progress" %}selected{% endif %}>Ginagawa</option>
