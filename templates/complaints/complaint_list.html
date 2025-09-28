@@ -227,8 +227,8 @@
         overflow: visible !important;
     }
     
-    /* Enhanced Uniform Stat Cards */
-    .stat-card {
+    /* Enhanced Uniform Stat Cards - FORCED UNIFORMITY */
+    .stats-grid .stat-card {
         background: linear-gradient(135deg, 
             rgba(255, 255, 255, 0.95), 
             rgba(255, 255, 255, 0.8)
@@ -243,6 +243,8 @@
         transition: all 0.3s ease !important;
         min-height: 150px !important;
         max-height: 150px !important;
+        height: 150px !important;
+        width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
@@ -252,6 +254,8 @@
             0 8px 25px rgba(0,0,0,0.1),
             inset 0 1px 0 rgba(255,255,255,0.3) !important;
         overflow: hidden !important;
+        box-sizing: border-box !important;
+        flex: 1 !important;
     }
     
     .stat-card::before {
@@ -277,8 +281,8 @@
             inset 0 2px 0 rgba(255,255,255,0.4) !important;
     }
     
-    /* Stat Card Elements */
-    .stat-icon {
+    /* Stat Card Elements - FORCED UNIFORMITY */
+    .stats-grid .stat-card .stat-icon {
         font-size: 2rem !important;
         margin-bottom: 10px !important;
         padding: 12px !important;
@@ -290,18 +294,21 @@
         z-index: 2 !important;
         width: 55px !important;
         height: 55px !important;
+        flex-shrink: 0 !important;
     }
     
-    .stat-number {
+    .stats-grid .stat-card .stat-number {
         font-size: 2.2rem !important;
         font-weight: 800 !important;
         margin: 8px 0 !important;
         position: relative !important;
         z-index: 2 !important;
         color: #333 !important;
+        line-height: 1 !important;
+        flex-shrink: 0 !important;
     }
     
-    .stat-label {
+    .stats-grid .stat-card .stat-label {
         font-size: 1rem !important;
         font-weight: 600 !important;
         color: #666 !important;
@@ -310,42 +317,33 @@
         z-index: 2 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
     }
     
-    /* Individual Card Colors */
-    .stat-card.total .stat-icon {
+    /* Individual Card Colors - Based on Icon Classes */
+    .stats-grid .stat-icon.total {
         background: linear-gradient(135deg, var(--ph-blue), #2989d8) !important;
         color: white !important;
     }
     
-    .stat-card.pending .stat-icon {
+    .stats-grid .stat-icon.pending {
         background: linear-gradient(135deg, #ffc107, #ffb300) !important;
         color: white !important;
     }
     
-    .stat-card.progress .stat-icon,
-    .stat-icon.in-progress {
+    .stats-grid .stat-icon.in-progress {
         background: linear-gradient(135deg, #17a2b8, #138496) !important;
         color: white !important;
     }
     
-    .stat-card.resolved .stat-icon {
+    .stats-grid .stat-icon.resolved {
         background: linear-gradient(135deg, #28a745, #20c997) !important;
         color: white !important;
     }
     
-    /* Force ALL stat cards to be exactly the same size */
-    .stat-card.total,
-    .stat-card.pending, 
-    .stat-card.progress,
-    .stat-card.resolved {
-        min-height: 150px !important;
-        max-height: 150px !important;
-        width: 100% !important;
-        padding: 25px 20px !important;
-        box-sizing: border-box !important;
-        flex: 1 !important;
-    }
+    /* Removed redundant rules - using .stats-grid .stat-card above */
     
     /* Responsive Design for Stats Grid */
     @media (max-width: 992px) {
