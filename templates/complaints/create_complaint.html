@@ -45,24 +45,74 @@
         border-left: 5px solid var(--ph-blue);
     }
     
-    /* Dashboard Welcome Section */
+    /* Dashboard Welcome Section - Enhanced Glass Morphism */
     .dashboard-welcome {
-        background: white;
-        border-radius: var(--border-radius);
-        padding: 25px;
-        margin: 25px 0;
-        box-shadow: var(--shadow-light);
-        border-left: 5px solid var(--ph-blue);
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 20px !important;
+        padding: 35px !important;
+        margin: 30px 0 !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.37),
+            inset 0 1px 0 rgba(255,255,255,0.5),
+            0 0 0 1px rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-left: 6px solid var(--ph-blue) !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+        z-index: 10 !important;
+    }
+    
+    .dashboard-welcome::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(0, 56, 168, 0.1) 0%, 
+            transparent 50%,
+            rgba(206, 17, 38, 0.05) 100%
+        );
+        pointer-events: none;
+        border-radius: 20px;
+    }
+    
+    .dashboard-welcome:hover {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.45),
+            inset 0 2px 0 rgba(255,255,255,0.6),
+            0 0 0 1px rgba(255,255,255,0.1) !important;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.35), 
+            rgba(255, 255, 255, 0.15)
+        ) !important;
+        backdrop-filter: blur(25px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
     }
     
     .user-info {
         display: flex;
         align-items: center;
-        gap: 12px;
-        background: rgba(0,56,168,0.05);
-        padding: 12px 20px;
-        border-radius: 25px;
-        border: 1px solid rgba(0,56,168,0.1);
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.15) !important;
+        backdrop-filter: blur(15px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+        padding: 15px 25px !important;
+        border-radius: 30px !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        position: relative !important;
+        z-index: 2 !important;
+        box-shadow: 
+            0 4px 15px rgba(0,0,0,0.25),
+            inset 0 1px 0 rgba(255,255,255,0.3) !important;
     }
     
     .user-avatar {
@@ -79,17 +129,21 @@
     }
     
     .user-details h6 {
-        margin: 0;
-        color: var(--ph-blue);
-        font-weight: 600;
-        font-size: 16px;
+        margin: 0 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
     }
     
     .user-role {
-        margin: 0;
-        color: #666;
-        font-size: 13px;
-        font-weight: 500;
+        margin: 0 !important;
+        color: rgba(255,255,255,0.8) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
     }
     
     .welcome-header {
@@ -634,24 +688,48 @@
 
     /* Welcome Section Styles */
     .welcome-title {
-        font-size: 24px;
-        color: var(--ph-blue);
-        font-weight: 700;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        font-size: 28px !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        position: relative !important;
+        z-index: 2 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin: 0 !important;
+    }
+    
+    .welcome-title i {
+        color: var(--ph-yellow) !important;
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
     }
 
     .welcome-message {
-        margin-top: 15px;
-        padding: 15px;
-        background: rgba(0,56,168,0.05);
-        border-radius: 8px;
-        border-left: 4px solid var(--ph-blue);
-        color: #495057;
-        font-size: 14px;
-        line-height: 1.5;
+        margin: 0 !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 16px !important;
+        line-height: 1.5 !important;
+        position: relative !important;
+        z-index: 2 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+        background: none !important;
+    }
+    
+    .welcome-message .text-primary {
+        color: var(--ph-yellow) !important;
+        filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4)) !important;
+    }
+    
+    .welcome-message small {
+        color: rgba(255,255,255,0.8) !important;
     }
 
     /* Statistics Section Styles */

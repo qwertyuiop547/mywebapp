@@ -41,18 +41,19 @@
     /* Enhanced Glass Morphism Dashboard Welcome - Matching Stat Cards */
     .dashboard-welcome {
         background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95), 
-            rgba(255, 255, 255, 0.85)
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
         ) !important;
-        backdrop-filter: blur(15px) !important;
-        -webkit-backdrop-filter: blur(15px) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
         border-radius: 20px !important;
         padding: 35px !important;
         margin: 30px 0 !important;
         box-shadow: 
-            0 12px 40px rgba(0,0,0,0.15),
-            inset 0 2px 0 rgba(255,255,255,0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            0 8px 32px rgba(0,0,0,0.37),
+            inset 0 1px 0 rgba(255,255,255,0.5),
+            0 0 0 1px rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
         border-left: 6px solid var(--ph-blue) !important;
         position: relative !important;
         overflow: hidden !important;
@@ -79,12 +80,15 @@
     .dashboard-welcome:hover {
         transform: translateY(-3px);
         box-shadow: 
-            0 18px 50px rgba(0,0,0,0.2),
-            inset 0 3px 0 rgba(255,255,255,0.5) !important;
+            0 12px 40px rgba(0,0,0,0.45),
+            inset 0 2px 0 rgba(255,255,255,0.6),
+            0 0 0 1px rgba(255,255,255,0.1) !important;
         background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.98), 
-            rgba(255, 255, 255, 0.9)
+            rgba(255, 255, 255, 0.35), 
+            rgba(255, 255, 255, 0.15)
         ) !important;
+        backdrop-filter: blur(25px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
     }
     
     .welcome-header {
@@ -97,8 +101,8 @@
     .welcome-title,
     .dashboard-welcome h1,
     .dashboard-welcome h2 {
-        color: #333 !important;
-        text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
         opacity: 1 !important;
         visibility: visible !important;
         font-size: 28px !important;
@@ -120,8 +124,8 @@
     
     .welcome-message,
     .dashboard-welcome p {
-        color: #444 !important;
-        text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
         opacity: 1 !important;
         visibility: visible !important;
         margin: 0 !important;
@@ -180,14 +184,17 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        background: rgba(255, 255, 255, 0.2) !important;
-        backdrop-filter: blur(10px) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        backdrop-filter: blur(15px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
         padding: 15px 25px !important;
         border-radius: 30px !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         position: relative !important;
         z-index: 2 !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+        box-shadow: 
+            0 4px 15px rgba(0,0,0,0.25),
+            inset 0 1px 0 rgba(255,255,255,0.3) !important;
     }
     
     .user-avatar {
@@ -212,16 +219,16 @@
     
     .user-details h6 {
         margin: 0 !important;
-        color: #333 !important;
+        color: #ffffff !important;
         font-weight: 700 !important;
         font-size: 18px !important;
-        text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
     }
     
     .user-role {
         margin: 0 !important;
-        color: #555 !important;
-        text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+        color: rgba(255,255,255,0.8) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
         font-size: 14px !important;
         font-weight: 600 !important;
         text-transform: uppercase !important;
@@ -274,15 +281,15 @@
         ) !important;
         backdrop-filter: blur(10px) !important;
         -webkit-backdrop-filter: blur(10px) !important;
-        padding: 25px 20px !important;
+        padding: 35px 25px !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         border-radius: 15px !important;
         text-align: center !important;
         position: relative !important;
         transition: all 0.3s ease !important;
-        min-height: 150px !important;
-        max-height: 150px !important;
-        height: 150px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
+        height: 200px !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -292,9 +299,10 @@
         box-shadow: 
             0 8px 25px rgba(0,0,0,0.1),
             inset 0 1px 0 rgba(255,255,255,0.3) !important;
-        overflow: hidden !important;
+        overflow: visible !important;
         box-sizing: border-box !important;
         flex: 1 !important;
+        z-index: 1 !important;
     }
     
     .stat-card::before {
@@ -331,8 +339,8 @@
         justify-content: center !important;
         position: relative !important;
         z-index: 2 !important;
-        width: 55px !important;
-        height: 55px !important;
+        width: 65px !important;
+        height: 65px !important;
         flex-shrink: 0 !important;
     }
     
@@ -345,12 +353,15 @@
         color: #333 !important;
         line-height: 1 !important;
         flex-shrink: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .stats-grid .stat-card .stat-label {
         font-size: 1rem !important;
-        font-weight: 600 !important;
-        color: #666 !important;
+        font-weight: 700 !important;
+        color: #333 !important;
         margin: 0 !important;
         position: relative !important;
         z-index: 2 !important;
@@ -359,6 +370,10 @@
         line-height: 1.2 !important;
         text-align: center !important;
         flex-shrink: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.8) !important;
     }
     
     /* Individual Card Colors - Based on Icon Classes */
@@ -694,33 +709,33 @@
 {% block content %}
 <div class="container py-4">
     <!-- Dashboard Welcome Section -->
-    <div class="dashboard-welcome fade-in">
-        <div class="welcome-header">
-            <h2 class="welcome-title">
+    <div class="dashboard-welcome fade-in" data-component-name="&lt;div /&gt;" style="display: flex; align-items: center; justify-content: space-between; padding: 25px 35px;">
+        <div class="welcome-content" style="flex: 1;">
+            <h2 class="welcome-title" style="margin: 0 0 10px 0; display: flex; align-items: center; gap: 12px;">
                 <i class="fas fa-exclamation-triangle"></i>
-                Welcome to Complaint Portal!
+                Complaints
             </h2>
-            <div class="user-info">
-                <div class="user-avatar">
-                    {{ user.first_name.0|default:user.username.0|upper }}
+            <div class="welcome-message" style="margin: 0; padding: 0; background: none; border: none; box-shadow: none;">
+                <i class="fas fa-info-circle text-primary"></i>
+                We4lcome to the official Barangay Burgos Complaint &amp; Feedback System. Here you can submit complaints and feedback for our barangay.
+                {% if user.is_authenticated and user.is_resident %}
+                <div class="mt-3">
+                    <a href="{% url 'complaints:create_complaint' %}" class="btn btn-warning" style="background: linear-gradient(135deg, #ffc107, #ffb300); border: none; border-radius: 25px; padding: 12px 25px; color: white; font-weight: 600; text-decoration: none; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); transition: all 0.3s ease;">
+                        <i class="fas fa-plus me-2"></i>
+                        {% trans "Submit Complaint" %}
+                    </a>
                 </div>
-                <div class="user-details">
-                    <h6>{{ user.get_full_name|default:user.username }}</h6>
-                    <p class="user-role">{{ user.get_role_display }}</p>
-                </div>
+                {% endif %}
             </div>
         </div>
-        <div class="welcome-message">
-            <i class="fas fa-info-circle text-primary"></i>
-            Welcome to the official Barangay Burgos Complaint Management System. Here you can submit and track community complaints and concerns.
-            {% if user.is_authenticated and user.is_resident %}
-            <div class="mt-3">
-                <a href="{% url 'complaints:create_complaint' %}" class="btn btn-warning">
-                    <i class="fas fa-plus me-2"></i>
-                    Magpadala ng Reklamo
-                </a>
+        <div class="user-info" style="margin-left: 30px;">
+            <div class="user-avatar">
+                R
             </div>
-            {% endif %}
+            <div class="user-details">
+                <h6>SULASOK</h6>
+                <p class="user-role">Registered Resident</p>
+            </div>
         </div>
     </div>
 
