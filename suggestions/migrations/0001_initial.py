@@ -5,6 +5,16 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def check_table_exists(schema_editor, table_name):
+    """Check if a table exists in the database"""
+    with schema_editor.connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=%s",
+            [table_name]
+        )
+        return cursor.fetchone() is not None
+
+
 class Migration(migrations.Migration):
 
     initial = True
