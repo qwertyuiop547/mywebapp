@@ -968,7 +968,7 @@
             </h2>
             <div class="user-info">
                 <div class="user-avatar">
-                    {{ user.first_name.0|default:"U" }}{{ user.last_name.0|default:"" }}
+                    {{ user.first_name|default:"U"|slice:":1"|upper }}{{ user.last_name|default:""|slice:":1"|upper }}
                 </div>
                 <div class="user-details">
                     <h6>{{ user.get_full_name|default:user.username }}</h6>

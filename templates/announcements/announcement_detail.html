@@ -5,7 +5,8 @@
 
 {% block extra_css %}
 <style>
-/* Barangay Government Portal Professional Design */
+/* Barangay Government Portal Professional Design - Glass Morphism */
+{% load static %}
 :root {
     --barangay-blue: #1e40af;
     --barangay-green: #059669;
@@ -21,8 +22,16 @@
     --border-radius: 16px;
 }
 
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    min-height: 100vh !important;
+}
+
 .barangay-announcement-page {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     min-height: 100vh;
     padding: 2rem 0;
     position: relative;
@@ -51,7 +60,12 @@
 }
 
 .barangay-announcement-header {
-    background: linear-gradient(135deg, var(--barangay-blue) 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, 
+        rgba(0, 56, 168, 0.3), 
+        rgba(59, 130, 246, 0.2)
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     color: white;
     padding: 3rem 2rem;
     text-align: center;
@@ -59,6 +73,10 @@
     overflow: hidden;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     margin-bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 
+        0 6px 25px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.5) !important;
 }
 
 .barangay-announcement-header::before {
@@ -73,17 +91,24 @@
 }
 
 .official-announcement-card {
-    background: white;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid #e2e8f0;
+    box-shadow: 
+        0 8px 32px rgba(0,0,0,0.37),
+        inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
     overflow: hidden;
 }
 
 .announcement-image-section {
     padding: 3rem 2rem 2rem 2rem;
     text-align: center;
-    background: #fafbfc;
+    background: rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid #e2e8f0;
 }
 
@@ -91,10 +116,36 @@
     padding: 3rem 2rem;
 }
 
+.government-announcement-body h1, 
+.government-announcement-body h2, 
+.government-announcement-body h3,
+.government-announcement-body h4,
+.government-announcement-body h5,
+.government-announcement-body h6 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+.government-announcement-body p,
+.government-announcement-body li,
+.government-announcement-body div {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
 .official-meta-section {
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, 
+        rgba(241, 245, 249, 0.2), 
+        rgba(226, 232, 240, 0.1)
+    );
+    backdrop-filter: blur(10px);
     padding: 2rem;
     border-top: 3px solid var(--barangay-blue);
+}
+
+.official-meta-section * {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .priority-badge {
@@ -138,9 +189,10 @@
     align-items: center;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     font-size: 0.875rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .btn-primary {

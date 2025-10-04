@@ -1,256 +1,196 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load static %}
 
-{% block title %}{% trans "My Suggestions" %} - {% trans "Barangay Portal" %}{% endblock %}
+{% block title %}Aking Mga Mungkahi - Barangay Portal{% endblock %}
 
 {% block extra_css %}
 <style>
-.suggestion-card {
-    transition: all 0.3s ease;
-    border: 1px solid #e0e0e0;
-}
+    /* Glass Morphism Theme */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
 
-.suggestion-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+    .page-header {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin-bottom: 30px !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
 
-.status-badge {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-}
+    .page-header h2 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+    }
 
-.priority-badge {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-}
+    .page-header h2 i {
+        color: #fcd116 !important;
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
+    }
 
-.page-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-}
+    .page-header p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        margin: 5px 0 0 0 !important;
+    }
 
-.stats-card {
-    background: #f8f9fa;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-}
+    .suggestion-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.35) !important;
+        transition: all 0.3s ease !important;
+    }
 
-.stats-number {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #667eea;
-}
+    .suggestion-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+    }
 
-.suggestion-meta {
-    font-size: 0.875rem;
-    color: #666;
-}
+    .suggestion-card h5 a {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 600 !important;
+    }
 
-.engagement-stats {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #666;
-}
+    .suggestion-card p, .suggestion-card small {
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
 
-.empty-state {
-    text-align: center;
-    padding: 3rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border: 2px dashed #ddd;
-}
+    .alert-info {
+        background: linear-gradient(135deg, 
+            rgba(23, 162, 184, 0.3), 
+            rgba(23, 162, 184, 0.15)
+        ) !important;
+        backdrop-filter: blur(15px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-left: 4px solid #17a2b8 !important;
+        color: rgba(255, 255, 255, 0.95) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    .glass-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+
+    .glass-card h5 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+    }
+
+    .badge {
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #0038a8, #2989d8) !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(0,56,168,0.4) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,56,168,0.6) !important;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4 mb-5">
-    <!-- Page Header -->
+<div class="container py-4">
+    <!-- Header -->
     <div class="page-header">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-                <h1 class="mb-2">
-                    <i class="fas fa-user"></i>
-                    {% trans "My Suggestions" %}
-                </h1>
-                <p class="mb-0">{% trans "Track the status of your submitted suggestions" %}</p>
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2><i class="bi bi-person-circle"></i> Aking Mga Mungkahi</h2>
+                <p>Tingnan ang mga mungkahing naipadala mo</p>
             </div>
-            <div class="d-flex gap-2">
-                <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-light">
-                    <i class="fas fa-plus"></i>
-                    {% trans "Submit New" %}
-                </a>
-                <a href="{% url 'suggestions:suggestion_list' %}" class="btn btn-outline-light">
-                    <i class="fas fa-list"></i>
-                    {% trans "All Suggestions" %}
+            <div class="col-md-4 text-end">
+                <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Bagong Mungkahi
                 </a>
             </div>
         </div>
     </div>
-
-    <!-- Statistics -->
-    {% if page_obj %}
-    <div class="row mb-4">
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-number">{{ page_obj.paginator.count }}</div>
-                <div>{% trans "Total Submitted" %}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-number text-warning">
-                    {% for suggestion in page_obj.paginator.object_list %}
-                        {% if suggestion.status == 'pending' %}{{ forloop.counter0|add:"1" }}{% endif %}
-                    {% endfor %}
-                </div>
-                <div>{% trans "Pending" %}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-number text-success">
-                    {% for suggestion in page_obj.paginator.object_list %}
-                        {% if suggestion.status == 'approved' or suggestion.status == 'implemented' %}{{ forloop.counter0|add:"1" }}{% endif %}
-                    {% endfor %}
-                </div>
-                <div>{% trans "Approved" %}</div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-number text-info">
-                    {% for suggestion in page_obj.paginator.object_list %}
-                        {% if suggestion.status == 'implemented' %}{{ forloop.counter0|add:"1" }}{% endif %}
-                    {% endfor %}
-                </div>
-                <div>{% trans "Implemented" %}</div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
 
     <!-- Suggestions List -->
     <div class="row">
         {% for suggestion in page_obj %}
-        <div class="col-lg-6 mb-4">
-            <div class="card suggestion-card h-100">
+        <div class="col-12 mb-3">
+            <div class="suggestion-card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title mb-0">
-                            <a href="{% url 'suggestions:suggestion_detail' suggestion.id %}" class="text-decoration-none">
-                                {{ suggestion.title|truncatechars:50 }}
-                            </a>
-                        </h5>
-                        <div class="d-flex flex-column gap-1">
-                            <span class="badge status-badge 
-                                {% if suggestion.status == 'pending' %}bg-warning text-dark
-                                {% elif suggestion.status == 'under_review' %}bg-info
-                                {% elif suggestion.status == 'approved' %}bg-success
-                                {% elif suggestion.status == 'implemented' %}bg-primary
-                                {% elif suggestion.status == 'rejected' %}bg-danger
-                                {% else %}bg-secondary{% endif %}">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h5>
+                                <a href="{% url 'suggestions:suggestion_detail' suggestion.pk %}" class="text-decoration-none">
+                                    {{ suggestion.title }}
+                                </a>
+                            </h5>
+                            <p class="mb-2">{{ suggestion.description|truncatewords:30 }}</p>
+                            <small>
+                                <i class="bi bi-calendar"></i> {{ suggestion.submitted_at|date:"M d, Y" }}
+                                {% if suggestion.location %}
+                                | <i class="bi bi-geo-alt"></i> {{ suggestion.location }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <span class="badge bg-{% if suggestion.status == 'pending' %}warning{% elif suggestion.status == 'approved' or suggestion.status == 'completed' %}success{% elif suggestion.status == 'rejected' %}danger{% else %}info{% endif %} mb-2">
                                 {{ suggestion.get_status_display }}
                             </span>
-                            <span class="badge priority-badge 
-                                {% if suggestion.priority == 'urgent' %}bg-danger
-                                {% elif suggestion.priority == 'high' %}bg-warning text-dark
-                                {% elif suggestion.priority == 'medium' %}bg-info
-                                {% else %}bg-secondary{% endif %}">
-                                {{ suggestion.get_priority_display }}
+                            <br>
+                            <span class="badge bg-light text-dark">
+                                <i class="bi bi-hand-thumbs-up"></i> {{ suggestion.upvotes }} Vote{{ suggestion.upvotes|pluralize }}
                             </span>
                         </div>
                     </div>
                     
-                    <p class="card-text text-muted mb-2">
-                        {{ suggestion.description|truncatechars:100 }}
-                    </p>
-                    
-                    <div class="suggestion-meta mb-2">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <i class="fas fa-tag text-primary"></i>
-                                {{ suggestion.category.name }}
-                            </div>
-                            <div class="col-sm-6">
-                                <i class="fas fa-calendar text-info"></i>
-                                {{ suggestion.submitted_at|date:"M d, Y" }}
-                            </div>
-                        </div>
-                        {% if suggestion.location %}
-                        <div class="mt-1">
-                            <i class="fas fa-map-marker-alt text-danger"></i>
-                            {{ suggestion.location }}
-                        </div>
-                        {% endif %}
-                        {% if suggestion.reviewed_at %}
-                        <div class="mt-1">
-                            <i class="fas fa-clock text-success"></i>
-                            {% trans "Reviewed on" %} {{ suggestion.reviewed_at|date:"M d, Y" }}
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    {% if suggestion.public_response %}
-                    <div class="alert alert-success py-2 mb-2">
+                    {% if suggestion.admin_response %}
+                    <div class="alert alert-info mt-3 mb-0">
                         <small>
-                            <i class="fas fa-reply"></i>
-                            <strong>{% trans "Official Response:" %}</strong>
-                            {{ suggestion.public_response|truncatechars:80 }}
+                            <strong><i class="bi bi-megaphone"></i> Tugon ng Barangay:</strong><br>
+                            {{ suggestion.admin_response|truncatewords:20 }}
                         </small>
                     </div>
                     {% endif %}
-                    
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="engagement-stats">
-                            <span>
-                                <i class="fas fa-thumbs-up text-primary"></i>
-                                {{ suggestion.likes }}
-                            </span>
-                            <span>
-                                <i class="fas fa-eye text-info"></i>
-                                {{ suggestion.views }}
-                            </span>
-                            <span>
-                                <i class="fas fa-comments text-success"></i>
-                                {{ suggestion.comments.count }}
-                            </span>
-                        </div>
-                        <a href="{% url 'suggestions:suggestion_detail' suggestion.id %}" class="btn btn-sm btn-outline-primary">
-                            {% trans "View Details" %}
-                        </a>
-                    </div>
                 </div>
-                
-                {% if suggestion.is_featured %}
-                <div class="card-footer bg-warning text-dark">
-                    <small>
-                        <i class="fas fa-star"></i>
-                        {% trans "Featured Suggestion" %}
-                    </small>
-                </div>
-                {% endif %}
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="empty-state">
-                <i class="fas fa-lightbulb fa-4x text-muted mb-3"></i>
-                <h4 class="text-muted mb-3">{% trans "No suggestions yet" %}</h4>
-                <p class="text-muted mb-4">
-                    {% trans "You haven't submitted any suggestions yet. Share your ideas to help improve our barangay!" %}
-                </p>
-                <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-plus"></i>
-                    {% trans "Submit Your First Suggestion" %}
+            <div class="glass-card text-center">
+                <i class="bi bi-info-circle" style="font-size: 3rem; color: #fcd116; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));"></i>
+                <h5 style="margin-top: 15px;">Wala ka pang naipadala na mungkahi.</h5>
+                <br>
+                <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-primary mt-2">
+                    <i class="bi bi-plus-circle"></i> Magpadala ng Mungkahi
                 </a>
             </div>
         </div>
@@ -259,33 +199,21 @@
 
     <!-- Pagination -->
     {% if page_obj.has_other_pages %}
-    <nav aria-label="{% trans 'My suggestions pagination' %}" class="mt-4">
+    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                    {% trans "Previous" %}
-                </a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
             </li>
             {% endif %}
             
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                    <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
+            <li class="page-item active">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
             
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                    {% trans "Next" %}
-                </a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
             </li>
             {% endif %}
         </ul>

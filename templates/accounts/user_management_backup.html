@@ -698,7 +698,7 @@
                 </h2>
                 <div class="user-info">
                     <div class="user-avatar">
-                        {{ user.first_name.0|default:user.username.0|upper }}
+                        {{ user.first_name|default:user.username|slice:":1"|upper }}
                     </div>
                     <div class="user-details">
                         <h6>{{ user.get_full_name|default:user.username }}</h6>

@@ -260,11 +260,18 @@ body {
 }
 
 .announcement-card {
-    background: white;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s ease;
+    box-shadow: 
+        0 6px 25px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    transition: all 0.3s ease;
     overflow: hidden;
     height: 100%;
     display: flex;
@@ -272,8 +279,14 @@ body {
 }
 
 .announcement-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
+    box-shadow: 
+        0 10px 35px rgba(0,0,0,0.45),
+        inset 0 2px 0 rgba(255,255,255,0.6) !important;
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.35), 
+        rgba(255, 255, 255, 0.15)
+    ) !important;
 }
 
 .announcement-image {
@@ -309,14 +322,17 @@ body {
 
 .announcement-title {
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 0.75rem;
     line-height: 1.3;
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
 .announcement-excerpt {
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     margin-bottom: 1rem;
     flex: 1;
 }
@@ -324,7 +340,12 @@ body {
 .announcement-meta {
     margin-top: auto;
     padding-top: 0.75rem;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.announcement-meta small {
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .announcement-header {
@@ -342,7 +363,8 @@ body {
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .priority-badge {
@@ -371,12 +393,68 @@ body {
 }
 
 .filter-panel {
-    background: white;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border-radius: var(--border-radius);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid #e5e7eb;
+    box-shadow: 
+        0 6px 25px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    transition: all 0.3s ease;
+}
+
+.filter-panel:hover {
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.4),
+        inset 0 2px 0 rgba(255,255,255,0.6) !important;
+}
+
+/* Style form inputs inside filter panel */
+.filter-panel .form-control,
+.filter-panel .form-select {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.filter-panel .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.filter-panel .form-control:focus,
+.filter-panel .form-select:focus {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
+}
+
+.filter-panel .form-select option {
+    background: #0038a8 !important;
+    color: white !important;
+}
+
+.filter-panel .btn-primary {
+    background: linear-gradient(135deg, #0038a8, #2989d8) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,56,168,0.4) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s ease;
+}
+
+.filter-panel .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,56,168,0.6) !important;
 }
 
 .btn-primary {
@@ -450,7 +528,7 @@ body {
             </h2>
             <div class="user-info">
                 <div class="user-avatar">
-                    {{ user.first_name.0|default:user.username.0|upper }}
+                    {{ user.first_name|default:user.username|slice:":1"|upper }}
                 </div>
                 <div class="user-details">
                     <h6>{{ user.get_full_name|default:user.username }}</h6>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Magpadala ng Mungkahi - Barangay Portal{% endblock %}
+{% block title %}Review Suggestion - Barangay Portal{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -13,22 +13,6 @@
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
         min-height: 100vh !important;
-    }
-
-    .glass-card {
-        background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25), 
-            rgba(255, 255, 255, 0.1)
-        ) !important;
-        backdrop-filter: blur(20px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-        border-radius: 15px !important;
-        padding: 30px !important;
-        box-shadow: 
-            0 8px 32px rgba(0,0,0,0.37),
-            inset 0 1px 0 rgba(255,255,255,0.5) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        transition: all 0.3s ease !important;
     }
 
     .page-header {
@@ -44,7 +28,7 @@
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
     }
 
-    .page-header h2, .glass-card h2 {
+    .page-header h2 {
         color: #ffffff !important;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
         font-weight: 700 !important;
@@ -55,7 +39,30 @@
         filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
     }
 
-    .page-header p, .glass-card p, .glass-card small, .glass-card label {
+    .page-header p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    .glass-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+
+    .glass-card h4, .glass-card h6 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 700 !important;
+    }
+
+    .glass-card p, .glass-card small, .glass-card label {
         color: rgba(255, 255, 255, 0.9) !important;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
     }
@@ -67,32 +74,21 @@
 
     .form-control, .form-select {
         background: rgba(255, 255, 255, 0.15) !important;
-        backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         color: white !important;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
     }
 
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.6) !important;
-    }
-
-    .form-control:focus {
+    .form-control:focus, .form-select:focus {
         background: rgba(255, 255, 255, 0.25) !important;
         border-color: rgba(255, 255, 255, 0.5) !important;
         color: white !important;
         box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
     }
 
-    .alert-info {
-        background: linear-gradient(135deg, 
-            rgba(23, 162, 184, 0.3), 
-            rgba(23, 162, 184, 0.15)
-        ) !important;
-        backdrop-filter: blur(15px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-left: 4px solid #17a2b8 !important;
-        color: rgba(255, 255, 255, 0.95) !important;
+    .form-select option {
+        background: #0038a8 !important;
+        color: white !important;
     }
 
     .text-danger {
@@ -135,66 +131,79 @@
         <div class="col-md-8">
             <!-- Header -->
             <div class="page-header">
-                <h2><i class="bi bi-lightbulb"></i> Magpadala ng Mungkahi</h2>
-                <p>Ibahagi ang inyong mga ideya para sa pagpapabuti ng ating barangay</p>
+                <h2><i class="bi bi-pencil-square"></i> Review Suggestion</h2>
+                <p>Update status and provide response</p>
             </div>
 
-            <!-- Info Alert -->
-            <div class="alert alert-info mb-4">
-                <i class="bi bi-info-circle"></i>
-                <strong>Paalala:</strong> Ang inyong mga mungkahi ay magiging pampubliko at makikita ng lahat. 
-                Siguraduhin na malinaw at maayos ang inyong mga ideya.
+            <!-- Suggestion Info -->
+            <div class="glass-card mb-4">
+                <h4>{{ suggestion.title }}</h4>
+                <p>{{ suggestion.description }}</p>
+                
+                <hr>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <small>
+                            <strong>Submitted by:</strong> {{ suggestion.submitted_by.get_full_name|default:suggestion.submitted_by.username }}
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <small>
+                            <strong>Date:</strong> {{ suggestion.submitted_at|date:"F d, Y" }}
+                        </small>
+                    </div>
+                    {% if suggestion.location %}
+                    <div class="col-md-6 mt-2">
+                        <small>
+                            <strong>Location:</strong> {{ suggestion.location }}
+                        </small>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-6 mt-2">
+                        <small>
+                            <strong>Votes:</strong> {{ suggestion.upvotes }}
+                        </small>
+                    </div>
+                </div>
             </div>
 
-            <!-- Form -->
+            <!-- Review Form -->
             <div class="glass-card">
                 <form method="post">
                     {% csrf_token %}
                     
                     <div class="mb-3">
-                        <label for="{{ form.title.id_for_label }}" class="form-label">
-                            {{ form.title.label }} <span class="text-danger">*</span>
+                        <label for="{{ form.status.id_for_label }}" class="form-label">
+                            Status <span class="text-danger">*</span>
                         </label>
-                        {{ form.title }}
-                        {% if form.title.errors %}
-                        <div class="text-danger small">{{ form.title.errors }}</div>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                        <div class="text-danger small">{{ form.status.errors }}</div>
                         {% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label for="{{ form.description.id_for_label }}" class="form-label">
-                            {{ form.description.label }} <span class="text-danger">*</span>
+                        <label for="{{ form.admin_response.id_for_label }}" class="form-label">
+                            Response / Comments
                         </label>
-                        {{ form.description }}
-                        {% if form.description.errors %}
-                        <div class="text-danger small">{{ form.description.errors }}</div>
+                        {{ form.admin_response }}
+                        {% if form.admin_response.errors %}
+                        <div class="text-danger small">{{ form.admin_response.errors }}</div>
                         {% endif %}
                         <small>
-                            Ilarawan nang detalyado ang inyong mungkahi. Ano ang benepisyo nito? Paano ito makakatulong?
-                        </small>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.location.id_for_label }}" class="form-label">
-                            {{ form.location.label }}
-                        </label>
-                        {{ form.location }}
-                        {% if form.location.errors %}
-                        <div class="text-danger small">{{ form.location.errors }}</div>
-                        {% endif %}
-                        <small>
-                            Kung may specific na lugar (Purok, Sitio, etc.)
+                            Provide feedback or explanation to the resident
                         </small>
                     </div>
 
                     <hr>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'suggestions:suggestion_list' %}" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Kanselahin
+                        <a href="{% url 'suggestions:suggestion_detail' suggestion.pk %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Ipadala ang Mungkahi
+                            <i class="bi bi-check-circle"></i> Save Changes
                         </button>
                     </div>
                 </form>

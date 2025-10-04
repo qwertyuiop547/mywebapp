@@ -260,7 +260,7 @@
                     <img src="{{ target_user.profile_photo.url }}" alt="{{ target_user.get_full_name|default:target_user.username }}" 
                          style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
                 {% else %}
-                    {{ target_user.first_name.0|default:target_user.username.0|upper }}
+                    {{ target_user.first_name|default:target_user.username|slice:":1"|upper }}
                 {% endif %}
             </div>
             <div>

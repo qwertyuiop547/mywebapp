@@ -525,7 +525,7 @@
                             <div class="feedback-meta">
                                 <div class="user-info">
                                     <div class="user-avatar">
-                                        {{ feedback.user.get_full_name.0|default:feedback.user.username.0|upper }}
+                                        {{ feedback.user.get_full_name|default:feedback.user.username|slice:":1"|upper }}
                                     </div>
                                     <div>
                                         <strong>{{ feedback.user.get_full_name|default:feedback.user.username }}</strong>
