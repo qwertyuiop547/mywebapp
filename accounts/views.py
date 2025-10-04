@@ -308,10 +308,10 @@ def user_management_list(request):
     search_query = request.GET.get('search', '').strip()
     if search_query:
         users = users.filter(
-            models.Q(username__icontains=search_query) |
-            models.Q(first_name__icontains=search_query) |
-            models.Q(last_name__icontains=search_query) |
-            models.Q(email__icontains=search_query)
+            Q(username__icontains=search_query) |
+            Q(first_name__icontains=search_query) |
+            Q(last_name__icontains=search_query) |
+            Q(email__icontains=search_query)
         )
     
     # Since we're only showing residents, role filter is not needed
@@ -359,6 +359,8 @@ def user_management_list(request):
 def deactivate_user(request, user_id):
     """Chairman can deactivate/suspend a user account"""
     if not request.user.is_chairman():
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'Access denied. Only the Barangay Chairman can deactivate users.'}, status=403)
         messages.error(request, 'Access denied. Only the Barangay Chairman can deactivate users.')
         return redirect('dashboard:home')
     
@@ -367,11 +369,15 @@ def deactivate_user(request, user_id):
         
         # Since we only show residents now, additional check: ensure this is a resident
         if user_to_deactivate.role != 'resident':
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'You can only deactivate resident accounts.'}, status=400)
             messages.error(request, 'You can only deactivate resident accounts.')
             return redirect('accounts:user_management')
         
         # Prevent deactivating self (though Chairman shouldn't show in resident list)
         if user_to_deactivate.id == request.user.id:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'You cannot deactivate your own account.'}, status=400)
             messages.error(request, 'You cannot deactivate your own account.')
             return redirect('accounts:user_management')
         
@@ -379,7 +385,7 @@ def deactivate_user(request, user_id):
         user_to_deactivate.save()
         
         # If AJAX request, return JSON response
-        if request.headers.get('X-CSRFToken') and not request.headers.get('Accept', '').startswith('text/html'):
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'success': True,
                 'message': f'Resident "{user_to_deactivate.get_full_name() or user_to_deactivate.username}" has been deactivated.',
@@ -396,6 +402,8 @@ def deactivate_user(request, user_id):
 def activate_user(request, user_id):
     """Chairman can reactivate a suspended user account"""
     if not request.user.is_chairman():
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'Access denied. Only the Barangay Chairman can activate users.'}, status=403)
         messages.error(request, 'Access denied. Only the Barangay Chairman can activate users.')
         return redirect('dashboard:home')
     
@@ -404,6 +412,8 @@ def activate_user(request, user_id):
         
         # Since we only show residents now, additional check: ensure this is a resident
         if user_to_activate.role != 'resident':
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'You can only activate resident accounts.'}, status=400)
             messages.error(request, 'You can only activate resident accounts.')
             return redirect('accounts:user_management')
         
@@ -416,7 +426,7 @@ def activate_user(request, user_id):
         user_to_activate.save()
         
         # If AJAX request, return JSON response
-        if request.headers.get('X-CSRFToken') and not request.headers.get('Accept', '').startswith('text/html'):
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'success': True,
                 'message': f'Resident "{user_to_activate.get_full_name() or user_to_activate.username}" has been activated.',
@@ -433,6 +443,8 @@ def activate_user(request, user_id):
 def delete_user_account(request, user_id):
     """Chairman can permanently delete a user account (use with extreme caution)"""
     if not request.user.is_chairman():
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'Access denied. Only the Barangay Chairman can delete user accounts.'}, status=403)
         messages.error(request, 'Access denied. Only the Barangay Chairman can delete user accounts.')
         return redirect('dashboard:home')
     
@@ -441,27 +453,54 @@ def delete_user_account(request, user_id):
         
         # Since we only show residents now, additional check: ensure this is a resident
         if user_to_delete.role != 'resident':
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'You can only delete resident accounts.'}, status=400)
             messages.error(request, 'You can only delete resident accounts.')
             return redirect('accounts:user_management')
         
         # Prevent deleting self (though Chairman shouldn't show in resident list)
         if user_to_delete.id == request.user.id:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'You cannot delete your own account.'}, status=400)
             messages.error(request, 'You cannot delete your own account.')
             return redirect('accounts:user_management')
         
         username = user_to_delete.get_full_name() or user_to_delete.username
-        user_to_delete.delete()
-        
-        # If AJAX request, return JSON response
-        if request.headers.get('X-CSRFToken') and not request.headers.get('Accept', '').startswith('text/html'):
-            return JsonResponse({
-                'success': True,
-                'message': f'Resident account "{username}" has been permanently deleted.',
-                'action': 'delete'
-            })
-        
-        messages.success(request, f'Resident account "{username}" has been permanently deleted.')
-        return redirect('accounts:user_management')
+        try:
+            user_to_delete.delete()
+            # If AJAX request, return JSON response
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': f'Resident account "{username}" has been permanently deleted.',
+                    'action': 'delete'
+                })
+            messages.success(request, f'Resident account "{username}" has been permanently deleted.')
+            return redirect('accounts:user_management')
+        except Exception as e:
+            # Fallback: perform a safe deactivation/anonymization when hard delete fails
+            safe_username = f"deleted_user_{user_to_delete.id}"
+            user_to_delete.is_active = False
+            user_to_delete.is_approved = False
+            user_to_delete.first_name = ""
+            user_to_delete.last_name = ""
+            user_to_delete.email = ""
+            user_to_delete.username = safe_username
+            user_to_delete.save()
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': (
+                        f'Resident account "{username}" could not be hard-deleted due to related data. '
+                        'We safely deactivated and anonymized the account instead.'
+                    ),
+                    'action': 'soft_delete'
+                })
+            messages.success(request, (
+                f'Resident account "{username}" could not be hard-deleted due to related data. '
+                'We safely deactivated and anonymized the account instead.'
+            ))
+            return redirect('accounts:user_management')
     
     return redirect('accounts:user_management')
 

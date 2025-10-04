@@ -706,26 +706,29 @@ body {
                         {% trans "View" %}
                     </a>
                     {% if resident.is_active %}
-                    <a href="{% url 'accounts:deactivate_user' resident.id %}" 
-                       class="btn btn-warning btn-sm" title="{% trans 'Deactivate Account' %}"
-                       onclick="return confirmDeactivate()">
+                    <button type="button" 
+                       class="btn btn-warning btn-sm" 
+                       title="{% trans 'Deactivate Account' %}"
+                       onclick="handleDeactivate(event, {{ resident.id }}, '{{ resident.get_full_name|default:resident.username|escapejs }}')">
                         <i class="fas fa-user-times"></i>
                         {% trans "Deactivate" %}
-                    </a>
+                    </button>
                     {% else %}
-                    <a href="{% url 'accounts:activate_user' resident.id %}" 
-                       class="btn btn-success btn-sm" title="{% trans 'Activate Account' %}"
-                       onclick="return confirmActivate()">
+                    <button type="button" 
+                       class="btn btn-success btn-sm" 
+                       title="{% trans 'Activate Account' %}"
+                       onclick="handleActivate(event, {{ resident.id }}, '{{ resident.get_full_name|default:resident.username|escapejs }}')">
                         <i class="fas fa-user-check"></i>
                         {% trans "Activate" %}
-                    </a>
+                    </button>
                     {% endif %}
-                    <a href="{% url 'accounts:delete_user_account' resident.id %}" 
-                       class="btn btn-danger btn-sm" title="{% trans 'Delete Account' %}"
-                       onclick="return confirmDelete()">
+                    <button type="button" 
+                       class="btn btn-danger btn-sm" 
+                       title="{% trans 'Delete Account' %}"
+                       onclick="handleDelete(event, {{ resident.id }}, '{{ resident.get_full_name|default:resident.username|escapejs }}')">
                         <i class="fas fa-trash"></i>
                         {% trans "Delete" %}
-                    </a>
+                    </button>
                 </div>
             </div>
             {% endfor %}
@@ -794,6 +797,193 @@ function confirmActivate() {
 
 function confirmDelete() {
     return confirm(messages.delete);
+}
+
+// Get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+// Get current language prefix from URL
+function getLanguagePrefix() {
+    const path = window.location.pathname;
+    const match = path.match(/^\/(en|fil)\//);
+    return match ? `/${match[1]}` : '/en';
+}
+
+// Handle deactivate action
+function handleDeactivate(event, userId, userName) {
+    event.preventDefault();
+    
+    if (!confirm(messages.deactivate)) {
+        return false;
+    }
+    
+    const button = event.currentTarget;
+    const originalHTML = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    
+    fetch(`${getLanguagePrefix()}/accounts/deactivate-user/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }).catch(() => {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            alert(data.message);
+            // Reload page to show updated status
+            window.location.reload();
+        } else {
+            alert(data.error || 'An error occurred');
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+        }
+    })
+    .catch(error => {
+        console.error('Error details:', error);
+        alert(`Error: ${error.message}`);
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+    });
+    
+    return false;
+}
+
+// Handle activate action
+function handleActivate(event, userId, userName) {
+    event.preventDefault();
+    
+    if (!confirm(messages.activate)) {
+        return false;
+    }
+    
+    const button = event.currentTarget;
+    const originalHTML = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    
+    fetch(`${getLanguagePrefix()}/accounts/activate-user/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }).catch(() => {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            alert(data.message);
+            // Reload page to show updated status
+            window.location.reload();
+        } else {
+            alert(data.error || 'An error occurred');
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+        }
+    })
+    .catch(error => {
+        console.error('Error details:', error);
+        alert(`Error: ${error.message}`);
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+    });
+    
+    return false;
+}
+
+// Handle delete action
+function handleDelete(event, userId, userName) {
+    event.preventDefault();
+    
+    if (!confirm(messages.delete)) {
+        return false;
+    }
+    
+    const button = event.currentTarget;
+    const originalHTML = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+    
+    fetch(`${getLanguagePrefix()}/accounts/delete-user/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }).catch(() => {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            alert(data.message);
+            // Reload page to show updated list
+            window.location.reload();
+        } else {
+            alert(data.error || 'An error occurred');
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+        }
+    })
+    .catch(error => {
+        console.error('Error details:', error);
+        alert(`Error: ${error.message}`);
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+    });
+    
+    return false;
 }
 </script>
 {% endblock %}
