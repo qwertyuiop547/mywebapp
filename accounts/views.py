@@ -17,13 +17,8 @@ def register_view(request):
         if form.is_valid():
             user = form.save(commit=False)
             
-            # For Railway deployment - auto approve for testing
-            import os
-            if 'RAILWAY_ENVIRONMENT_NAME' in os.environ:
-                user.is_approved = True  # Auto-approve on Railway for testing
-                user.date_approved = timezone.now()
-            else:
-                user.is_approved = False  # Require approval by chairman on local
+            # All new registrations require approval by Chairman/Secretary
+            user.is_approved = False
             
             # Save the profile photo
             profile_photo = form.cleaned_data.get('profile_photo')
@@ -38,12 +33,9 @@ def register_view(request):
             if verification_doc:
                 UserVerificationDocument.objects.create(user=user, file=verification_doc)
             
-            if user.is_approved:
-                messages.success(request, 'Registration successful! Your account has been approved. You can now login.')
-                return redirect('accounts:login')
-            else:
-                messages.success(request, 'Registration successful! Please wait for approval from the Barangay Chairman.')
-                return redirect('accounts:wait_approval')
+            # Redirect to wait approval page for all new registrations
+            messages.success(request, 'Registration successful! Please wait for approval from the Barangay Chairman.')
+            return redirect('accounts:wait_approval')
     else:
         form = UserRegistrationForm()
     
