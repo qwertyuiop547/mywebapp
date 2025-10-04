@@ -1,7 +1,6 @@
 import json
 import uuid
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
@@ -15,7 +14,6 @@ import os
 from PIL import Image
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def chat_api(request):
     """Main chat API endpoint"""
@@ -94,7 +92,6 @@ def chat_api(request):
         return JsonResponse({'error': 'Internal server error'}, status=500)
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def start_session(request):
     """Start a new chat session"""
@@ -131,7 +128,6 @@ def start_session(request):
         return JsonResponse({'error': 'Internal server error'}, status=500)
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def end_session(request):
     """End a chat session"""
@@ -158,7 +154,6 @@ def end_session(request):
         return JsonResponse({'error': 'Internal server error'}, status=500)
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def submit_feedback(request):
     """Submit feedback for a chat message"""
@@ -203,7 +198,6 @@ def knowledge_base_admin(request):
     return render(request, 'chatbot/knowledge_base_admin.html', context)
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def upload_image_api(request):
     """Handle image upload and analysis"""
