@@ -153,6 +153,7 @@ def complaint_detail(request, complaint_id):
     
     return render(request, 'complaints/complaint_detail.html', context)
 
+@login_required
 def create_complaint(request):
     # Restrict Secretary and Chairman from filing complaints
     if request.user.is_authenticated and request.user.role in ['secretary', 'chairman']:

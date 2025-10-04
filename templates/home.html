@@ -643,6 +643,7 @@
 <section class="quick-access-section">
     <div class="container">
         <div class="quick-access-grid">
+            {% if user.is_authenticated %}
             <a href="{% url 'complaints:create_complaint' %}" class="quick-card">
                 <div class="quick-icon complaint"><i class="fas fa-file-plus"></i></div>
                 <div class="quick-body">
@@ -650,6 +651,15 @@
                     <small>Submit a new complaint to the barangay</small>
                 </div>
             </a>
+            {% else %}
+            <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="quick-card">
+                <div class="quick-icon complaint"><i class="fas fa-file-plus"></i></div>
+                <div class="quick-body">
+                    <h6>File a Complaint</h6>
+                    <small>Please login to submit a complaint</small>
+                </div>
+            </a>
+            {% endif %}
             <a href="{% url 'complaints:complaint_list' %}" class="quick-card">
                 <div class="quick-icon track"><i class="fas fa-list-check"></i></div>
                 <div class="quick-body">
@@ -695,9 +705,15 @@
                 <p class="service-description">
                     Mag-file ng reklamo tungkol sa mga isyung panlipunan, kapaligiran, infrastruktura, at iba pa na nangangailangan ng aksyon ng barangay.
                 </p>
+                {% if user.is_authenticated %}
                 <a href="{% url 'complaints:create_complaint' %}" class="service-link">
                     Mag-file ng Reklamo <i class="fas fa-arrow-right"></i>
                 </a>
+                {% else %}
+                <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="service-link">
+                    Mag-login para mag-file <i class="fas fa-arrow-right"></i>
+                </a>
+                {% endif %}
             </div>
             
             <div class="service-card fade-in-up">
