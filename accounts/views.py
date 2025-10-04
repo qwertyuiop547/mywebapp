@@ -53,6 +53,11 @@ def login_view(request):
             user = User.objects.get(username=username)
             login(request, user)
             messages.success(request, f'Welcome back, {user.first_name}!')
+            
+            # Redirect to 'next' parameter if provided, otherwise go to dashboard
+            next_url = request.POST.get('next') or request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
             return redirect('dashboard:home')
     else:
         form = UserLoginForm()

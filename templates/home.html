@@ -591,9 +591,10 @@
                         {% trans "Submit Feedback" %}
                     </a>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}" class="portal-btn portal-btn-primary">
-                        <i class="fas fa-sign-in-alt"></i>
-                        {% trans "Login" %}
+                    <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="portal-btn portal-btn-primary">
+                        <i class="fas fa-file-plus"></i>
+                        {% trans "File a Complaint" %}
+                        <small style="display:block;font-size:0.75rem;opacity:0.8;margin-top:5px;">{% trans "Login required" %}</small>
                     </a>
                     <a href="{% url 'accounts:register' %}" class="portal-btn portal-btn-secondary">
                         <i class="fas fa-user-plus"></i>
