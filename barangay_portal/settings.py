@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,mywebapp-production-cd0d.up.railway.app', cast=Csv())
 
-# CSRF Settings for Railway deployment - TEMPORARILY DISABLED FOR TESTING
+# CSRF Settings for Railway deployment
 CSRF_TRUSTED_ORIGINS = [
     'https://mywebapp-production-cd0d.up.railway.app',
     'https://*.railway.app',
@@ -37,16 +37,16 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000'
 ]
 
-# Temporary CSRF bypass for Railway deployment issues
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_SAMESITE = None
-CSRF_USE_SESSIONS = False
-
-# For Railway deployment - allow all origins temporarily
+# CSRF settings
 import os
 if 'RAILWAY_ENVIRONMENT_NAME' in os.environ:
-    CSRF_TRUSTED_ORIGINS.append('https://*')
-    CSRF_TRUSTED_ORIGINS.append('*')
+    # Production settings for Railway
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+else:
+    # Development settings
+    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = 'Lax'
 
 # Application definition
 
@@ -218,19 +218,5 @@ LOGGING = {
     },
 }
 
-# CSRF Configuration
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'http://127.0.0.1:57310',  # Browser preview proxy
-    'https://127.0.0.1:57310',
-    'http://localhost:57310',
-    'https://localhost:57310',
-    'http://127.0.0.1:57943',  # Current browser preview proxy
-    'https://127.0.0.1:57943',
-]
-
-# Additional CSRF settings for development
-CSRF_COOKIE_SECURE = False
+# Additional CSRF settings for local development
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = 'Lax'
