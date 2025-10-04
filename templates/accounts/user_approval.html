@@ -1296,18 +1296,32 @@
 </div>
 
 <script>
+// Get current language prefix from URL
+function getLanguagePrefix() {
+    const path = window.location.pathname;
+    const match = path.match(/^\/(en|fil)\//);
+    return match ? `/${match[1]}` : '/en'; // Default to /en if no prefix found
+}
+
 // AJAX Reject handler to avoid page reload
 document.addEventListener('click', function(e) {
     const btn = e.target.closest('.btn-reject[data-user-id]');
     if (!btn) return;
     const userId = btn.getAttribute('data-user-id');
+    const userName = btn.getAttribute('data-username') || 'this user';
     const card = btn.closest('.user-card');
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+    
+    // Ask for confirmation first
+    if (!confirm(`Are you sure you want to reject ${userName}? This action cannot be undone.`)) {
+        return;
+    }
+    
     if (!csrfToken) {
         // Fallback: if no token on page, do a normal POST by creating a form
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = `/accounts/reject-user/${userId}/`;
+        form.action = `${getLanguagePrefix()}/accounts/reject-user/${userId}/`;
         form.innerHTML = `{% csrf_token %}`;
         document.body.appendChild(form);
         form.submit();
@@ -1317,7 +1331,7 @@ document.addEventListener('click', function(e) {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Rejecting...';
 
-    fetch(`/accounts/reject-user/${userId}/`, {
+    fetch(`${getLanguagePrefix()}/accounts/reject-user/${userId}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1326,14 +1340,25 @@ document.addEventListener('click', function(e) {
         },
         body: JSON.stringify({})
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            return res.json().then(data => {
+                throw new Error(data.error || `HTTP error! status: ${res.status}`);
+            }).catch(() => {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            });
+        }
+        return res.json();
+    })
     .then(data => {
         if (data.success) {
             // Remove the card from the DOM
             if (card) card.remove();
-            // Optional: show a toast/message if base has helper
+            // Show success message
             if (typeof showMessage === 'function') {
                 showMessage('success', data.message);
+            } else {
+                alert(data.message || 'User has been rejected successfully.');
             }
         } else {
             if (typeof showMessage === 'function') {
@@ -1346,11 +1371,11 @@ document.addEventListener('click', function(e) {
         }
     })
     .catch(err => {
-        console.error(err);
+        console.error('Error rejecting user:', err);
         if (typeof showMessage === 'function') {
-            showMessage('error', 'An error occurred while rejecting the user');
+            showMessage('error', `Error: ${err.message}`);
         } else {
-            alert('An error occurred while rejecting the user');
+            alert(`Error: ${err.message}`);
         }
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-times me-1"></i> Reject';

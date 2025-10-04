@@ -79,14 +79,19 @@ def user_approval_list(request):
         messages.error(request, 'You do not have permission to access this page.')
         return redirect('dashboard:home')
     
-    # Get statistics
-    total_users = User.objects.filter(is_superuser=False).count()
-    pending_users_count = User.objects.filter(is_approved=False, is_superuser=False).count()
-    approved_users = User.objects.filter(is_approved=True, is_superuser=False).count()
-    resident_users = User.objects.filter(is_approved=True, is_superuser=False, role='resident').count()
+    # Get statistics (exclude soft-deleted users)
+    active_users = User.objects.filter(is_superuser=False, is_active=True).exclude(username__startswith='deleted_user_')
+    total_users = active_users.count()
+    pending_users_count = active_users.filter(is_approved=False).count()
+    approved_users = active_users.filter(is_approved=True).count()
+    resident_users = active_users.filter(is_approved=True, role='resident').count()
     
-    # Get paginated pending users for the table
-    pending_users = User.objects.filter(is_approved=False, is_superuser=False).order_by('-date_joined')
+    # Get paginated pending users for the table (exclude soft-deleted)
+    pending_users = User.objects.filter(
+        is_approved=False, 
+        is_superuser=False,
+        is_active=True
+    ).exclude(username__startswith='deleted_user_').order_by('-date_joined')
     paginator = Paginator(pending_users, 10)
     page_number = request.GET.get('page')
     users = paginator.get_page(page_number)
