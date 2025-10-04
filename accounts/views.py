@@ -117,29 +117,47 @@ def approve_user(request, user_id):
 def reject_user(request, user_id):
     if not request.user.can_approve_users():
         # For AJAX request, return JSON error
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'success': False, 'error': 'Permission denied.'}, status=403)
         messages.error(request, 'You do not have permission to perform this action.')
         return redirect('dashboard:home')
     
-    user = get_object_or_404(User, id=user_id, is_approved=False)
+    # Get pending user (not approved yet)
+    try:
+        user = User.objects.get(id=user_id, is_approved=False, is_superuser=False)
+    except User.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'User not found or already processed.'}, status=404)
+        messages.error(request, 'User not found or already processed.')
+        return redirect('accounts:user_approval')
+    
     username = user.username
+    full_name = user.get_full_name() or username
     
     # Only allow POST for delete
     if request.method != 'POST':
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'success': False, 'error': 'Invalid method.'}, status=405)
         messages.error(request, 'Invalid request method.')
         return redirect('accounts:user_approval')
 
-    user.delete()
-
-    # If AJAX, return JSON to avoid page reload
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({'success': True, 'message': f'User {username} has been rejected and deleted.', 'user_id': user_id})
-
-    messages.warning(request, f'User {username} has been rejected and deleted.')
-    return redirect('accounts:user_approval')
+    # Delete the user
+    try:
+        user.delete()
+        success_msg = f'User "{full_name}" has been rejected and deleted.'
+        
+        # If AJAX, return JSON to avoid page reload
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'message': success_msg, 'user_id': user_id})
+        
+        messages.warning(request, success_msg)
+        return redirect('accounts:user_approval')
+    except Exception as e:
+        error_msg = f'Failed to delete user: {str(e)}'
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': error_msg}, status=500)
+        messages.error(request, error_msg)
+        return redirect('accounts:user_approval')
 
 @login_required
 def profile_view(request):
