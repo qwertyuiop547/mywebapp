@@ -849,7 +849,7 @@
         background: #c53030;
     }
     
-    /* Responsive */
+    /* Responsive - Mobile Friendly */
     @media (max-width: 768px) {
         .filter-form {
             grid-template-columns: 1fr;
@@ -866,6 +866,62 @@
         
         .user-actions {
             justify-content: center;
+        }
+        
+        /* Make cards full width on mobile */
+        .user-card {
+            margin: 10px 5px;
+        }
+        
+        /* Stack info items vertically on mobile */
+        .info-item {
+            flex-direction: column;
+            align-items: flex-start !important;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-label {
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            word-break: break-word;
+        }
+        
+        /* Better buttons on mobile - Touch friendly */
+        .btn {
+            padding: 12px 20px !important;
+            font-size: 14px !important;
+            min-height: 44px; /* iOS recommended touch target size */
+        }
+        
+        .user-footer .d-flex {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+        
+        .user-footer .btn {
+            width: 100% !important;
+        }
+        
+        /* Dashboard welcome - better mobile padding */
+        .dashboard-welcome {
+            padding: 20px !important;
+            margin: 15px 0 !important;
+        }
+        
+        .welcome-title {
+            font-size: 20px !important;
+        }
+        
+        /* Stats grid - 1 column on very small screens */
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
         }
     }
 
@@ -1158,15 +1214,33 @@
                                         <div class="user-info">
                                             <div class="info-item">
                                                 <span class="info-label">
+                                                    <i class="fas fa-user me-2"></i>Full Name
+                                                </span>
+                                                <span class="info-value">{{ user_account.first_name }} {{ user_account.last_name }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-id-card me-2"></i>Username
+                                                </span>
+                                                <span class="info-value">{{ user_account.username }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
                                                     <i class="fas fa-envelope me-2"></i>Email
                                                 </span>
                                                 <span class="info-value">{{ user_account.email|default:"Not provided" }}</span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">
-                                                    <i class="fas fa-user me-2"></i>Username
+                                                    <i class="fas fa-phone me-2"></i>Phone Number
                                                 </span>
-                                                <span class="info-value">{{ user_account.username }}</span>
+                                                <span class="info-value">{{ user_account.phone_number|default:"Not provided" }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">
+                                                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                                                </span>
+                                                <span class="info-value">{{ user_account.address|default:"Not provided" }}</span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">
