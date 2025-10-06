@@ -494,3 +494,230 @@
 [data-theme="dark"] a:hover {
     color: var(--primary-blue);
 }
+
+/* Home Page Specific - Dark Mode */
+/* Announcements Section */
+[data-theme="dark"] .announcements-section {
+    background: rgba(31, 41, 55, 0.95) !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .announcement-card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .announcement-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .announcement-header {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .announcement-title {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .announcement-meta,
+[data-theme="dark"] .ann-meta {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .announcement-body,
+[data-theme="dark"] .announcement-excerpt {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .announcement-footer {
+    background: var(--bg-tertiary) !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .priority-badge {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Service Cards on Home Page */
+[data-theme="dark"] .service-card {
+    background: rgba(31, 41, 55, 0.9) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .service-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .service-title {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .service-description {
+    color: var(--text-secondary) !important;
+}
+
+/* Quick Links on Home Page */
+[data-theme="dark"] .quick-link {
+    background: rgba(31, 41, 55, 0.9) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .quick-link:hover {
+    background: var(--bg-tertiary) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .quick-body h6 {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .quick-body small {
+    color: var(--text-muted) !important;
+}
+
+/* Statistics Section on Home Page */
+[data-theme="dark"] .stats-section {
+    background: rgba(31, 41, 55, 0.95) !important;
+}
+
+[data-theme="dark"] .stat-box {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .stat-box:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .stat-number {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .stat-label {
+    color: var(--text-secondary) !important;
+}
+
+/* Contact Section on Home Page */
+[data-theme="dark"] .contact-section {
+    background: rgba(31, 41, 55, 0.95) !important;
+}
+
+[data-theme="dark"] .contact-card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+/* Services Overview Section */
+[data-theme="dark"] .services-section {
+    background: transparent !important;
+}
+
+/* Section Headers */
+[data-theme="dark"] .section-title {
+    color: var(--text-primary) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="dark"] .section-subtitle {
+    color: var(--text-secondary) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Statistics Section */
+[data-theme="dark"] .stats-section {
+    background: rgba(31, 41, 55, 0.95) !important;
+}
+
+[data-theme="dark"] .stat-card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .stat-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .stat-number {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .stat-label {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .stat-description {
+    color: var(--text-muted) !important;
+}
+
+/* Hero Pills/Stats */
+[data-theme="dark"] .hero-pill {
+    background: rgba(31, 41, 55, 0.9) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .hero-pill:hover {
+    background: var(--bg-tertiary) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .hero-pill .count {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .hero-pill .label {
+    color: var(--text-secondary) !important;
+}
+
+/* Announcement Content */
+[data-theme="dark"] .announcement-content {
+    background: var(--card-bg) !important;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .announcement-text {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .announcement-category {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .announcement-date {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .priority-badge-urgent,
+[data-theme="dark"] .priority-badge-high,
+[data-theme="dark"] .priority-badge-medium,
+[data-theme="dark"] .priority-badge-low {
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* No Announcements Message */
+[data-theme="dark"] .no-announcements {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .no-announcements i {
+    color: var(--text-muted);
+}
+
+/* Service Links */
+[data-theme="dark"] .service-link {
+    color: var(--secondary-blue) !important;
+}
+
+[data-theme="dark"] .service-link:hover {
+    color: var(--primary-blue) !important;
+}
