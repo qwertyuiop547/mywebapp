@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Aking Mga Mungkahi - Barangay Portal{% endblock %}
+{% block title %}{% trans "My Suggestions" %} - Barangay Portal{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -129,12 +130,12 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h2><i class="bi bi-person-circle"></i> Aking Mga Mungkahi</h2>
-                <p>Tingnan ang mga mungkahing naipadala mo</p>
+                <h2><i class="bi bi-person-circle"></i> {% trans "My Suggestions" %}</h2>
+                <p>{% trans "View the suggestions you submitted" %}</p>
             </div>
             <div class="col-md-4 text-end">
                 <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Bagong Mungkahi
+                    <i class="bi bi-plus-circle"></i> {% trans "New Suggestion" %}
                 </a>
             </div>
         </div>
@@ -175,7 +176,7 @@
                     {% if suggestion.admin_response %}
                     <div class="alert alert-info mt-3 mb-0">
                         <small>
-                            <strong><i class="bi bi-megaphone"></i> Tugon ng Barangay:</strong><br>
+                            <strong><i class="bi bi-megaphone"></i> {% trans "Barangay Response:" %}</strong><br>
                             {{ suggestion.admin_response|truncatewords:20 }}
                         </small>
                     </div>
@@ -187,10 +188,10 @@
         <div class="col-12">
             <div class="glass-card text-center">
                 <i class="bi bi-info-circle" style="font-size: 3rem; color: #fcd116; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));"></i>
-                <h5 style="margin-top: 15px;">Wala ka pang naipadala na mungkahi.</h5>
+                <h5 style="margin-top: 15px;">{% trans "You haven't submitted any suggestions yet." %}</h5>
                 <br>
                 <a href="{% url 'suggestions:submit_suggestion' %}" class="btn btn-primary mt-2">
-                    <i class="bi bi-plus-circle"></i> Magpadala ng Mungkahi
+                    <i class="bi bi-plus-circle"></i> {% trans "Submit Suggestion" %}
                 </a>
             </div>
         </div>
@@ -203,17 +204,17 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
             </li>
             {% endif %}
             
             <li class="page-item active">
-                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                <span class="page-link">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span>
             </li>
             
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
             </li>
             {% endif %}
         </ul>

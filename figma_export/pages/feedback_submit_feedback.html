@@ -1,0 +1,598 @@
+
+
+
+Submit Feedback - Barangay Portal
+
+
+<style>
+    /* Beautiful aerial background */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
+
+    /* Page Layout */
+    .feedback-page {
+        background: transparent;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        transition: all 0.3s ease;
+    }
+    
+    .page-header:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    }
+    
+    .page-title {
+        color: white !important;
+        font-weight: 700;
+        font-size: 2rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7) !important;
+    }
+    
+    .page-subtitle {
+        color: rgba(255, 255, 255, 0.9) !important;
+        margin: 0.5rem 0 0 0;
+        font-size: 1.1rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    }
+    
+    .header-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-header {
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-header.secondary {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-color: rgba(255, 255, 255, 0.3);
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .btn-header:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+    }
+    
+    .btn-header.secondary:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+    }
+    
+    /* Form Container - Glass Morphism */
+    .form-container {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.3), 
+            rgba(255, 255, 255, 0.15)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 24px;
+        padding: 2.5rem;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        transition: all 0.3s ease;
+    }
+    
+    .form-container:hover {
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
+    }
+    
+    .form-section {
+        margin-bottom: 2rem;
+    }
+    
+    .section-title {
+        color: white !important;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .section-description {
+        color: rgba(255, 255, 255, 0.95) !important;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* Form Controls */
+    .form-label {
+        font-weight: 600;
+        color: white !important;
+        margin-bottom: 0.5rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        color: #1e293b;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+    }
+    
+    .form-text {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* Rating Stars */
+    .rating-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .star-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .star-display {
+        display: flex;
+        gap: 0.25rem;
+        font-size: 1.5rem;
+        color: #fbbf24;
+    }
+    
+    .rating-text {
+        font-weight: 600;
+        color: white !important;
+        margin-left: 0.5rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* File Upload */
+    .file-upload-section {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 2px dashed rgba(255, 255, 255, 0.4);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .file-upload-section:hover {
+        border-color: rgba(59, 130, 246, 0.8);
+        background: rgba(59, 130, 246, 0.1);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    }
+    
+    .file-upload-icon {
+        font-size: 2.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 1rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .file-upload-text {
+        color: white !important;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .file-upload-subtext {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-size: 0.875rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* Anonymous Checkbox */
+    .anonymous-section {
+        background: rgba(252, 211, 77, 0.2);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(252, 211, 77, 0.5);
+        border-radius: 16px;
+        padding: 1.5rem;
+    }
+    
+    .form-check-input:checked {
+        background-color: #3b82f6;
+        border-color: #3b82f6;
+    }
+    
+    .form-check-label {
+        font-weight: 600;
+        color: white !important;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .anonymous-description {
+        color: rgba(255, 255, 255, 0.95) !important;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        margin-left: 1.75rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* Submit Button */
+    .submit-section {
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .submit-section .text-muted {
+        color: rgba(255, 255, 255, 0.8) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .feedback-page {
+            padding: 1rem 0;
+        }
+        
+        .page-header {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+        }
+        
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .form-container {
+            padding: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+
+
+
+<div class="feedback-page">
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h1 class="page-title">
+                    <i class="fas fa-comment-dots"></i>
+                    Submit Feedback
+                </h1>
+                <p class="page-subtitle">Help us improve our services with your valuable feedback</p>
+            </div>
+            <div class="header-actions">
+                <a href="#" class="btn-header secondary">
+                    <i class="fas fa-list"></i> My Feedback
+                </a>
+                <a href="#" class="btn-header secondary">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-Sample Data alert-dismissible fade show" role="alert">
+                <strong>Sample Data</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Feedback Form -->
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data" id="feedbackForm">
+            {% csrf_token %}
+            
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle text-primary"></i>
+                    Basic Information
+                </h2>
+                <p class="section-description">
+                    Tell us what type of feedback you're providing and give it a descriptive title.
+                </p>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="Sample Data" class="form-label">
+                            <i class="fas fa-tags me-2"></i>Feedback Type
+                        </label>
+                        Sample Data
+                        <div class="form-text">Choose the category that best describes your feedback</div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="Sample Data" class="form-label">
+                            <i class="fas fa-star me-2"></i>Overall Rating
+                        </label>
+                        <div class="rating-container">
+                            Sample Data
+                            <div class="star-display" id="starDisplay">
+                                <span>★★★★★</span>
+                                <span class="rating-text">Select a rating</span>
+                            </div>
+                        </div>
+                        <div class="form-text">Rate your overall experience with our services</div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="Sample Data" class="form-label">
+                        <i class="fas fa-heading me-2"></i>Feedback Title
+                    </label>
+                    Sample Data
+                    <div class="form-text">Provide a brief, descriptive title for your feedback</div>
+                </div>
+            </div>
+            
+            <!-- Detailed Feedback Section -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-comment-alt text-success"></i>
+                    Detailed Feedback
+                </h2>
+                <p class="section-description">
+                    Please provide detailed information about your experience, suggestions, or concerns.
+                </p>
+                
+                <div class="mb-3">
+                    <label for="Sample Data" class="form-label">
+                        <i class="fas fa-edit me-2"></i>Your Feedback
+                    </label>
+                    Sample Data
+                    <div class="form-text">Be as specific as possible to help us understand and address your feedback</div>
+                </div>
+            </div>
+            
+            <!-- Attachment Section -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-paperclip text-info"></i>
+                    Supporting Documents (Optional)
+                </h2>
+                <p class="section-description">
+                    You can attach screenshots, documents, or other files that support your feedback.
+                </p>
+                
+                <div class="file-upload-section">
+                    <div class="file-upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="file-upload-text">Choose File to Upload</div>
+                    <div class="file-upload-subtext">
+                        Supported formats: Images (JPG, PNG, GIF), Documents (PDF, DOC, DOCX, TXT)
+                        <br>Maximum file size: 5MB
+                    </div>
+                    <div class="mt-3">
+                        Sample Data
+                    </div>
+                    {% if form.attachment.help_text %}
+                        <div class="form-text mt-2">Sample Data</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Privacy Section -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user-shield text-warning"></i>
+                    Privacy Settings
+                </h2>
+                
+                <div class="anonymous-section">
+                    <div class="form-check">
+                        Sample Data
+                        <label class="form-check-label" for="Sample Data">
+                            <i class="fas fa-mask me-2"></i>Submit this feedback anonymously
+                        </label>
+                    </div>
+                    <div class="anonymous-description">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Your identity will be hidden from public reports, but administrators can still identify you for follow-up if necessary.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <div class="d-grid">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Submit Feedback
+                    </button>
+                </div>
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Your feedback is important to us and will be reviewed by our team.
+                    </small>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingSelect = document.getElementById('Sample Data');
+    const starDisplay = document.getElementById('starDisplay');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('feedbackForm');
+    
+    // Rating display update
+    function updateStarDisplay() {
+        const rating = parseInt(ratingSelect.value) || 0;
+        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        const ratingTexts = {
+            1: 'Poor',
+            2: 'Fair', 
+            3: 'Good',
+            4: 'Very Good',
+            5: 'Excellent'
+        };
+        
+        starDisplay.innerHTML = `
+            <span style="color: #fbbf24">${stars}</span>
+            <span class="rating-text">${rating > 0 ? ratingTexts[rating] : 'Select a rating'}</span>
+        `;
+    }
+    
+    // Initialize star display
+    updateStarDisplay();
+    
+    // Update stars when rating changes
+    ratingSelect.addEventListener('change', updateStarDisplay);
+    
+    // Form submission handling
+    form.addEventListener('submit', function(e) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+        
+        // Re-enable button after 5 seconds if form doesn't submit properly
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Feedback';
+        }, 5000);
+    });
+    
+    // File upload feedback
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : '';
+            const uploadSection = document.querySelector('.file-upload-section');
+            
+            if (fileName) {
+                const fileText = uploadSection.querySelector('.file-upload-text');
+                const fileIcon = uploadSection.querySelector('.file-upload-icon i');
+                
+                fileText.textContent = `Selected: ${fileName}`;
+                fileIcon.className = 'fas fa-file-check';
+                uploadSection.style.borderColor = '#10b981';
+                uploadSection.style.backgroundColor = '#ecfdf5';
+            }
+        });
+    }
+    
+    // Form validation feedback
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value) {
+                this.style.borderColor = '#ef4444';
+            } else if (this.value) {
+                this.style.borderColor = '#10b981';
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.style.borderColor === 'rgb(239, 68, 68)' && this.value) {
+                this.style.borderColor = '#10b981';
+            }
+        });
+    });
+});
+</script>
+

@@ -1,0 +1,294 @@
+
+
+
+
+{% block title %}Suggestions - Barangay Portal
+
+
+<style>
+    /* Glass Morphism Theme */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                    url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        min-height: 100vh !important;
+    }
+
+    .glass-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 15px !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.37),
+            inset 0 1px 0 rgba(255,255,255,0.5),
+            0 0 0 1px rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 12px 40px rgba(0,0,0,0.45),
+            inset 0 2px 0 rgba(255,255,255,0.6),
+            0 0 0 1px rgba(255,255,255,0.1) !important;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin-bottom: 30px !important;
+        box-shadow: 
+            0 8px 32px rgba(0,0,0,0.37),
+            inset 0 1px 0 rgba(255,255,255,0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+
+    .page-header h2 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+    }
+
+    .page-header h2 i {
+        color: #fcd116 !important;
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        margin: 5px 0 0 0 !important;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.2), 
+            rgba(255, 255, 255, 0.05)
+        ) !important;
+        backdrop-filter: blur(15px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+    }
+
+    .stat-card h3 {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 700 !important;
+        font-size: 2rem !important;
+        margin-bottom: 5px !important;
+    }
+
+    .stat-card p {
+        color: rgba(255, 255, 255, 0.85) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        margin: 0 !important;
+    }
+
+    .suggestion-card {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.25), 
+            rgba(255, 255, 255, 0.1)
+        ) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.35) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .suggestion-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+    }
+
+    .suggestion-card h5 a {
+        color: #ffffff !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        font-weight: 600 !important;
+    }
+
+    .suggestion-card p, .suggestion-card small {
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    .badge {
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #0038a8, #2989d8) !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(0,56,168,0.4) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,56,168,0.6) !important;
+    }
+</style>
+
+
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2><i class="bi bi-lightbulb"></i> Suggestions for the Barangay</h2>
+                <p>Share your ideas for improving our barangay</p>
+            </div>
+            <div class="col-md-4 text-end">
+                {% if user.is_authenticated %}
+                    <a href="#" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Submit Suggestion
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h3>Sample Data</h3>
+                <p class="mb-0">Total Suggestions</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h3>Sample Data</h3>
+                <p class="mb-0">Pending</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h3>Sample Data</h3>
+                <p class="mb-0">Approved</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h3>Sample Data</h3>
+                <p class="mb-0">Completed</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="glass-card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-6">
+                    Sample Data
+                </div>
+                <div class="col-md-4">
+                    Sample Data
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Suggestions List -->
+    <div class="row">
+        {% for suggestion in page_obj %}
+        <div class="col-12 mb-3">
+            <div class="suggestion-card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h5>
+                                <a href="#" class="text-decoration-none">
+                                    Sample Data
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-2">Sample Data</p>
+                            <small class="text-muted">
+                                <i class="bi bi-person"></i> Sample Data
+                                {% if suggestion.location %}
+                                | <i class="bi bi-geo-alt"></i> Sample Data
+                                {% endif %}
+                                | <i class="bi bi-calendar"></i> Sample Data
+                            </small>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <span class="badge bg-Sample Data mb-2">
+                                Sample Data
+                            </span>
+                            <br>
+                            <span class="badge bg-light text-dark">
+                                <i class="bi bi-hand-thumbs-up"></i> Sample Data VoteSample Data
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="glass-card text-center" style="padding: 30px;">
+                <i class="bi bi-info-circle" style="font-size: 3rem; color: #fcd116; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));"></i>
+                <h5 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); margin-top: 15px;">No suggestions yet.</h5>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=Sample Data">Previous</a>
+            </li>
+            {% endif %}
+            
+            <li class="page-item active">
+                <span class="page-link">Page Sample Data of Sample Data</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page=Sample Data">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+

@@ -1,0 +1,950 @@
+/* 🎨 GALLERY PAGE - STUNNING GLASS MORPHISM DESIGN */
+/* Ultra-premium glass morphism matching Complaints and Suggestions pages */
+
+:root {
+    --ph-blue: #0038a8;
+    --ph-red: #ce1126;
+    --ph-yellow: #fcd116;
+}
+
+/* 🌈 BEAUTIFUL VIBRANT GRADIENT BACKGROUND - MATCHING OTHER PAGES */
+.gallery-page body,
+body.gallery-page,
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    min-height: 100vh !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    position: relative;
+}
+
+/* Ensure container has proper spacing */
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* 💎 GLASS MORPHISM WELCOME SECTION */
+.dashboard-welcome {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    border-radius: 25px !important;
+    padding: 40px !important;
+    margin: 30px 0 !important;
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+    border-left: 6px solid var(--ph-blue) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Animated gradient overlay */
+.dashboard-welcome::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 70%
+    );
+    animation: rotate-gradient 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes rotate-gradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.dashboard-welcome:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 0 60px rgba(103, 58, 183, 0.3) !important;
+}
+
+.welcome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-content {
+    flex: 1;
+}
+
+.welcome-title,
+.dashboard-welcome h1 {
+    color: white !important;
+    text-shadow: 
+        2px 2px 6px rgba(0,0,0,0.4),
+        0 0 30px rgba(255,255,255,0.4) !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    margin: 0 0 8px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    letter-spacing: 0.5px;
+}
+
+.welcome-title i {
+    color: var(--ph-red) !important;
+    filter: drop-shadow(0 0 15px rgba(206, 17, 38, 0.8));
+    animation: heart-beat 1.5s ease-in-out infinite;
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.15); }
+    50% { transform: scale(1); }
+}
+
+.welcome-message {
+    color: rgba(255,255,255,0.95) !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.welcome-message i {
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+}
+
+.user-info {
+    background: rgba(255,255,255,0.15) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 18px 28px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info * {
+    color: white !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4) !important;
+}
+
+/* 🔘 ACTION BUTTONS - GLASS STYLE */
+.dashboard-welcome .btn {
+    background: rgba(255,255,255,0.2) !important;
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255,255,255,0.3) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 14px 32px !important;
+    border-radius: 30px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.dashboard-welcome .btn:hover {
+    background: rgba(255,255,255,0.3) !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.dashboard-welcome .btn-warning {
+    background: linear-gradient(135deg, 
+        rgba(252, 209, 22, 0.95),
+        rgba(248, 193, 70, 0.95)
+    ) !important;
+    color: var(--ph-blue) !important;
+    border: 1.5px solid rgba(252, 209, 22, 0.6) !important;
+    font-weight: 800 !important;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.6) !important;
+    box-shadow: 0 8px 25px rgba(252, 209, 22, 0.4);
+}
+
+.dashboard-welcome .btn-warning:hover {
+    background: linear-gradient(135deg, 
+        rgba(248, 193, 70, 0.95),
+        rgba(252, 209, 22, 0.95)
+    ) !important;
+    box-shadow: 0 12px 35px rgba(252, 209, 22, 0.5);
+}
+
+/* 📊 STATS CARDS - PREMIUM GLASS MORPHISM */
+.stats-card {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 20px !important;
+    padding: 32px !important;
+    text-align: center !important;
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--ph-blue), var(--ph-yellow), var(--ph-red));
+    opacity: 0.9;
+}
+
+.stats-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.stats-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 
+        0 20px 50px rgba(31, 38, 135, 0.5),
+        0 0 50px rgba(103, 58, 183, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.4) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.stats-icon {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 18px !important;
+    font-size: 2rem !important;
+    background: rgba(255,255,255,0.25) !important;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.4) !important;
+    color: white !important;
+    text-shadow: 0 0 20px rgba(255,255,255,0.6);
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover .stats-icon {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 12px 30px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.5),
+        0 0 30px rgba(255,255,255,0.3);
+}
+
+.stats-number {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    color: white !important;
+    margin-bottom: 10px !important;
+    text-shadow: 
+        3px 3px 6px rgba(0,0,0,0.4),
+        0 0 30px rgba(255,255,255,0.4) !important;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+}
+
+.stats-label {
+    font-size: 1rem !important;
+    color: rgba(255,255,255,0.95) !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 🔖 PORTAL TABS - SIMPLIFIED SMOOTH TRANSITIONS */
+/* Container - Clean Reset */
+body .container .portal-tabs,
+body .portal-tabs {
+    display: flex !important;
+    gap: 18px !important;
+    margin: 35px 0 !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    overflow: visible !important;
+    min-height: 80px;
+    align-items: center;
+}
+
+/* BASE STATE - Default Look */
+body .container .portal-tabs .portal-tab,
+body .portal-tabs a.portal-tab,
+body a.portal-tab,
+body .portal-tab {
+    /* Reset all conflicts */
+    all: unset !important;
+    
+    /* Apply glass morphism */
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.15)
+    ) !important;
+    backdrop-filter: blur(25px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
+    
+    /* Typography */
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 17px !important;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8) !important;
+    letter-spacing: 0.5px !important;
+    text-decoration: none !important;
+    
+    /* Layout */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    padding: 18px 38px !important;
+    min-width: 190px !important;
+    
+    /* Styling */
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 18px !important;
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.3),
+        inset 0 2px 0 rgba(255,255,255,0.4) !important;
+    
+    /* Transform Base */
+    transform: translateY(0) scale(1) !important;
+    transform-origin: center !important;
+    
+    /* Smooth Transition */
+    transition: 
+        transform 0.25s ease-out,
+        background 0.25s ease-out,
+        box-shadow 0.25s ease-out,
+        border-color 0.25s ease-out !important;
+    
+    /* Performance */
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    
+    /* Interaction */
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 5 !important;
+    pointer-events: auto !important;
+}
+
+/* HOVER STATE - Lighter & Elevated */
+body .container .portal-tabs .portal-tab:hover,
+body .portal-tabs a.portal-tab:hover,
+body a.portal-tab:hover,
+body .portal-tab:hover {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.4), 
+        rgba(255, 255, 255, 0.2)
+    ) !important;
+    transform: translateY(-4px) scale(1.03) !important;
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.4),
+        inset 0 3px 0 rgba(255,255,255,0.5),
+        0 0 30px rgba(255,255,255,0.2) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ACTIVE STATE - Golden & Bold */
+body .container .portal-tabs .portal-tab.active,
+body .portal-tabs a.portal-tab.active,
+body a.portal-tab.active,
+body .portal-tab.active {
+    background: linear-gradient(135deg, 
+        rgba(252, 209, 22, 0.95),
+        rgba(248, 193, 70, 0.95)
+    ) !important;
+    color: var(--ph-blue) !important;
+    border: 2px solid rgba(252, 209, 22, 0.7) !important;
+    box-shadow: 
+        0 10px 35px rgba(252, 209, 22, 0.6),
+        inset 0 3px 0 rgba(255,255,255,0.7),
+        0 0 40px rgba(252, 209, 22, 0.5) !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    font-weight: 900 !important;
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.8) !important;
+    z-index: 10 !important;
+}
+
+/* ACTIVE + HOVER = No Extra Movement */
+body .container .portal-tabs .portal-tab.active:hover,
+body .portal-tabs a.portal-tab.active:hover,
+body a.portal-tab.active:hover,
+body .portal-tab.active:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+}
+
+/* CLICK STATE - Quick Response */
+body .container .portal-tabs .portal-tab:active,
+body .portal-tabs a.portal-tab:active,
+body a.portal-tab:active,
+body .portal-tab:active {
+    transform: translateY(-2px) scale(1.02) !important;
+    transition: transform 0.1s ease-out !important;
+}
+
+/* ICONS - Subtle Animation */
+body .portal-tab i {
+    transition: transform 0.25s ease !important;
+    display: inline-block !important;
+}
+
+body .portal-tab:hover i {
+    transform: scale(1.1) !important;
+}
+
+body .portal-tab.active i {
+    color: var(--ph-blue) !important;
+}
+
+/* 🎛️ FILTER PANEL - GLASS MORPHISM */
+.filter-panel {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 20px !important;
+    padding: 30px !important;
+    margin-bottom: 30px !important;
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+}
+
+.filter-panel .form-label {
+    color: white !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    margin-bottom: 10px !important;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+}
+
+.filter-panel .form-control,
+.filter-panel .form-select {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+    border-radius: 12px !important;
+    padding: 14px 18px !important;
+    color: white !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.filter-panel .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 500;
+}
+
+.filter-panel .form-control:focus,
+.filter-panel .form-select:focus {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(252, 209, 22, 0.7) !important;
+    box-shadow: 
+        0 0 0 4px rgba(252, 209, 22, 0.25),
+        0 6px 20px rgba(0,0,0,0.2) !important;
+    color: white !important;
+    outline: none;
+}
+
+.filter-panel .form-select option {
+    background: #333;
+    color: white;
+    padding: 10px;
+}
+
+.filter-panel .form-check-label {
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.filter-panel .form-check-input {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.filter-panel .form-check-input:checked {
+    background-color: var(--ph-yellow);
+    border-color: var(--ph-yellow);
+    box-shadow: 0 0 10px rgba(252, 209, 22, 0.5);
+}
+
+.filter-panel .btn-primary {
+    background: linear-gradient(135deg, var(--ph-blue), #2989d8) !important;
+    border: 1.5px solid rgba(0, 56, 168, 0.6) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 12px 28px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 6px 20px rgba(0, 56, 168, 0.4);
+    transition: all 0.3s ease;
+}
+
+.filter-panel .btn-primary:hover {
+    background: linear-gradient(135deg, #2989d8, var(--ph-blue)) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 56, 168, 0.5);
+}
+
+.filter-panel .btn-outline-primary {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 12px 28px !important;
+    border-radius: 12px !important;
+}
+
+.filter-panel .btn-outline-primary:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 🖼️ PHOTO GRID - PREMIUM CARDS */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+    margin-bottom: 35px;
+}
+
+.photo-card {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+}
+
+.photo-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+        0 20px 50px rgba(31, 38, 135, 0.5),
+        0 0 50px rgba(103, 58, 183, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.4) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.photo-image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photo-card:hover .photo-image {
+    transform: scale(1.15);
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 240px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 5;
+}
+
+.photo-card:hover .photo-overlay {
+    opacity: 1;
+}
+
+.photo-overlay .btn {
+    background: rgba(255,255,255,0.25) !important;
+    backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255,255,255,0.4) !important;
+    color: white !important;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.photo-overlay .btn:hover {
+    background: rgba(255,255,255,0.35) !important;
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.photo-info {
+    padding: 24px;
+    background: rgba(255,255,255,0.08);
+}
+
+.photo-title {
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    color: white !important;
+    margin-bottom: 14px !important;
+    line-height: 1.4 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    letter-spacing: 0.3px;
+}
+
+.photo-title a {
+    color: white !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.photo-title a:hover {
+    color: var(--ph-yellow) !important;
+    text-shadow: 0 0 15px rgba(252, 209, 22, 0.6);
+}
+
+.photo-meta {
+    font-size: 0.95rem !important;
+    color: rgba(255,255,255,0.9) !important;
+    margin-bottom: 16px !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-weight: 600;
+}
+
+.photo-meta i {
+    margin-right: 6px;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+}
+
+.photo-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.9);
+    padding-top: 14px;
+    border-top: 1.5px solid rgba(255,255,255,0.2);
+}
+
+.photo-engagement {
+    display: flex;
+    gap: 18px;
+}
+
+.photo-engagement span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.photo-engagement i {
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+}
+
+.status-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    z-index: 10;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    letter-spacing: 0.5px;
+}
+
+.status-featured {
+    background: linear-gradient(135deg, var(--ph-yellow), #f8c146);
+    color: var(--ph-blue);
+    border: 1.5px solid rgba(252, 209, 22, 0.6);
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+/* 📭 EMPTY STATE - GLASS DESIGN */
+.empty-state {
+    text-align: center;
+    padding: 70px 40px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 22px !important;
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+}
+
+.empty-state .icon,
+.empty-state i {
+    font-size: 5rem !important;
+    color: white !important;
+    opacity: 0.7 !important;
+    margin-bottom: 25px !important;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.4));
+}
+
+.empty-state h4 {
+    color: white !important;
+    font-weight: 800 !important;
+    margin-bottom: 18px !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    font-size: 1.8rem;
+}
+
+.empty-state p {
+    color: rgba(255,255,255,0.9) !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* 📄 PAGINATION - GLASS BUTTONS */
+.pagination {
+    margin-top: 35px;
+    justify-content: center;
+}
+
+.page-item .page-link {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-weight: 700;
+    margin: 0 6px;
+    border-radius: 12px !important;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.page-item .page-link:hover {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(255, 255, 255, 0.15)
+    ) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.page-item.active .page-link {
+    background: linear-gradient(135deg, var(--ph-yellow), #f8c146) !important;
+    color: var(--ph-blue) !important;
+    border-color: rgba(252, 209, 22, 0.6) !important;
+    box-shadow: 0 6px 20px rgba(252, 209, 22, 0.5);
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+/* 🚫 ADDITIONAL OVERRIDES FOR PORTAL-TABS.CSS CONFLICTS */
+/* Ensure our styles always win */
+body .portal-tabs {
+    flex-wrap: wrap !important;
+}
+
+body .portal-tab {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    white-space: nowrap !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+}
+
+/* Disable any loading animations from other CSS */
+body .portal-tab.loading::after,
+body .portal-tab::after {
+    display: none !important;
+    animation: none !important;
+}
+
+/* 📱 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .photo-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .dashboard-welcome {
+        padding: 30px 20px !important;
+    }
+    
+    .welcome-header {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .welcome-title,
+    .dashboard-welcome h1 {
+        font-size: 26px !important;
+        justify-content: center !important;
+    }
+    
+    .welcome-message {
+        justify-content: center !important;
+        font-size: 14px !important;
+    }
+    
+    .user-info {
+        justify-content: center !important;
+        padding: 15px 20px !important;
+    }
+    
+    .stats-number {
+        font-size: 2.5rem !important;
+    }
+    
+    .stats-icon {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .portal-tabs {
+        gap: 12px !important;
+    }
+    
+    .portal-tab {
+        min-width: 140px !important;
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+    }
+    
+    .filter-panel {
+        padding: 25px 20px !important;
+    }
+    
+    .photo-image {
+        height: 200px;
+    }
+    
+    .photo-overlay {
+        height: 200px;
+    }
+}
+
+/* 🎨 ADDITIONAL POLISH */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hardware acceleration for smooth animations */
+body .portal-tab,
+.photo-card,
+.stats-card,
+.dashboard-welcome {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+/* Prevent text selection during transitions */
+body .portal-tab * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+::selection {
+    background: var(--ph-yellow);
+    color: var(--ph-blue);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}

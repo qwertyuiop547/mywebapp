@@ -1,378 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Notification Preferences - Barangay Portal{% endblock %}
+{% block title %}{% trans "Notification Preferences" %} - Barangay Portal{% endblock %}
 
 {% block extra_css %}
-<style>
-    /* Official Philippine Government Portal Theme - Matching Complaint Management */
-    :root {
-        --ph-blue: #0038a8;
-        --ph-red: #ce1126;
-        --ph-yellow: #fcd116;
-        --ph-white: #ffffff;
-        --gov-primary: #003f7f;
-        --gov-secondary: #ffd700;
-        --gov-accent: #dc3545;
-        --gov-success: #28a745;
-        --gov-warning: #ffc107;
-        --gov-info: #17a2b8;
-        --gov-light: #f8f9fa;
-        --gov-dark: #212529;
-        --gov-gradient: linear-gradient(135deg, var(--ph-blue) 0%, #1e5799 50%, #2989d8 100%);
-        --shadow-light: 0 2px 8px rgba(0,56,168,0.15);
-        --shadow-medium: 0 4px 16px rgba(0,56,168,0.2);
-        --shadow-heavy: 0 8px 32px rgba(0,56,168,0.3);
-        --border-radius: 8px;
-    }
-    
-    body {
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
-                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
-        background-size: cover !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
-        min-height: 100vh !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
-    }
-    
-    /* Enhanced Dashboard Welcome Section - Beautiful Glass Morphism */
-    .dashboard-welcome {
-        background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25), 
-            rgba(255, 255, 255, 0.1)
-        ) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        border-radius: 20px !important;
-        padding: 35px !important;
-        margin: 30px 0 !important;
-        box-shadow: 
-            0 8px 32px rgba(0,0,0,0.3),
-            inset 0 1px 0 rgba(255,255,255,0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-left: 6px solid var(--ph-blue) !important;
-        position: relative !important;
-        overflow: hidden !important;
-        transition: all 0.3s ease !important;
-        z-index: 10 !important;
-    }
-    
-    .dashboard-welcome::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, 
-            rgba(0, 56, 168, 0.1) 0%, 
-            transparent 50%,
-            rgba(206, 17, 38, 0.05) 100%
-        );
-        pointer-events: none;
-        border-radius: 20px;
-    }
-    
-    .dashboard-welcome:hover {
-        transform: translateY(-2px);
-        box-shadow: 
-            0 12px 40px rgba(0,0,0,0.4),
-            inset 0 1px 0 rgba(255,255,255,0.5) !important;
-    }
-    
-    .welcome-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .welcome-title {
-        font-size: 28px !important;
-        color: white !important;
-        font-weight: 700 !important;
-        margin: 0 !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-        position: relative !important;
-        z-index: 2 !important;
-    }
-    
-    .welcome-title i {
-        color: var(--ph-yellow) !important;
-        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4)) !important;
-    }
-    
-    .welcome-message {
-        color: rgba(255,255,255,0.95) !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-        font-size: 16px !important;
-        line-height: 1.5 !important;
-        position: relative !important;
-        z-index: 2 !important;
-    }
-    
-    .welcome-message .text-primary {
-        color: var(--ph-yellow) !important;
-        filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4)) !important;
-    }
-    
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        background: rgba(255, 255, 255, 0.2) !important;
-        backdrop-filter: blur(10px) !important;
-        padding: 15px 25px;
-        border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        position: relative !important;
-        z-index: 2 !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
-    }
-    
-    .user-avatar {
-        width: 50px !important;
-        height: 50px !important;
-        background: linear-gradient(135deg, var(--ph-blue), #2989d8) !important;
-        color: white !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-weight: 700 !important;
-        font-size: 20px !important;
-        box-shadow: 0 4px 12px rgba(0,56,168,0.4) !important;
-        border: 2px solid rgba(255,255,255,0.3) !important;
-    }
-    
-    .user-details h6 {
-        margin: 0 !important;
-        color: white !important;
-        font-weight: 700 !important;
-        font-size: 18px !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-    }
-    
-    .user-role {
-        margin: 0 !important;
-        color: rgba(255, 255, 255, 0.85) !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.4) !important;
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        gap: 8px !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.5px !important;
-    }
-    
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        background: rgba(255,255,255,0.1) !important;
-        padding: 15px 25px;
-        border-radius: 50px;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-    }
-    
-    .user-avatar {
-        width: 50px !important;
-        height: 50px !important;
-        background: rgba(255,255,255,0.2) !important;
-        color: white !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-weight: 700 !important;
-        font-size: 20px !important;
-        border: 3px solid rgba(255,255,255,0.3) !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-    }
-    
-    .user-details h6 {
-        margin: 0 !important;
-        color: white !important;
-        font-weight: 700 !important;
-        font-size: 18px !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-    }
-    
-    .user-role {
-        margin: 0 !important;
-        color: white !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-    }
-    
-    .preferences-card {
-        background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.25), 
-            rgba(255, 255, 255, 0.1)
-        ) !important;
-        backdrop-filter: blur(20px) saturate(180()) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-        border-radius: var(--border-radius);
-        padding: 25px;
-        margin: 20px 0;
-        box-shadow: 
-            0 6px 25px rgba(0,0,0,0.35),
-            inset 0 1px 0 rgba(255,255,255,0.5) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        border-left: 5px solid var(--ph-blue);
-        transition: all 0.3s ease;
-    }
-    
-    .preferences-card:hover {
-        box-shadow: 
-            0 8px 30px rgba(0,0,0,0.4),
-            inset 0 2px 0 rgba(255,255,255,0.6) !important;
-    }
-    
-    .preferences-header {
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .form-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .form-title i {
-        color: var(--ph-yellow) !important;
-        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
-    }
-    
-    .preferences-body {
-        padding: 0;
-    }
-    
-    .preference-section {
-        margin-bottom: 30px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    
-    .preference-section:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
-    
-    .section-title {
-        color: #ffffff !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .section-title i {
-        margin-right: 10px;
-        color: var(--ph-yellow) !important;
-        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
-    }
-    
-    .form-check {
-        margin-bottom: 15px;
-        padding: 15px;
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(10px) !important;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        transition: all 0.3s ease;
-    }
-    
-    .form-check label {
-        color: rgba(255, 255, 255, 0.9) !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        font-weight: 500;
-    }
-    
-    .form-check small {
-        color: rgba(255, 255, 255, 0.75) !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-    }
-    
-    .form-check:hover {
-        background: rgba(0,56,168,0.05);
-        border-color: var(--ph-blue);
-    }
-    
-    .form-check-input:checked {
-        background-color: var(--ph-blue);
-        border-color: var(--ph-blue);
-    }
-    
-    .form-check-label {
-        font-weight: 500;
-        color: #495057;
-    }
-    
-    .form-check small {
-        color: #6c757d;
-        display: block;
-        margin-top: 5px;
-    }
-    
-    .btn-save-preferences {
-        background: var(--ph-blue);
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        color: white;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow-light);
-    }
-    
-    .btn-save-preferences:hover {
-        background: #1e5799;
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-medium);
-        color: white;
-    }
-    
-    .alert {
-        border-radius: 10px;
-        border: none;
-        padding: 15px 20px;
-    }
-    
-    .alert-success {
-        background-color: #d1f2d1;
-        color: #155724;
-    }
-    
-    /* Animations */
-    .fade-in {
-        animation: fadeIn 0.6s ease-in;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/notification-preferences.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -382,7 +15,7 @@
         <div class="welcome-header">
             <h2 class="welcome-title">
                 <i class="fas fa-bell"></i>
-                Maligayang Pagdating sa Notification Settings!
+                {% trans "Welcome to Notification Settings!" %}
             </h2>
             <div class="user-info">
                 <div class="user-avatar">
@@ -396,9 +29,7 @@
         </div>
         <div class="welcome-message">
             <i class="fas fa-info-circle text-primary"></i>
-            Welcome to the official Barangay Burgos Notification Management System. 
-            Dito kayo makakapag-manage ng inyong notification preferences para sa aming barangay.
-            
+            {% trans "Welcome to the official Barangay Burgos Notification Management System. Here you can manage your notification preferences for our barangay." %}
         </div>
     </div>
 
@@ -417,9 +48,9 @@
         <div class="preferences-header">
             <h4 class="form-title">
                 <i class="fas fa-cog"></i>
-                Configure Your Notifications
+                {% trans "Configure Your Notifications" %}
             </h4>
-            <p class="mb-0 mt-2" style="color: #666; font-size: 14px;">Choose which notifications you want to receive</p>
+            <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.75); font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">{% trans "Choose which notifications you want to receive" %}</p>
         </div>
         
         <div class="preferences-body">
@@ -430,17 +61,17 @@
                         <div class="preference-section">
                             <h5 class="section-title">
                                 <i class="fas fa-envelope"></i>
-                                Email Notifications
+                                {% trans "Email Notifications" %}
                             </h5>
-                            <p class="text-muted mb-3">Receive notifications via email to your registered email address</p>
+                            <p class="text-muted mb-3">{% trans "Receive notifications via email to your registered email address" %}</p>
                             
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" 
                                        name="email_complaint_updates" id="email_complaint_updates"
                                        {% if preferences.email_complaint_updates %}checked{% endif %}>
                                 <label class="form-check-label" for="email_complaint_updates">
-                                    Complaint Status Updates
-                                    <small>Get notified when your complaints are updated, assigned, or resolved</small>
+                                    {% trans "Complaint Status Updates" %}
+                                    <small>{% trans "Get notified when your complaints are updated, assigned, or resolved" %}</small>
                                 </label>
                             </div>
                             
@@ -449,8 +80,8 @@
                                        name="email_feedback_responses" id="email_feedback_responses"
                                        {% if preferences.email_feedback_responses %}checked{% endif %}>
                                 <label class="form-check-label" for="email_feedback_responses">
-                                    Feedback Responses
-                                    <small>Get notified when administrators respond to your feedback</small>
+                                    {% trans "Feedback Responses" %}
+                                    <small>{% trans "Get notified when administrators respond to your feedback" %}</small>
                                 </label>
                             </div>
                             
@@ -459,8 +90,8 @@
                                        name="email_system_announcements" id="email_system_announcements"
                                        {% if preferences.email_system_announcements %}checked{% endif %}>
                                 <label class="form-check-label" for="email_system_announcements">
-                                    System Announcements
-                                    <small>Receive important announcements and updates from the barangay</small>
+                                    {% trans "System Announcements" %}
+                                    <small>{% trans "Receive important announcements and updates from the barangay" %}</small>
                                 </label>
                             </div>
                         </div>
@@ -469,17 +100,17 @@
                         <div class="preference-section">
                             <h5 class="section-title">
                                 <i class="fas fa-desktop"></i>
-                                In-App Notifications
+                                {% trans "In-App Notifications" %}
                             </h5>
-                            <p class="text-muted mb-3">Receive notifications within the portal when you're logged in</p>
+                            <p class="text-muted mb-3">{% trans "Receive notifications within the portal when you're logged in" %}</p>
                             
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" 
                                        name="inapp_complaint_updates" id="inapp_complaint_updates"
                                        {% if preferences.inapp_complaint_updates %}checked{% endif %}>
                                 <label class="form-check-label" for="inapp_complaint_updates">
-                                    Complaint Status Updates
-                                    <small>Show in-app notifications for complaint updates</small>
+                                    {% trans "Complaint Status Updates" %}
+                                    <small>{% trans "Show in-app notifications for complaint updates" %}</small>
                                 </label>
                             </div>
                             
@@ -488,8 +119,8 @@
                                        name="inapp_feedback_responses" id="inapp_feedback_responses"
                                        {% if preferences.inapp_feedback_responses %}checked{% endif %}>
                                 <label class="form-check-label" for="inapp_feedback_responses">
-                                    Feedback Responses
-                                    <small>Show in-app notifications for feedback responses</small>
+                                    {% trans "Feedback Responses" %}
+                                    <small>{% trans "Show in-app notifications for feedback responses" %}</small>
                                 </label>
                             </div>
                             
@@ -498,8 +129,8 @@
                                        name="inapp_system_announcements" id="inapp_system_announcements"
                                        {% if preferences.inapp_system_announcements %}checked{% endif %}>
                                 <label class="form-check-label" for="inapp_system_announcements">
-                                    System Announcements
-                                    <small>Show in-app notifications for system announcements</small>
+                                    {% trans "System Announcements" %}
+                                    <small>{% trans "Show in-app notifications for system announcements" %}</small>
                                 </label>
                             </div>
                         </div>
@@ -508,7 +139,7 @@
                         <div class="text-center">
                             <button type="submit" class="btn btn-save-preferences">
                                 <i class="fas fa-save me-2"></i>
-                                Save Preferences
+                                {% trans "Save Preferences" %}
                             </button>
                         </div>
                     </form>
@@ -520,20 +151,20 @@
         <div class="preferences-header">
             <h4 class="form-title">
                 <i class="fas fa-info-circle"></i>
-                How Notifications Work
+                {% trans "How Notifications Work" %}
             </h4>
-            <p class="mb-0 mt-2" style="color: #666; font-size: 14px;">Important information about notification delivery</p>
+            <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.75); font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">{% trans "Important information about notification delivery" %}</p>
         </div>
         <div class="preferences-body">
             <div class="row">
                 <div class="col-md-6">
                     <small class="text-muted">
-                        <strong>Email Notifications:</strong> Sent to your registered email address. Make sure to check your spam folder if you don't see them.
+                        <strong>{% trans "Email Notifications:" %}</strong> {% trans "Sent to your registered email address. Make sure to check your spam folder if you don't see them." %}
                     </small>
                 </div>
                 <div class="col-md-6">
                     <small class="text-muted">
-                        <strong>In-App Notifications:</strong> Displayed in your notification center when you're logged into the portal.
+                        <strong>{% trans "In-App Notifications:" %}</strong> {% trans "Displayed in your notification center when you're logged into the portal." %}
                     </small>
                 </div>
             </div>

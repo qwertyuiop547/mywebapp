@@ -1,12 +1,12 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load i18n %}
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>{% block title %}{% trans "Barangay Complaint & Feedback Portal" %}{% endblock %}</title>
-    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -360,6 +360,11 @@
                                 <i class="fas fa-bullhorn"></i> {% trans "Announcements" %}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gallery:gallery_list' %}">
+                                <i class="fas fa-images"></i> {% trans "Gallery" %}
+                            </a>
+                        </li>
                         {% if user.can_approve_users %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'accounts:user_approval' %}">
@@ -449,7 +454,10 @@
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <div id="notification-list">
+                                <div id="notification-list" 
+                                     data-api-url="{% url 'notifications:api_list' %}" 
+                                     data-mark-read-url="{% url 'notifications:mark_read' 0 %}"
+                                     data-mark-all-url="{% url 'notifications:mark_all_read' %}">
                                     <li class="text-center text-muted p-3">No new notifications</li>
                                 </div>
                                 <li><hr class="dropdown-divider"></li>
@@ -543,6 +551,7 @@
                         <li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Manage Complaints / Pamahalaan ang Reklamo</a></li>
                         {% endif %}
                         <li><a href="{% url 'feedback:feedback_list' %}"><i class="fas fa-chevron-right"></i> Give Feedback / Magbigay ng Puna</a></li>
+                        <li><a href="{% url 'gallery:gallery_list' %}"><i class="fas fa-chevron-right"></i> Photo Gallery / Galereya</a></li>
                         <li><a href="{% url 'services:list' %}"><i class="fas fa-chevron-right"></i> Barangay Services / Serbisyo</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Community Programs / Programa</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Hotlines / Emergency</a></li>
@@ -580,540 +589,21 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     
+    <!-- CSRF Handler (must load first) -->
+    <script src="{% static 'js/csrf-handler.js' %}"></script>
+    
+    <!-- Complaint Actions -->
+    <script src="{% static 'js/complaint-actions.js' %}"></script>
+    
     <!-- Notification System -->
     {% if user.is_authenticated %}
-    <script>
-        // Notification polling system
-        let notificationCount = 0;
-        let lastNotificationCheck = new Date();
-
-        function updateNotificationBadge(count) {
-            const badge = document.getElementById('notification-count');
-            if (count > 0) {
-                badge.textContent = count > 99 ? '99+' : count;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-
-        function fetchNotifications() {
-            fetch('{% url "notifications:api_list" %}')
-                .then(response => response.json())
-                .then(data => {
-                    const unreadCount = data.filter(n => !n.is_read).length;
-                    updateNotificationBadge(unreadCount);
-                    
-                    const notificationList = document.getElementById('notification-list');
-                    if (data.length === 0) {
-                        notificationList.innerHTML = '<li class="text-center text-muted p-3">No new notifications</li>';
-                    } else {
-                        notificationList.innerHTML = data.slice(0, 5).map(notification => `
-                            <li class="notification-item ${!notification.is_read ? 'unread' : ''}">
-                                <a href="${notification.link}" class="text-decoration-none" onclick="markAsReadAndNavigate(event, ${notification.id}, '${notification.link}')">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <strong>${notification.title}</strong>
-                                            <div class="text-muted small">${notification.message}</div>
-                                            <div class="text-muted small">${new Date(notification.created_at).toLocaleString()}</div>
-                                        </div>
-                                        ${!notification.is_read ? '<div class="text-primary"><i class="bi bi-circle-fill"></i></div>' : ''}
-                                    </div>
-                                </a>
-                            </li>
-                        `).join('');
-                    }
-                })
-                .catch(error => console.error('Error fetching notifications:', error));
-        }
-
-        function markAsRead(notificationId) {
-            fetch(`{% url "notifications:mark_read" 0 %}`.replace('0', notificationId), {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    fetchNotifications();
-                }
-            })
-            .catch(error => console.error('Error marking notification as read:', error));
-        }
-
-        function markAsReadAndNavigate(event, notificationId, link) {
-            event.preventDefault();
-            
-            // Mark as read and then navigate
-            fetch(`{% url "notifications:mark_read" 0 %}`.replace('0', notificationId), {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Navigate to the notification link
-                    window.location.href = link;
-                }
-            })
-            .catch(error => {
-                console.error('Error marking notification as read:', error);
-                // Navigate anyway even if marking as read fails
-                window.location.href = link;
-            });
-        }
-
-        function markAllAsRead() {
-            fetch('{% url "notifications:mark_all_read" %}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '{{ csrf_token }}',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    fetchNotifications();
-                }
-            })
-            .catch(error => console.error('Error marking all notifications as read:', error));
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchNotifications();
-            setInterval(fetchNotifications, 30000); // Check every 30 seconds
-            
-            const markAllBtn = document.getElementById('mark-all-read');
-            if (markAllBtn) {
-                markAllBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    markAllAsRead();
-                });
-            }
-        });
-    </script>
+    <script src="{% static 'js/notifications.js' %}"></script>
     {% endif %}
 
-    <!-- AJAX Delete Complaint Function -->
-    <script>
-        function deleteComplaintAjax(complaintId, complaintTitle) {
-            // DIRECT DELETE - No confirmation dialog needed
-            
-            // Show loading indicator
-            const deleteBtn = document.querySelector(`[data-complaint-id="${complaintId}"] .delete-btn`);
-            if (deleteBtn) {
-                deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                deleteBtn.disabled = true;
-            }
-
-            // Get CSRF token
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
-                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-            // Make AJAX request
-            fetch(`/complaints/${complaintId}/delete/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Remove complaint from DOM
-                    const complaintRow = document.querySelector(`[data-complaint-id="${complaintId}"]`);
-                    if (complaintRow) {
-                        // Fade out animation
-                        complaintRow.style.transition = 'opacity 0.3s ease';
-                        complaintRow.style.opacity = '0';
-                        
-                        setTimeout(() => {
-                            complaintRow.remove();
-                            
-                            // Check if no more complaints
-                            const complaintsList = document.querySelector('.complaints-list');
-                            if (complaintsList && complaintsList.children.length === 0) {
-                                complaintsList.innerHTML = '<div class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3"></i><p class="mb-0">No complaints found</p></div>';
-                            }
-                        }, 300);
-                    }
-                    
-                    // Show success message
-                    showMessage('success', data.message);
-                } else {
-                    // Show error message
-                    showMessage('error', data.error || 'Failed to delete complaint');
-                    
-                    // Restore delete button
-                    if (deleteBtn) {
-                        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-                        deleteBtn.disabled = false;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('error', 'An error occurred while deleting the complaint');
-                
-                // Restore delete button
-                if (deleteBtn) {
-                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-                    deleteBtn.disabled = false;
-                }
-            });
-        }
-
-        // Show message function
-        function showMessage(type, message) {
-            const alertHtml = `
-                <div class="alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
-                    <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `;
-            
-            // Find or create messages container
-            let messagesContainer = document.querySelector('.container .messages-container');
-            if (!messagesContainer) {
-                const mainContainer = document.querySelector('main .container');
-                if (mainContainer) {
-                    messagesContainer = document.createElement('div');
-                    messagesContainer.className = 'messages-container mt-3';
-                    mainContainer.insertBefore(messagesContainer, mainContainer.firstChild);
-                }
-            }
-            
-            if (messagesContainer) {
-                messagesContainer.innerHTML = alertHtml;
-                
-                // Auto-dismiss after 5 seconds
-                setTimeout(() => {
-                    const alert = messagesContainer.querySelector('.alert');
-                    if (alert) {
-                        alert.remove();
-                    }
-                }, 5000);
-            }
-        }
-    </script>
-
-    <!-- AJAX Mark Resolved Function -->
-    <script>
-        function markComplaintResolved(complaintId, complaintTitle) {
-
-            // Show loading indicator
-            const resolveBtn = document.querySelector('.mark-resolved-btn');
-            if (resolveBtn) {
-                resolveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Marking as Resolved...';
-                resolveBtn.disabled = true;
-            }
-
-            // Get CSRF token
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
-                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-            // Make AJAX request
-            fetch(`/complaints/${complaintId}/mark-resolved/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update status badge
-                    const statusBadge = document.querySelector('.status-badge');
-                    if (statusBadge) {
-                        statusBadge.className = 'status-badge status-resolved';
-                        statusBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Resolved';
-                    }
-                    
-                    // Update resolved timestamp
-                    const resolvedInfo = document.querySelector('.resolved-info');
-                    if (resolvedInfo) {
-                        resolvedInfo.innerHTML = `<i class="fas fa-check-circle text-success me-1"></i> Resolved on ${data.resolved_at}`;
-                        resolvedInfo.style.display = 'block';
-                    }
-                    
-                    // Hide the mark resolved button
-                    if (resolveBtn) {
-                        resolveBtn.style.display = 'none';
-                    }
-                    
-                    // Show success message
-                    showMessage('success', data.message);
-                } else {
-                    // Show error message
-                    showMessage('error', data.error || 'Failed to mark complaint as resolved');
-                    
-                    // Restore button
-                    if (resolveBtn) {
-                        resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
-                        resolveBtn.disabled = false;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('error', 'An error occurred while marking the complaint as resolved');
-                
-                // Restore button
-                if (resolveBtn) {
-                    resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
-                    resolveBtn.disabled = false;
-                }
-            });
-        }
-    </script>
-
-    <!-- AJAX Accept Complaint Function -->
-    <script>
-        function acceptComplaint(complaintId, complaintTitle) {
-
-            // Show loading indicator
-            const acceptBtn = document.querySelector('.accept-complaint-btn');
-            if (acceptBtn) {
-                acceptBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Accepting...';
-                acceptBtn.disabled = true;
-            }
-
-            // Get CSRF token
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
-                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-            // Make AJAX request
-            fetch(`/complaints/${complaintId}/accept/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update status badge
-                    const statusBadge = document.querySelector('.status-badge');
-                    if (statusBadge) {
-                        statusBadge.className = 'status-badge status-in_progress';
-                        statusBadge.innerHTML = '<i class="fas fa-hourglass-half me-1"></i> In Progress';
-                    }
-                    
-                    // Hide accept button and show mark resolved button
-                    if (acceptBtn) {
-                        acceptBtn.style.display = 'none';
-                    }
-                    
-                    // Show mark resolved button
-                    const actionButtons = document.querySelector('.workflow-actions');
-                    if (actionButtons) {
-                        const resolveBtn = document.createElement('button');
-                        resolveBtn.type = 'button';
-                        resolveBtn.className = 'btn btn-success me-2 mark-resolved-btn';
-                        resolveBtn.onclick = () => markComplaintResolved(complaintId, complaintTitle);
-                        resolveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Mark Resolved';
-                        actionButtons.appendChild(resolveBtn);
-                    }
-                    
-                    // Show success message
-                    showMessage('success', data.message);
-                } else {
-                    // Show error message
-                    showMessage('error', data.error || 'Failed to accept complaint');
-                    
-                    // Restore button
-                    if (acceptBtn) {
-                        acceptBtn.innerHTML = '<i class="fas fa-thumbs-up me-1"></i> Accept Complaint';
-                        acceptBtn.disabled = false;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('error', 'An error occurred while accepting the complaint');
-                
-                // Restore button
-                if (acceptBtn) {
-                    acceptBtn.innerHTML = '<i class="fas fa-thumbs-up me-1"></i> Accept Complaint';
-                    acceptBtn.disabled = false;
-                }
-            });
-        }
-
-        function closeComplaint(complaintId, complaintTitle) {
-
-            // Show loading indicator
-            const closeBtn = document.querySelector('.close-complaint-btn');
-            if (closeBtn) {
-                closeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Closing...';
-                closeBtn.disabled = true;
-            }
-
-            // Get CSRF token
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
-                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-            // Make AJAX request
-            fetch(`/complaints/${complaintId}/close/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update status badge
-                    const statusBadge = document.querySelector('.status-badge');
-                    if (statusBadge) {
-                        statusBadge.className = 'status-badge status-closed';
-                        statusBadge.innerHTML = '<i class="fas fa-times-circle me-1"></i> Closed';
-                    }
-                    
-                    // Hide close button and show delete button
-                    if (closeBtn) {
-                        closeBtn.style.display = 'none';
-                    }
-                    
-                    // Show delete button
-                    const actionButtons = document.querySelector('.workflow-actions');
-                    if (actionButtons) {
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.type = 'button';
-                        deleteBtn.className = 'btn btn-danger delete-btn';
-                        deleteBtn.setAttribute('data-complaint-id', complaintId);
-                        deleteBtn.onclick = () => deleteComplaintAjax(complaintId, complaintTitle);
-                        deleteBtn.innerHTML = '<i class="fas fa-trash me-1"></i> Delete';
-                        actionButtons.appendChild(deleteBtn);
-                    }
-                    
-                    // Show success message
-                    showMessage('success', data.message);
-                } else {
-                    // Show error message
-                    showMessage('error', data.error || 'Failed to close complaint');
-                    
-                    // Restore button
-                    if (closeBtn) {
-                        closeBtn.innerHTML = '<i class="fas fa-times-circle me-1"></i> Close Complaint';
-                        closeBtn.disabled = false;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('error', 'An error occurred while closing the complaint');
-                
-                // Restore button
-                if (closeBtn) {
-                    closeBtn.innerHTML = '<i class="fas fa-times-circle me-1"></i> Close Complaint';
-                    closeBtn.disabled = false;
-                }
-            });
-        }
-    </script>
-
-    <!-- CSRF Token Utility (Load First) -->
-    <script>
-        // Global CSRF token getter function
-        function getCSRFToken() {
-            // Try to get from cookie first
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, 10) === 'csrftoken=') {
-                        cookieValue = decodeURIComponent(cookie.substring(10));
-                        break;
-                    }
-                }
-            }
-            
-            // Fallback to meta tag
-            if (!cookieValue) {
-                const metaTag = document.querySelector('meta[name="csrf-token"]');
-                if (metaTag) {
-                    cookieValue = metaTag.getAttribute('content');
-                }
-            }
-            
-            // Fallback to form input
-            if (!cookieValue) {
-                const formInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-                if (formInput) {
-                    cookieValue = formInput.value;
-                }
-            }
-            
-            return cookieValue;
-        }
-
-        // Set up CSRF token for all AJAX requests
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configure fetch to include CSRF token by default
-            const originalFetch = window.fetch;
-            window.fetch = function(url, options = {}) {
-                // Only add CSRF token for same-origin requests
-                if (!url.startsWith('http') || url.startsWith(window.location.origin)) {
-                    const method = (options.method || 'GET').toUpperCase();
-                    
-                    // Add CSRF token for unsafe methods
-                    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-                        options.headers = options.headers || {};
-                        
-                        // Don't override if already set
-                        if (!options.headers['X-CSRFToken']) {
-                            const csrfToken = getCSRFToken();
-                            if (csrfToken) {
-                                if (options.headers instanceof Headers) {
-                                    options.headers.set('X-CSRFToken', csrfToken);
-                                } else {
-                                    options.headers['X-CSRFToken'] = csrfToken;
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                return originalFetch(url, options);
-            };
-
-            // Also set up for jQuery if it's being used
-            if (window.jQuery) {
-                $.ajaxSetup({
-                    beforeSend: function(xhr, settings) {
-                        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", getCSRFToken());
-                        }
-                    }
-                });
-            }
-        });
-    </script>
-
-    <!-- Chatbot JavaScript -->
+    <!-- Portal Tabs -->
+    <script src="{% static 'js/portal-tabs.js' %}"></script>
+    
+    <!-- Chatbot -->
     <script src="{% static 'js/chatbot.js' %}"></script>
 
     {% block extra_js %}{% endblock %}

@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load i18n %}
 
-{% block title %}{% trans "Barangay Complaint & Feedback Portal" %} - Barangay Burgos{% endblock %}
 
-{% block extra_css %}
+
+
+{% block title %}Barangay Complaint & Feedback Portal - Barangay Burgos
+
+
 <style>
     /* Beautiful aerial background for home page */
     body {
         background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
-                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+                    url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
         background-size: cover !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
@@ -239,7 +239,6 @@
     
     .service-card {
         background: rgba(255, 255, 255, 0.9);
-        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         padding: 40px 30px;
         border-radius: 15px;
@@ -391,13 +390,12 @@
         gap: 40px;
         margin-top: 50px;
     }
+    
     .process-step {
         text-align: center;
         position: relative;
         background: rgba(255, 255, 255, 0.9);
-        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        padding: 30px 20px;
         padding: 30px 20px;
         border-radius: 15px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.2);
@@ -503,171 +501,12 @@
         word-wrap: break-word;
         word-break: break-word;
         overflow-wrap: break-word;
-        -webkit-hyphens: auto;
         hyphens: auto;
         max-width: 100%;
     }
-    .announcements-section { 
-        padding: 80px 0; 
-        background: rgba(255, 255, 255, 0.95);
-        -webkit-backdrop-filter: blur(10px); /* Safari support */
-        backdrop-filter: blur(10px);
-    }
     
-    .announcements-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
-    }
-    
-    .announcement-card {
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.05);
-        border-left: 5px solid var(--gov-primary);
-    }
-    
-    .announcement-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-    
-    .announcement-card.priority-urgent {
-        border-left-color: #dc3545;
-    }
-    
-    .announcement-card.priority-high {
-        border-left-color: #fd7e14;
-    }
-    
-    .announcement-card.priority-medium {
-        border-left-color: #ffc107;
-    }
-    
-    .announcement-card.priority-low {
-        border-left-color: #28a745;
-    }
-    
-    .announcement-image {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-    }
-    
-    .announcement-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-    
-    .announcement-card:hover .announcement-image img {
-        transform: scale(1.05);
-    }
-    
-    .announcement-content {
-        padding: 25px;
-    }
-    
-    .announcement-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .announcement-category {
-        display: inline-block;
-        font-size: 0.85rem;
-        color: var(--gov-primary);
-        font-weight: 600;
-    }
-    
-    .announcement-category i {
-        margin-right: 5px;
-    }
-    
-    .announcement-priority {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-    
-    .priority-badge-urgent {
-        background: #dc3545;
-        color: white;
-    }
-    
-    .priority-badge-high {
-        background: #fd7e14;
-        color: white;
-    }
-    
-    .priority-badge-medium {
-        background: #ffc107;
-        color: #333;
-    }
-    
-    .priority-badge-low {
-        background: #28a745;
-        color: white;
-    }
-    
-    .announcement-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--gov-dark);
-        margin-bottom: 12px;
-        line-height: 1.4;
-    }
-    
-    .announcement-text {
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 15px;
-        font-size: 0.95rem;
-    }
-    
-    .announcement-footer {
-        padding-top: 15px;
-        border-top: 1px solid rgba(0,0,0,0.05);
-    }
-    
-    .announcement-date {
-        color: #999;
-        font-size: 0.85rem;
-    }
-    
-    .announcement-date i {
-        margin-right: 5px;
-    }
-    
-    .no-announcements {
-        text-align: center;
-        padding: 60px 20px;
-        color: #666;
-    }
-    
-    .no-announcements i {
-        font-size: 4rem;
-        color: #ddd;
-        margin-bottom: 20px;
-        display: block;
-    }
-    
-    .no-announcements p {
-        font-size: 1.1rem;
-        margin: 0;
-    }
+    /* Announcements Section */
+    .announcements-section { padding: 70px 0; background: var(--gov-light); }
     .ann-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
     .ann-card {
         background:white; border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(0,0,0,0.08);
@@ -725,9 +564,9 @@
         }
     }
 </style>
-{% endblock %}
 
-{% block content %}
+
+
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
@@ -736,30 +575,30 @@
                 <div class="portal-logo">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h1 class="portal-title">{% trans "Barangay Complaint & Feedback Portal" %}</h1>
+                <h1 class="portal-title">Barangay Complaint & Feedback Portal</h1>
                 <p class="portal-subtitle">Barangay Burgos, Basey, Samar</p>
-                <p class="portal-tagline">"{% trans "Serbisyong Mabilis, Solusyong Tapat" %}"</p>
+                <p class="portal-tagline">"Serbisyong Mabilis, Solusyong Tapat"</p>
             </div>
             
             <div class="portal-actions">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'complaints:create_complaint' %}" class="portal-btn portal-btn-primary">
+                    <a href="#" class="portal-btn portal-btn-primary">
                         <i class="fas fa-file-plus"></i>
-                        {% trans "File a Complaint" %}
+                        File a Complaint
                     </a>
-                    <a href="{% url 'feedback:submit_feedback' %}" class="portal-btn portal-btn-secondary">
+                    <a href="#" class="portal-btn portal-btn-secondary">
                         <i class="fas fa-comment-dots"></i>
-                        {% trans "Submit Feedback" %}
+                        Submit Feedback
                     </a>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="portal-btn portal-btn-primary">
+                    <a href="#?next=#" class="portal-btn portal-btn-primary">
                         <i class="fas fa-file-plus"></i>
-                        {% trans "File a Complaint" %}
-                        <small style="display:block;font-size:0.75rem;opacity:0.8;margin-top:5px;">{% trans "Login required" %}</small>
+                        File a Complaint
+                        <small style="display:block;font-size:0.75rem;opacity:0.8;margin-top:5px;">Login required</small>
                     </a>
-                    <a href="{% url 'accounts:register' %}" class="portal-btn portal-btn-secondary">
+                    <a href="#" class="portal-btn portal-btn-secondary">
                         <i class="fas fa-user-plus"></i>
-                        {% trans "Register" %}
+                        Register
                     </a>
                 {% endif %}
             </div>
@@ -770,29 +609,29 @@
                 <div class="hero-pill">
                     <i class="fas fa-clipboard-list"></i>
                     <div>
-                        <div class="count">{{ total_complaints|default:0 }}</div>
-                        <div class="label">{% trans "Total Complaints" %}</div>
+                        <div class="count">Sample Data</div>
+                        <div class="label">Total Complaints</div>
                     </div>
                 </div>
                 <div class="hero-pill">
                     <i class="fas fa-check-circle"></i>
                     <div>
-                        <div class="count">{{ resolved_complaints|default:0 }}</div>
-                        <div class="label">{% trans "Resolved" %}</div>
+                        <div class="count">Sample Data</div>
+                        <div class="label">Resolved</div>
                     </div>
                 </div>
                 <div class="hero-pill">
                     <i class="fas fa-hourglass-half"></i>
                     <div>
-                        <div class="count">{{ pending_complaints|default:0 }}</div>
-                        <div class="label">{% trans "Pending" %}</div>
+                        <div class="count">Sample Data</div>
+                        <div class="label">Pending</div>
                     </div>
                 </div>
                 <div class="hero-pill">
                     <i class="fas fa-comments"></i>
                     <div>
-                        <div class="count">{{ total_feedback|default:0 }}</div>
-                        <div class="label">{% trans "Feedback" %}</div>
+                        <div class="count">Sample Data</div>
+                        <div class="label">Feedback</div>
                     </div>
                 </div>
             </div>
@@ -806,7 +645,7 @@
     <div class="container">
         <div class="quick-access-grid">
             {% if user.is_authenticated %}
-            <a href="{% url 'complaints:create_complaint' %}" class="quick-card">
+            <a href="#" class="quick-card">
                 <div class="quick-icon complaint"><i class="fas fa-file-plus"></i></div>
                 <div class="quick-body">
                     <h6>File a Complaint</h6>
@@ -814,7 +653,7 @@
                 </div>
             </a>
             {% else %}
-            <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="quick-card">
+            <a href="#?next=#" class="quick-card">
                 <div class="quick-icon complaint"><i class="fas fa-file-plus"></i></div>
                 <div class="quick-body">
                     <h6>File a Complaint</h6>
@@ -822,14 +661,14 @@
                 </div>
             </a>
             {% endif %}
-            <a href="{% url 'complaints:complaint_list' %}" class="quick-card">
+            <a href="#" class="quick-card">
                 <div class="quick-icon track"><i class="fas fa-list-check"></i></div>
                 <div class="quick-body">
                     <h6>Track Complaints</h6>
                     <small>View and monitor complaint statuses</small>
                 </div>
             </a>
-            <a href="{% url 'feedback:submit_feedback' %}" class="quick-card">
+            <a href="#" class="quick-card">
                 <div class="quick-icon feedback"><i class="fas fa-comment-dots"></i></div>
                 <div class="quick-body">
                     <h6>Send Feedback</h6>
@@ -868,11 +707,11 @@
                     Mag-file ng reklamo tungkol sa mga isyung panlipunan, kapaligiran, infrastruktura, at iba pa na nangangailangan ng aksyon ng barangay.
                 </p>
                 {% if user.is_authenticated %}
-                <a href="{% url 'complaints:create_complaint' %}" class="service-link">
+                <a href="#" class="service-link">
                     Mag-file ng Reklamo <i class="fas fa-arrow-right"></i>
                 </a>
                 {% else %}
-                <a href="{% url 'accounts:login' %}?next={% url 'complaints:create_complaint' %}" class="service-link">
+                <a href="#?next=#" class="service-link">
                     Mag-login para mag-file <i class="fas fa-arrow-right"></i>
                 </a>
                 {% endif %}
@@ -886,7 +725,7 @@
                 <p class="service-description">
                     Magbahagi ng inyong mga opinyon, mungkahi, at karanasan upang mapabuti ang mga serbisyo ng barangay.
                 </p>
-                <a href="{% url 'feedback:submit_feedback' %}" class="service-link">
+                <a href="#" class="service-link">
                     Magbigay ng Feedback <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -899,7 +738,7 @@
                 <p class="service-description">
                     Subaybayan ang progress ng inyong mga nai-file na reklamo at makita kung ano na ang ginagawang aksyon.
                 </p>
-                <a href="{% url 'complaints:complaint_list' %}" class="service-link">
+                <a href="#" class="service-link">
                     Tingnan ang Status <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -920,62 +759,6 @@
     </div>
 </section>
 
-<!-- Announcements Section -->
-<section id="announcements" class="announcements-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Mga Anunsyo at Balita</h2>
-            <p class="section-subtitle">
-                Manatiling updated sa mga pinakabagong balita, programa, at aktibidad ng barangay
-            </p>
-        </div>
-        
-        {% if announcements %}
-        <div class="announcements-grid">
-            {% for announcement in announcements %}
-            <div class="announcement-card priority-{{ announcement.priority }}">
-                {% if announcement.image %}
-                <div class="announcement-image">
-                    <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}">
-                </div>
-                {% endif %}
-                <div class="announcement-content">
-                    <div class="announcement-meta">
-                        <span class="announcement-category">
-                            <i class="fas fa-tag"></i> {{ announcement.get_category_display }}
-                        </span>
-                        <span class="announcement-priority priority-badge-{{ announcement.priority }}">
-                            {{ announcement.get_priority_display }}
-                        </span>
-                    </div>
-                    <h3 class="announcement-title">{{ announcement.title }}</h3>
-                    <p class="announcement-text">{{ announcement.content|truncatewords:30 }}</p>
-                    <div class="announcement-footer">
-                        <span class="announcement-date">
-                            <i class="far fa-calendar-alt"></i> {{ announcement.created_at|date:"F d, Y" }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="no-announcements">
-            <i class="fas fa-bullhorn"></i>
-            <p>Walang available na announcements sa ngayon. Bumalik mamaya para sa mga updates!</p>
-        </div>
-        {% endif %}
-        
-        {% if user.is_authenticated and user.can_manage_complaints %}
-        <div class="text-center mt-4">
-            <a href="{% url 'announcements:create_announcement' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-plus"></i> Gumawa ng Bagong Anunsyo
-            </a>
-        </div>
-        {% endif %}
-    </div>
-</section>
-
 <!-- Statistics Section -->
 <section class="stats-section">
     <div class="container">
@@ -988,22 +771,22 @@
         
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-number">{{ total_residents|default:1250 }}</span>
+                <span class="stat-number">Sample Data</span>
                 <div class="stat-label">Registered Residents</div>
                 <div class="stat-description">Mga nakarehistrong residente sa portal</div>
             </div>
             <div class="stat-card">
-                <span class="stat-number">{{ resolved_complaints|default:348 }}</span>
+                <span class="stat-number">Sample Data</span>
                 <div class="stat-label">Resolved Complaints</div>
                 <div class="stat-description">Mga nasolusyunang reklamo ngayong taon</div>
             </div>
             <div class="stat-card">
-                <span class="stat-number">{{ resolution_rate|default:92 }}%</span>
+                <span class="stat-number">Sample Data%</span>
                 <div class="stat-label">Resolution Rate</div>
                 <div class="stat-description">Porsyento ng nasolusyunan sa loob ng SLA</div>
             </div>
             <div class="stat-card">
-                <span class="stat-number">{{ total_feedback|default:567 }}</span>
+                <span class="stat-number">Sample Data</span>
                 <div class="stat-label">Community Feedback</div>
                 <div class="stat-description">Mga feedback na natanggap mula sa residents</div>
             </div>
@@ -1111,7 +894,7 @@
         </div>
     </div>
 </section>
-{% endblock %}
+
 
 {% block extra_js %}
 <script>
@@ -1145,4 +928,3 @@ $(document).ready(function() {
     checkScroll(); // Run on load
 });
 </script>
-{% endblock %}

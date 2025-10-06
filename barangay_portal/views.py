@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from complaints.models import Complaint
 from feedback.models import Feedback
 from accounts.models import User
+from announcements.models import Announcement
 from django.db.models import Q
 from datetime import datetime, timedelta
 
@@ -32,27 +33,11 @@ def home(request):
     if total_complaints > 0:
         resolution_rate = round((resolved_complaints / total_complaints) * 100, 1)
     
-    # Recent announcements (mock data for now)
-    announcements = [
-        {
-            'title': 'Barangay Assembly - January 2025',
-            'content': 'Mahal naming mga kababayan, makikipag-ugnayan tayo sa susunod na Barangay Assembly.',
-            'date': '2025-01-15',
-            'priority': 'high'
-        },
-        {
-            'title': 'Improved Street Lighting',
-            'content': 'Natapos na ang installation ng mga bagong ilaw sa mga pangunahing kalye.',
-            'date': '2025-01-10',
-            'priority': 'medium'
-        },
-        {
-            'title': 'Medical Mission',
-            'content': 'Libre pong medical checkup para sa lahat ng residente tuwing Sabado.',
-            'date': '2025-01-05',
-            'priority': 'low'
-        }
-    ]
+    # Get recent approved and published announcements (show latest 6)
+    announcements = Announcement.objects.filter(
+        approval_status='approved',
+        is_published=True
+    ).order_by('-is_pinned', '-created_at')[:6]
     
     context = {
         'total_residents': total_residents,

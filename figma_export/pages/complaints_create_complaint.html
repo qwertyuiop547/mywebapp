@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load widget_tweaks %}
 
-{% block title %}Submit New Complaint - Barangay Burgos{% endblock %}
 
-{% block extra_css %}
+
+
+Submit New Complaint - Barangay Burgos
+
+
 <style>
     /* Official Philippine Government Portal Theme - Matching Resident Dashboard */
     :root {
@@ -23,11 +23,9 @@
         --border-radius: 8px;
     }
     
-    body,
-    html body,
-    body.create-complaint-page {
+    body {
         background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
-                    url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+                    url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
         background-size: cover !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
@@ -1311,24 +1309,24 @@
         }
     }
 </style>
-{% endblock %}
 
-{% block content %}
+
+
 <div class="container py-4">
     <!-- Welcome Section -->
     <div class="dashboard-welcome fade-in">
         <div class="welcome-header">
             <h2 class="welcome-title">
                 <i class="fas fa-user-circle"></i>
-                Maligayang Pagdating, {{ user.first_name|default:user.username }}!
+                Maligayang Pagdating, Sample Data!
             </h2>
             <div class="user-info">
                 <div class="user-avatar">
-                    {{ user.first_name|default:user.username|slice:":1"|upper }}
+                    Sample Data
                 </div>
                 <div class="user-details">
-                    <h6>{{ user.first_name|default:user.username }} {{ user.last_name|default:"" }}</h6>
-                    <p class="user-role">{{ user.get_role_display|default:"Registered Resident" }}</p>
+                    <h6>Sample Data Sample Data</h6>
+                    <p class="user-role">Sample Data</p>
                 </div>
             </div>
         </div>
@@ -1355,7 +1353,7 @@
                 <div class="stat-icon total">
                     <i class="fas fa-file-alt"></i>
                 </div>
-                <div class="stat-number">{{ stats.total }}</div>
+                <div class="stat-number">Sample Data</div>
                 <p class="stat-label">
                     Kabuuang Reklamo
                     <small>Total Complaints</small>
@@ -1366,7 +1364,7 @@
                 <div class="stat-icon pending">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="stat-number">{{ stats.pending }}</div>
+                <div class="stat-number">Sample Data</div>
                 <p class="stat-label">
                     Naghihintay
                     <small>Pending</small>
@@ -1377,7 +1375,7 @@
                 <div class="stat-icon progress">
                     <i class="fas fa-cogs"></i>
                 </div>
-                <div class="stat-number">{{ stats.in_progress }}</div>
+                <div class="stat-number">Sample Data</div>
                 <p class="stat-label">
                     Ginagawa
                     <small>In Progress</small>
@@ -1388,7 +1386,7 @@
                 <div class="stat-icon resolved">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="stat-number">{{ stats.resolved }}</div>
+                <div class="stat-number">Sample Data</div>
                 <p class="stat-label">
                     Nasolusyunan
                     <small>Resolved</small>
@@ -1407,7 +1405,7 @@
                 </h1>
                 <p class="page-subtitle">Report issues and concerns to improve our community</p>
             </div>
-            <a href="{% url 'complaints:complaint_list' %}" class="back-button">
+            <a href="#" class="back-button">
                 <i class="fas fa-arrow-left"></i>
                 Back to Complaints
             </a>
@@ -1442,18 +1440,18 @@
             {% if form.non_field_errors %}
                 <div class="alert alert-danger">
                     <i class="fas fa-exclamation-triangle"></i>
-                    {{ form.non_field_errors }}
+                    Sample Data
                 </div>
             {% endif %}
                 
                 <!-- Title Field -->
                 <div class="form-group">
-                    <label for="{{ form.title.id_for_label }}" class="form-label required">Complaint Title</label>
-                    {{ form.title|add_class:"form-control" }}
+                    <label for="Sample Data" class="form-label required">Complaint Title</label>
+                    Sample Data
                     {% if form.title.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.title.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     <small class="form-text">Brief, descriptive title for your complaint</small>
@@ -1461,12 +1459,12 @@
                 
                 <!-- Category Field -->
                 <div class="form-group">
-                    <label for="{{ form.category.id_for_label }}" class="form-label required">Category</label>
-                    {{ form.category|add_class:"form-control" }}
+                    <label for="Sample Data" class="form-label required">Category</label>
+                    Sample Data
                     {% if form.category.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.category.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     <small class="form-text">Select the category that best describes your complaint</small>
@@ -1479,13 +1477,13 @@
                         {% for choice in form.priority.field.choices %}
                             <div class="priority-option">
                                 <input type="radio" 
-                                       name="{{ form.priority.name }}" 
-                                       value="{{ choice.0 }}" 
-                                       id="priority_{{ choice.0 }}"
+                                       name="Sample Data" 
+                                       value="Sample Data" 
+                                       id="priority_Sample Data"
                                        {% if form.priority.value == choice.0 %}checked{% endif %}>
-                                <label for="priority_{{ choice.0 }}" 
-                                       class="priority-label {{ choice.0|lower }}">
-                                    {{ choice.1 }}
+                                <label for="priority_Sample Data" 
+                                       class="priority-label Sample Data">
+                                    Sample Data
                                 </label>
                             </div>
                         {% endfor %}
@@ -1493,7 +1491,7 @@
                     {% if form.priority.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.priority.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     <small class="form-text">Select the urgency level of your complaint</small>
@@ -1501,9 +1499,9 @@
                 
                 <!-- Location Field -->
                 <div class="form-group">
-                    <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+                    <label for="Sample Data" class="form-label">Location</label>
                     <div class="location-input-group">
-                        {{ form.location|add_class:"form-control location-input"|attr:"placeholder:Click to get your current location or type manually" }}
+                        Sample Data
                         <button type="button" class="btn btn-outline-primary location-gps-btn" onclick="getCurrentLocation()">
                             <i class="fas fa-location-arrow"></i> Get Location
                         </button>
@@ -1519,7 +1517,7 @@
                     {% if form.location.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.location.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     <small class="form-text">
@@ -1529,12 +1527,12 @@
                 
                 <!-- Description Field -->
                 <div class="form-group">
-                    <label for="{{ form.description.id_for_label }}" class="form-label required">Description</label>
-                    {{ form.description|add_class:"form-control"|attr:"rows:6" }}
+                    <label for="Sample Data" class="form-label required">Description</label>
+                    Sample Data
                     {% if form.description.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.description.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     <small class="form-text">Provide detailed information about your complaint. Include dates, times, and any relevant context</small>
@@ -1562,14 +1560,14 @@
                             
                             <!-- Anonymous Contact Field (hidden by default) -->
                             <div id="anonymousContactField" class="mt-3" style="display: none;">
-                                <label for="{{ form.anonymous_contact.id_for_label }}" class="form-label">
+                                <label for="Sample Data" class="form-label">
                                     Contact Email (Optional)
                                 </label>
-                                {{ form.anonymous_contact|add_class:"form-control" }}
+                                Sample Data
                                 {% if form.anonymous_contact.errors %}
                                     <div class="error-message">
                                         <i class="fas fa-exclamation-circle"></i>
-                                        {{ form.anonymous_contact.errors.0 }}
+                                        Sample Data
                                     </div>
                                 {% endif %}
                                 <small class="form-text">
@@ -1582,7 +1580,7 @@
                 
                 <!-- Attachment Field -->
                 <div class="form-group">
-                    <label for="{{ form.attachments.id_for_label }}" class="form-label">Supporting Documents</label>
+                    <label for="Sample Data" class="form-label">Supporting Documents</label>
                     <div class="file-upload-zone" onclick="document.getElementById('id_attachments').click();">
                         <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
                         <div class="file-upload-text">
@@ -1594,7 +1592,7 @@
                     {% if form.attachments.errors %}
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
-                            {{ form.attachments.errors.0 }}
+                            Sample Data
                         </div>
                     {% endif %}
                     
@@ -1625,7 +1623,7 @@
             
             <!-- Form Actions -->
             <div class="form-actions">
-                <a href="{% url 'complaints:complaint_list' %}" class="btn-cancel">
+                <a href="#" class="btn-cancel">
                     <i class="fas fa-times"></i>
                     Cancel
                 </a>
@@ -1803,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Priority selection visual feedback
-    const priorityInputs = document.querySelectorAll('input[name="{{ form.priority.name }}"]');
+    const priorityInputs = document.querySelectorAll('input[name="Sample Data"]');
     priorityInputs.forEach(input => {
         input.addEventListener('change', function() {
             priorityInputs.forEach(p => {
@@ -2341,4 +2339,3 @@ function searchLocation(query) {
 }
 
 </script>
-{% endblock %}

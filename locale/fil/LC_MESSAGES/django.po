@@ -61,6 +61,9 @@ msgstr "Mungkahi"
 msgid "Announcements"
 msgstr "Paalala"
 
+msgid "Gallery"
+msgstr "Galereya"
+
 msgid "User Approval"
 msgstr "Pag-apruba ng User"
 
@@ -409,3 +412,73 @@ msgstr "Sitio"
 
 msgid "Purok"
 msgstr "Purok"
+
+# Suggestions-specific translations
+msgid "Suggestions for the Barangay"
+msgstr "Mga Mungkahi para sa Barangay"
+
+msgid "Share your ideas for improving our barangay"
+msgstr "Ibahagi ang inyong mga ideya para sa pagpapabuti ng ating barangay"
+
+msgid "Submit Suggestion"
+msgstr "Magpadala ng Mungkahi"
+
+msgid "Total Suggestions"
+msgstr "Kabuuang Mungkahi"
+
+msgid "Completed"
+msgstr "Natapos"
+
+msgid "No suggestions yet."
+msgstr "Walang mga mungkahi pa."
+
+msgid "Page"
+msgstr "Pahina"
+
+msgid "of"
+msgstr "ng"
+
+msgid "Reminder:"
+msgstr "Paalala:"
+
+msgid "Your suggestions will be public and visible to everyone. Make sure your ideas are clear and well-organized."
+msgstr "Ang inyong mga mungkahi ay magiging pampubliko at makikita ng lahat. Siguraduhin na malinaw at maayos ang inyong mga ideya."
+
+msgid "Describe your suggestion in detail. What are the benefits? How will it help?"
+msgstr "Ilarawan nang detalyado ang inyong mungkahi. Ano ang benepisyo nito? Paano ito makakatulong?"
+
+msgid "If there's a specific location (Purok, Sitio, etc.)"
+msgstr "Kung may specific na lugar (Purok, Sitio, etc.)"
+
+msgid "My Suggestions"
+msgstr "Aking Mga Mungkahi"
+
+msgid "View the suggestions you submitted"
+msgstr "Tingnan ang mga mungkahing naipadala mo"
+
+msgid "New Suggestion"
+msgstr "Bagong Mungkahi"
+
+msgid "Barangay Response:"
+msgstr "Tugon ng Barangay:"
+
+msgid "You haven't submitted any suggestions yet."
+msgstr "Wala ka pang naipadala na mungkahi."
+
+msgid "From"
+msgstr "Mula kay"
+
+msgid "Details:"
+msgstr "Detalye:"
+
+msgid "Already voted"
+msgstr "Na-vote na"
+
+msgid "Vote for this"
+msgstr "I-vote ito"
+
+msgid "Login to vote"
+msgstr "Login para mag-vote"
+
+msgid "Review / Update"
+msgstr "I-review / I-update"
