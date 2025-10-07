@@ -1,0 +1,238 @@
+/* Footer Glass Morphism Styling - Professional Government Portal */
+
+/* Override default footer styling with glass morphism - High Specificity */
+body .footer,
+html body .footer,
+.footer.footer {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/static/images/474106523_917891393848174_7194567452072847933_n.jpg') center center !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    color: white !important;
+    padding: 60px 0 30px !important;
+    margin-top: 50px !important;
+    position: relative !important;
+    z-index: 100 !important;
+    border-top: 4px solid var(--primary-blue) !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(30, 58, 138, 0.8) 0%, 
+        rgba(220, 38, 38, 0.1) 50%,
+        rgba(251, 191, 36, 0.05) 100%
+    );
+    z-index: -1;
+}
+
+.footer .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Glass morphism effect for footer columns */
+body .footer .row > .col-md-4,
+body .footer .row > .col-md-3,
+body .footer .row > .col-md-2,
+html body .footer .container .row > div[class*="col-md"] {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25), 
+        rgba(255, 255, 255, 0.1)
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: none !important;
+    border-left: none !important;
+    border-radius: 20px !important;
+    padding: 30px 25px !important;
+    margin-bottom: 25px !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.footer .row > .col-md-4:hover,
+.footer .row > .col-md-3:hover,
+.footer .row > .col-md-2:hover {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25) 0%, 
+        rgba(255, 255, 255, 0.15) 100%
+    ) !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 
+        0 15px 45px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
+    border-left-color: var(--primary-blue) !important;
+}
+
+/* Enhanced typography with glass morphism */
+.footer h5 {
+    color: var(--gold) !important;
+    margin-bottom: 20px !important;
+    font-weight: 700 !important;
+    font-size: 1.3rem !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+.footer h5 i {
+    margin-right: 12px !important;
+    font-size: 1.4rem !important;
+    color: var(--gold) !important;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4)) !important;
+}
+
+.footer p, .footer li {
+    color: white !important;
+    font-weight: 400 !important;
+    line-height: 1.7 !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4) !important;
+    margin-bottom: 12px !important;
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+/* Glass morphism links */
+.footer a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin: 3px 0 !important;
+}
+
+.footer a:hover {
+    color: var(--gold) !important;
+    background: rgba(251, 191, 36, 0.15) !important;
+    border-color: rgba(251, 191, 36, 0.3) !important;
+    transform: translateX(8px) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2) !important;
+}
+
+.footer a i {
+    margin-right: 8px !important;
+    font-size: 0.9rem !important;
+    color: var(--gold) !important;
+    transition: all 0.3s ease !important;
+}
+
+.footer a:hover i {
+    color: white !important;
+    transform: scale(1.1) !important;
+}
+
+/* Social Links Glass Morphism */
+.social-links {
+    display: flex !important;
+    gap: 15px !important;
+    margin-top: 20px !important;
+}
+
+.social-links a {
+    width: 50px !important;
+    height: 50px !important;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0.1) 100%
+    ) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-size: 1.3rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.social-links a:hover {
+    background: linear-gradient(135deg, 
+        var(--gold) 0%, 
+        rgba(251, 191, 36, 0.8) 100%
+    ) !important;
+    color: var(--primary-blue) !important;
+    transform: translateY(-5px) scale(1.1) !important;
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4) !important;
+    border-color: var(--primary-blue) !important;
+}
+
+/* Glass morphism footer bottom */
+.footer-bottom {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 100%
+    ) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-top: 2px solid var(--gold) !important;
+    border-radius: 15px !important;
+    margin: 40px 20px 0 20px !important;
+    padding: 25px !important;
+    text-align: center !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer .row > .col-md-4,
+    .footer .row > .col-md-3,
+    .footer .row > .col-md-2 {
+        margin-bottom: 20px !important;
+        padding: 25px 20px !important;
+    }
+    
+    .footer h5 {
+        font-size: 1.2rem !important;
+    }
+    
+    .social-links a {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 1.1rem !important;
+    }
+    
+    .footer-bottom {
+        margin: 30px 10px 0 10px !important;
+        padding: 20px !important;
+        font-size: 0.9rem !important;
+    }
+}

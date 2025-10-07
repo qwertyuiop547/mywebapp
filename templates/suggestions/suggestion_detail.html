@@ -174,7 +174,7 @@
                     {% if user.is_authenticated %}
                     <button 
                         class="btn btn-{% if user_voted %}success{% else %}outline-primary{% endif %} w-100"
-                        onclick="voteForSuggestion({{ suggestion.pk }}, this)"
+                        onclick="voteForSuggestion('{{ suggestion.pk }}', this)"
                         id="vote-btn"
                     >
                         <i class="bi bi-hand-thumbs-up"></i> 

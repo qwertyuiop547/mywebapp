@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/portal-tabs.css' %}">
     <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
     <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer-glass-morphism.css' %}">
     
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggMTVMMS4xNCA4SDguODZMMTUgMTVIOFoiIGZpbGw9IiMxZTNhOGEiLz4KPHBhdGggZD0iTTggNi4xNEwxIDRINy44NEwxNSA2LjE0VjEyTDggNi4xNFoiIGZpbGw9IiNmYmJmMjQiLz4KPHN2Zz4K">
     
@@ -145,7 +146,7 @@
             backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            border-left: 4px solid var(--ph-blue, #0038a8) !important;
+            border-left: none !important;
             border-radius: 25px !important;
             padding: 12px 20px !important;
             color: black !important;
@@ -238,44 +239,1569 @@
         }
         
         .dropdown-menu {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
-            padding: 10px 0 !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
+            padding: 12px !important;
             margin-top: 10px !important;
+            min-width: 220px !important;
         }
         
         .dropdown-item {
-            padding: 10px 20px !important;
-            border-radius: 10px !important;
-            margin: 2px 8px !important;
-            transition: all 0.2s ease !important;
-            color: #333 !important;
-            font-weight: 500 !important;
+            padding: 12px 20px !important;
+            border-radius: 12px !important;
+            margin: 3px 0 !important;
+            transition: all 0.3s ease !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600 !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%
+            ) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
         .dropdown-item:hover {
             background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
             color: white !important;
-            transform: translateX(5px) !important;
+            transform: translateX(5px) scale(1.02) !important;
+            box-shadow: 0 6px 20px rgba(0, 56, 168, 0.4) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
         }
         
         .dropdown-item i {
-            color: var(--ph-blue, #0038a8) !important;
-            margin-right: 10px !important;
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 12px !important;
             width: 20px !important;
             text-align: center !important;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5)) !important;
         }
         
         .dropdown-item:hover i {
             color: var(--ph-yellow, #fcd116) !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+            transform: scale(1.1) !important;
+        }
+        
+        /* Special styling for logout item */
+        .dropdown-item.text-danger {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .dropdown-item.text-danger:hover {
+            background: linear-gradient(135deg, var(--ph-red, #ce1126), #d73527) !important;
+            color: white !important;
+            box-shadow: 0 6px 20px rgba(206, 17, 38, 0.4) !important;
+        }
+        
+        .dropdown-item.text-danger i {
+            color: var(--ph-red, #ce1126) !important;
+        }
+        
+        .dropdown-item.text-danger:hover i {
+            color: white !important;
         }
         
         #languageDropdown .bi-translate {
             font-size: 1.1em;
+        }
+        
+        /* Footer Glass Morphism Override - Same as Home Page - Remove All Blue */
+        body .footer, 
+        html body .footer, 
+        .footer.mt-5,
+        footer.footer {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            padding: 60px 0 30px !important;
+            margin-top: 50px !important;
+        }
+        
+        /* Eliminate any remaining blue backgrounds and elements */
+        body .footer::before,
+        html body .footer::before,
+        .footer::before {
+            display: none !important;
+        }
+        
+        /* Remove any blue borders or accents */
+        body .footer,
+        html body .footer {
+            border-top: none !important;
+            border: none !important;
+        }
+        
+        /* Ensure no blue from original CSS */
+        body .footer * {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Force complete background override */
+        body .footer,
+        html body .footer,
+        .footer.footer.mt-5 {
+            background-color: transparent !important;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                             url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') !important;
+        }
+        
+        /* Eliminate ALL blue lines, borders, and decorative elements */
+        body .footer *,
+        html body .footer *,
+        body .footer *::before,
+        body .footer *::after {
+            border-top-color: transparent !important;
+            border-bottom-color: transparent !important;
+            border-left-color: rgba(255, 255, 255, 0.2) !important;
+            border-right-color: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+        
+        /* Remove any blue text decoration lines */
+        body .footer a,
+        body .footer a:hover,
+        body .footer a:focus,
+        body .footer a:visited {
+            text-decoration: none !important;
+            border-bottom: none !important;
+            border-top: none !important;
+        }
+        
+        body .footer .col-md-4, 
+        body .footer .col-md-3, 
+        body .footer .col-md-2 {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+            padding: 30px 25px !important;
+            margin-bottom: 25px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        body .footer .col-md-4:hover, 
+        body .footer .col-md-3:hover, 
+        body .footer .col-md-2:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+            border-left: none !important;
+        }
+        
+        /* Specifically target footer-bottom and any remaining blue elements */
+        body .footer .footer-bottom,
+        body .footer-bottom,
+        .footer-bottom {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%
+            ) !important;
+            border-top: 2px solid var(--ph-yellow, #fcd116) !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+        }
+        
+        /* Remove any remaining blue from variable overrides */
+        body .footer {
+            --primary-blue: transparent !important;
+            --ph-blue: #0038a8 !important;
+            --gold: #fcd116 !important;
+        }
+        
+        /* Government Header Glass Morphism - Professional Portal Integration */
+        .government-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+            position: relative !important;
+            z-index: 1035 !important;
+            padding: 20px 0 !important;
+        }
+        
+        .government-header .container {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+            padding: 25px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .government-header .container:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .government-header .barangay-info h1 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            font-size: 2.2rem !important;
+            margin-bottom: 8px !important;
+        }
+        
+        .government-header .subtitle {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
+            font-weight: 500 !important;
+            font-size: 1.1rem !important;
+        }
+        
+        .government-header .contact-info {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-weight: 500 !important;
+        }
+        
+        .government-header .contact-info i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 8px !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5)) !important;
+        }
+        
+        .government-header .seal-image {
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.6)) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .government-header .barangay-logo:hover .seal-image {
+            transform: scale(1.05) rotate(5deg) !important;
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.8)) !important;
+        }
+        
+        .government-header .text-muted {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Main Content Area Glass Morphism - Complete Portal Integration */
+        main.flex-grow-1,
+        main {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            min-height: calc(100vh - 200px) !important;
+        }
+        
+        /* Dashboard Welcome Section Glass Morphism */
+        .dashboard-welcome {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .dashboard-welcome:hover {
+            transform: translateY(-3px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .welcome-title {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .welcome-title i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 12px !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .welcome-message {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-size: 1.1rem !important;
+            line-height: 1.5 !important;
+        }
+        
+        .welcome-message .text-primary {
+            color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        /* User Info Section */
+        .user-info {
+            display: flex !important;
+            align-items: center !important;
+            margin-top: 15px !important;
+        }
+        
+        .user-avatar {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            color: white !important;
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-weight: 700 !important;
+            font-size: 1.2rem !important;
+            margin-right: 15px !important;
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        .user-details h6 {
+            color: #ffffff !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-weight: 600 !important;
+            margin-bottom: 5px !important;
+        }
+        
+        .user-role {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            font-size: 0.9rem !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Preferences Card Glass Morphism */
+        .preferences-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+            padding: 0 !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+            overflow: hidden !important;
+        }
+        
+        .preferences-card:hover {
+            transform: translateY(-3px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .preferences-header {
+            background: linear-gradient(135deg, 
+                rgba(0, 56, 168, 0.2) 0%, 
+                rgba(0, 56, 168, 0.1) 100%
+            ) !important;
+            padding: 25px 30px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .form-title {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .form-title i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 12px !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .preferences-body {
+            padding: 30px !important;
+        }
+        
+        /* Form Elements Glass Morphism */
+        .preferences-body .form-check {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.05) 100%
+            ) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            padding: 15px 20px !important;
+            margin-bottom: 15px !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .preferences-body .form-check:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            transform: translateX(5px) !important;
+        }
+        
+        .preferences-body .form-check-label {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            font-weight: 500 !important;
+        }
+        
+        .preferences-body .form-check-input:checked {
+            background-color: var(--ph-blue, #0038a8) !important;
+            border-color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        .preferences-body .btn-primary {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            padding: 12px 30px !important;
+            font-weight: 600 !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 8px 25px rgba(0, 56, 168, 0.4) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .preferences-body .btn-primary:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 35px rgba(0, 56, 168, 0.6) !important;
+        }
+        
+        /* Container and Body Glass Morphism - Complete Coverage */
+        .container {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+        
+        .py-4,
+        .container.py-4 {
+            background: transparent !important;
+        }
+        
+        /* Additional Glass Elements - Complete Portal Integration */
+        .fade-in {
+            animation: fadeInGlass 0.6s ease-out !important;
+        }
+        
+        @keyframes fadeInGlass {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Alert Messages Glass Morphism */
+        .alert {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 255, 255, 0.08) 100%
+            ) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            border-radius: 15px !important;
+            color: white !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .alert-success {
+            border-left: 4px solid var(--ph-yellow, #fcd116) !important;
+        }
+        
+        .alert-info {
+            border-left: 4px solid var(--ph-blue, #0038a8) !important;
+        }
+        
+        .alert-warning {
+            border-left: 4px solid var(--ph-red, #ce1126) !important;
+        }
+        
+        /* Page Content Wrapper Glass Enhancement */
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+        }
+        
+        /* Ensure all text elements are visible over glass */
+        h1, h2, h3, h4, h5, h6, p, span, div, label, small {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Glass morphism for any remaining cards or sections */
+        .card, 
+        .section,
+        .panel {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* Universal Stats Grid Glass Morphism - Complete Dashboard Integration */
+        .stats-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 25px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        .stats-grid .stat-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            padding: 25px 20px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            min-height: 140px !important;
+            overflow: hidden !important;
+        }
+        
+        .stats-grid .stat-card:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .stats-grid .stat-card .stat-icon {
+            font-size: 2.2rem !important;
+            margin-bottom: 12px !important;
+            color: var(--ph-yellow, #fcd116) !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .stats-grid .stat-card .stat-number {
+            font-size: 2.8rem !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            margin-bottom: 8px !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            display: block !important;
+            line-height: 1 !important;
+        }
+        
+        .stats-grid .stat-card .stat-label {
+            font-size: 1rem !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-weight: 600 !important;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+            text-align: center !important;
+        }
+        
+        /* Specific stat card type styling with Philippine colors */
+        .stats-grid .stat-card.total .stat-icon {
+            color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        .stats-grid .stat-card.pending .stat-icon {
+            color: var(--ph-yellow, #fcd116) !important;
+        }
+        
+        .stats-grid .stat-card.progress .stat-icon {
+            color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        .stats-grid .stat-card.resolved .stat-icon {
+            color: var(--ph-yellow, #fcd116) !important;
+        }
+        
+        /* Barangay Officials Section Glass Morphism */
+        .quick-actions,
+        .info-section {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+            padding: 30px !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .quick-actions:hover,
+        .info-section:hover {
+            transform: translateY(-3px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .quick-actions .section-title,
+        .info-section .section-title {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 25px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        .quick-actions .section-title i,
+        .info-section .section-title i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 12px !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .officials-grid {
+            display: grid !important;
+            gap: 20px !important;
+        }
+        
+        .official-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 255, 255, 0.08) 100%
+            ) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        .official-card:hover {
+            transform: translateY(-2px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(255, 255, 255, 0.12) 100%
+            ) !important;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .official-photo {
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-right: 15px !important;
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            flex-shrink: 0 !important;
+        }
+        
+        .official-photo i {
+            color: var(--ph-yellow, #fcd116) !important;
+            font-size: 1.5rem !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .official-info h5 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 5px !important;
+            font-size: 1.1rem !important;
+        }
+        
+        .official-info .position {
+            color: var(--ph-yellow, #fcd116) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-weight: 600 !important;
+            margin-bottom: 5px !important;
+            font-size: 0.9rem !important;
+        }
+        
+        .official-info .contact {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            font-size: 0.85rem !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .official-info .contact i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 5px !important;
+        }
+        
+        .kagawad-list {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.05) 100%
+            ) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            margin-top: 20px !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        .kagawad-list h6 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 15px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        .kagawad-list h6 i {
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 8px !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .kagawad-list ul {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        .kagawad-list li {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            padding: 8px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            font-weight: 500 !important;
+        }
+        
+        .kagawad-list li:last-child {
+            border-bottom: none !important;
+        }
+        
+        .kagawad-list li::before {
+            content: '▶' !important;
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-right: 10px !important;
+            font-size: 0.8rem !important;
+        }
+        
+        /* Announcements Section Glass Morphism */
+        .announcements-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+            gap: 25px !important;
+            margin-top: 20px !important;
+        }
+        
+        .announcement-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .announcement-card:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .announcement-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .announcement-type {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            color: white !important;
+            padding: 4px 12px !important;
+            border-radius: 20px !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        .announcement-date {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-size: 0.85rem !important;
+            font-weight: 500 !important;
+        }
+        
+        .announcement-card h5 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 12px !important;
+            font-size: 1.2rem !important;
+            line-height: 1.3 !important;
+        }
+        
+        .announcement-card p {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important;
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .announcement-footer {
+            display: flex !important;
+            justify-content: flex-end !important;
+            margin-top: 15px !important;
+        }
+        
+        .badge {
+            padding: 6px 12px !important;
+            border-radius: 20px !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        .badge-priority {
+            background: linear-gradient(135deg, var(--ph-red, #ce1126), #d73527) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(206, 17, 38, 0.4) !important;
+        }
+        
+        .badge-info {
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4) !important;
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, #28a745, #20c997) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4) !important;
+        }
+        
+        /* Specific announcement card type styling */
+        .announcement-card.priority {
+            border-left: 4px solid var(--ph-red, #ce1126) !important;
+        }
+        
+        .announcement-card.info {
+            border-left: 4px solid var(--ph-blue, #0038a8) !important;
+        }
+        
+        .announcement-card.success {
+            border-left: 4px solid #28a745 !important;
+        }
+        
+        .announcement-card.warning {
+            border-left: 4px solid var(--ph-yellow, #fcd116) !important;
+        }
+        
+        /* Enhanced hover effects for different card types */
+        .announcement-card.priority:hover {
+            border-left-color: var(--ph-red, #ce1126) !important;
+            border-left-width: 6px !important;
+        }
+        
+        .announcement-card.info:hover {
+            border-left-color: var(--ph-blue, #0038a8) !important;
+            border-left-width: 6px !important;
+        }
+        
+        .announcement-card.success:hover {
+            border-left-color: #28a745 !important;
+            border-left-width: 6px !important;
+        }
+        
+        .announcement-card.warning:hover {
+            border-left-color: var(--ph-yellow, #fcd116) !important;
+            border-left-width: 6px !important;
+        }
+        
+        /* Contact Information Section Glass Morphism */
+        .contact-info {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+            gap: 20px !important;
+            margin-top: 20px !important;
+        }
+        
+        .contact-item {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-3px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+        }
+        
+        .contact-icon {
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, var(--ph-blue, #0038a8), #2989d8) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-right: 20px !important;
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            flex-shrink: 0 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .contact-icon:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 6px 20px rgba(0, 56, 168, 0.6) !important;
+        }
+        
+        .contact-icon i {
+            color: var(--ph-yellow, #fcd116) !important;
+            font-size: 1.3rem !important;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6)) !important;
+        }
+        
+        .contact-details {
+            flex: 1 !important;
+        }
+        
+        .contact-details h6 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+            font-weight: 700 !important;
+            margin-bottom: 8px !important;
+            font-size: 1.1rem !important;
+            line-height: 1.3 !important;
+        }
+        
+        .contact-details p {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+            margin-bottom: 0 !important;
+            font-weight: 500 !important;
+        }
+        
+        /* Enhanced text visibility for different contact types */
+        .contact-item:first-child {
+            border-left: 4px solid var(--ph-blue, #0038a8) !important;
+        }
+        
+        .contact-item:nth-child(2) {
+            border-left: 4px solid var(--ph-yellow, #fcd116) !important;
+        }
+        
+        .contact-item:nth-child(3) {
+            border-left: 4px solid var(--ph-red, #ce1126) !important;
+        }
+        
+        /* Special styling for emergency contact */
+        .contact-item:nth-child(3) .contact-icon {
+            background: linear-gradient(135deg, var(--ph-red, #ce1126), #d73527) !important;
+            box-shadow: 0 4px 15px rgba(206, 17, 38, 0.4) !important;
+        }
+        
+        .contact-item:nth-child(3) .contact-icon:hover {
+            box-shadow: 0 6px 20px rgba(206, 17, 38, 0.6) !important;
+        }
+        
+        /* Enhanced hover effects for different contact types */
+        .contact-item:first-child:hover {
+            border-left-width: 6px !important;
+            border-left-color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        .contact-item:nth-child(2):hover {
+            border-left-width: 6px !important;
+            border-left-color: var(--ph-yellow, #fcd116) !important;
+        }
+        
+        .contact-item:nth-child(3):hover {
+            border-left-width: 6px !important;
+            border-left-color: var(--ph-red, #ce1126) !important;
+        }
+        
+        /* Nuclear option - eliminate ALL blue styling from footer completely */
+        body .footer,
+        body .footer *,
+        html body .footer,
+        html body .footer * {
+            background: none !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+        }
+        
+        /* Reapply only the background we want */
+        body .footer {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
+        }
+        
+        /* Reapply glass morphism to columns only */
+        body .footer .col-md-4, 
+        body .footer .col-md-3, 
+        body .footer .col-md-2 {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+        }
+        
+        /* Contact Section Glass Morphism - Same as Home Page */
+        .contact-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        .contact-item {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+            padding: 30px 20px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+            border-left: none !important;
+        }
+        
+        .contact-title {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+            font-weight: 600 !important;
+        }
+        
+        .contact-details {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        }
+        
+        .contact-icon {
+            background: var(--ph-yellow, #fcd116) !important;
+            color: var(--ph-blue, #0038a8) !important;
+            box-shadow: 0 4px 15px rgba(252, 209, 22, 0.3) !important;
+        }
+        
+        /* How It Works Section Glass Morphism - Same as Home Page */
+        .how-it-works-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        .process-step {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+            padding: 30px 20px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+            border-left: none !important;
+        }
+        
+        .process-number {
+            background: var(--ph-red, #ce1126) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(206, 17, 38, 0.3) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        .process-title {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+            font-weight: 600 !important;
+        }
+        
+        .process-description {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        }
+        
+        /* Remove connecting arrows for cleaner glass morphism look */
+        .process-step::after {
+            display: none !important;
+        }
+        
+        /* Stats Section Glass Morphism - Same as Home Page */
+        .stats-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+            padding: 30px 20px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+            transition: all 0.3s ease !important;
+            text-align: center !important;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+            border-left: none !important;
+        }
+        
+        .stat-number {
+            font-size: 3rem !important;
+            font-weight: 700 !important;
+            color: var(--ph-yellow, #fcd116) !important;
+            margin-bottom: 10px !important;
+            display: block !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            margin-bottom: 8px !important;
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+        }
+        
+        .stat-description {
+            font-size: 0.9rem !important;
+            opacity: 0.9 !important;
+            line-height: 1.4 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        }
+        
+        /* Nuclear option - eliminate ALL borders from glass morphism elements */
+        .contact-item,
+        .process-step,
+        .stat-card,
+        body .footer .col-md-4,
+        body .footer .col-md-3,
+        body .footer .col-md-2,
+        .service-card,
+        .announcement-card,
+        .stats-grid .stat-card,
+        .stats-section .stat-card {
+            border: none !important;
+            border-top: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+            border-left: none !important;
+            outline: none !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+        }
+        
+        /* Specific override for stats section to remove any blue styling */
+        .stats-section,
+        .stats-grid,
+        .stats-section .stat-card,
+        .stats-grid .stat-card {
+            border: none !important;
+            border-color: transparent !important;
+            background-color: transparent !important;
+        }
+        
+        /* Force stats cards to have clean glass only */
+        .stats-section .stat-card,
+        .stats-grid .stat-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border-radius: 15px !important;
+            padding: 30px 20px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        /* Override home.html blue borders */
+        .quick-card,
+        .ann-card {
+            border-left: none !important;
+            border: none !important;
+        }
+        
+        /* Eliminate stat-card ::before pseudo-elements that create blue lines */
+        .stat-card::before,
+        .stats-section .stat-card::before,
+        .stats-grid .stat-card::before {
+            display: none !important;
+            content: none !important;
+            background: none !important;
+            border: none !important;
+            height: 0 !important;
+            width: 0 !important;
+        }
+        
+        /* Override all stat-card border and hover states */
+        .stat-card,
+        .stat-card:hover,
+        .stats-section .stat-card,
+        .stats-section .stat-card:hover,
+        .stats-grid .stat-card,
+        .stats-grid .stat-card:hover {
+            border: none !important;
+            border-color: transparent !important;
+        }
+        
+        /* Quick Access Section Glass Morphism - Same as Home Page */
+        .quick-access-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        .quick-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-left: none !important;
+            border-radius: 15px !important;
+            padding: 25px 20px !important;
+            margin-bottom: 20px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37) !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            color: white !important;
+        }
+        
+        .quick-card:hover {
+            transform: translateY(-5px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.45) !important;
+            border: none !important;
+            text-decoration: none !important;
+            color: white !important;
+        }
+        
+        .quick-body h6 {
+            color: #ffffff !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6) !important;
+            font-weight: 600 !important;
+        }
+        
+        .quick-body small {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+        }
+        
+        .quick-icon {
+            background: var(--ph-yellow, #fcd116) !important;
+            color: var(--ph-blue, #0038a8) !important;
+            box-shadow: 0 4px 15px rgba(252, 209, 22, 0.3) !important;
+        }
+        
+        /* Hero Section Glass Morphism - Same as Home Page */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        .portal-header,
+        .hero-content {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15), 
+                rgba(255, 255, 255, 0.05)
+            ) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 20px !important;
+            padding: 40px 30px !important;
+            margin-bottom: 20px !important;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3) !important;
+            text-align: center !important;
+        }
+        
+        .portal-btn {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25), 
+                rgba(255, 255, 255, 0.1)
+            ) !important;
+            backdrop-filter: blur(15px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 15px !important;
+            padding: 15px 30px !important;
+            margin: 10px !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            color: white !important;
+            font-weight: 600 !important;
+        }
+        
+        .portal-btn:hover {
+            transform: translateY(-3px) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35), 
+                rgba(255, 255, 255, 0.15)
+            ) !important;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
+            text-decoration: none !important;
+            color: white !important;
+        }
+        
+        .portal-btn-primary {
+            border-color: var(--ph-blue, #0038a8) !important;
+        }
+        
+        .portal-btn-secondary {
+            border-color: var(--ph-yellow, #fcd116) !important;
+        }
+        
+        .portal-logo {
+            background: var(--ph-yellow, #fcd116) !important;
+            color: var(--ph-blue, #0038a8) !important;
+            box-shadow: 0 8px 25px rgba(252, 209, 22, 0.4) !important;
+        }
+        
+        /* Navbar Glass Morphism - Complete Portal Integration */
+        .navbar {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            position: relative !important;
+            z-index: 1040 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .navbar-brand {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 255, 255, 0.1) 100%
+            ) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 8px 16px !important;
+            color: white !important;
+            font-weight: 600 !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .navbar-brand:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(255, 255, 255, 0.15) 100%
+            ) !important;
+            transform: translateY(-1px) !important;
+            color: white !important;
+        }
+        
+        .nav-link {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            margin: 2px 4px !important;
+            padding: 6px 12px !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500 !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Normal body styling - no extra padding needed */
+        body {
+            padding-top: 0 !important;
         }
     </style>
     
@@ -531,7 +2057,8 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (Hidden on dashboard and profile pages) -->
+    {% if not user.is_authenticated or request.resolver_match.url_name == 'home' %}
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
@@ -582,6 +2109,7 @@
             </div>
         </div>
     </footer>
+    {% endif %}
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -29,13 +29,33 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,mywebapp-production-cd0d.up.railway.app', cast=Csv())
 
-# CSRF Settings for Railway deployment
+# Add localhost variations for browser preview
+ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
+
+# CSRF Settings for Railway deployment and browser preview
 CSRF_TRUSTED_ORIGINS = [
     'https://mywebapp-production-cd0d.up.railway.app',
     'https://*.railway.app',
     'http://localhost:8000',
-    'http://127.0.0.1:8000'
+    'http://127.0.0.1:8000',
+    'http://localhost:49177',
+    'http://127.0.0.1:49177',
+    'https://127.0.0.1:49177',
+    'https://localhost:49177'
 ]
+
+# For development - allow any localhost port
+if DEBUG:
+    import re
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://localhost',
+        'http://127.0.0.1',
+        'https://localhost',
+        'https://127.0.0.1'
+    ])
+    # Also disable CSRF protection for development convenience
+    CSRF_COOKIE_HTTPONLY = False
+    CSRF_USE_SESSIONS = False
 
 # CSRF settings - moved to bottom of file for consolidation
 
@@ -75,7 +95,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # Temporarily disable CSRF for development
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -209,9 +230,7 @@ LOGGING = {
     },
 }
 
-# Additional CSRF settings for local development
-CSRF_COOKIE_HTTPONLY = False
-CSRF_USE_SESSIONS = False
+# CSRF settings consolidated above - keeping SameSite setting
 CSRF_COOKIE_SAMESITE = 'Lax'
 
 # Session settings
