@@ -1,0 +1,565 @@
+/* ========================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   Reduces lag by optimizing expensive CSS operations
+   ======================================== */
+
+/* ========================================
+   CRITICAL: Disable expensive effects on mobile
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* REMOVE UNIVERSAL TEXT-SHADOW - Major Performance Hit */
+    * {
+        text-shadow: none !important;
+    }
+    
+    /* Apply selective text-shadow only where needed */
+    h1, h2, h3, h4, h5, h6,
+    .navbar-brand,
+    .portal-title,
+    .section-title {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6) !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE BACKGROUND IMAGES
+       ======================================== */
+    
+    /* Fixed backgrounds cause major lag on mobile */
+    body,
+    main,
+    .hero-section,
+    .footer,
+    .government-header {
+        background-attachment: scroll !important;
+    }
+    
+    /* Reduce background image quality/size on mobile */
+    body {
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+    
+    /* ========================================
+       REDUCE BACKDROP-FILTER BLUR
+       ======================================== */
+    
+    /* Backdrop-filter is extremely expensive on mobile - reduce or remove */
+    .navbar,
+    .portal-header,
+    .quick-card,
+    .service-card,
+    .stat-card,
+    .process-step,
+    .contact-item,
+    .announcement-card,
+    .card,
+    .dropdown-menu,
+    .modal-content,
+    .footer .col-md-4,
+    .footer .col-md-3,
+    .footer .col-md-2,
+    .government-header .container,
+    .dashboard-welcome,
+    .preferences-card,
+    .alert {
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+    }
+    
+    /* Remove blur from less critical elements */
+    .hero-pill,
+    .navbar-nav .nav-link,
+    .dropdown-item {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    /* ========================================
+       SIMPLIFY ANIMATIONS
+       ======================================== */
+    
+    /* Disable or simplify animations on mobile */
+    .portal-logo {
+        animation: none !important;
+    }
+    
+    .floating-elements {
+        display: none !important;
+    }
+    
+    /* Reduce transition duration */
+    * {
+        transition-duration: 0.15s !important;
+    }
+    
+    /* Remove complex hover effects on mobile (touch devices) */
+    @media (hover: none) {
+        .portal-header:hover,
+        .service-card:hover,
+        .stat-card:hover,
+        .process-step:hover,
+        .contact-item:hover,
+        .announcement-card:hover {
+            transform: none !important;
+        }
+        
+        .hero-pill:hover {
+            transform: none !important;
+        }
+    }
+    
+    /* ========================================
+       OPTIMIZE BOX-SHADOWS
+       ======================================== */
+    
+    /* Reduce box-shadow complexity */
+    .portal-header,
+    .quick-card,
+    .service-card,
+    .stat-card,
+    .process-step,
+    .contact-item,
+    .announcement-card {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+    }
+    
+    .navbar,
+    .hero-pill {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* ========================================
+       SIMPLIFY GRADIENTS
+       ======================================== */
+    
+    /* Reduce gradient complexity */
+    .hero-section::before {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE TYPOGRAPHY
+       ======================================== */
+    
+    /* Reduce font sizes for better rendering */
+    .portal-title {
+        font-size: 2rem !important;
+    }
+    
+    .portal-subtitle {
+        font-size: 1.1rem !important;
+    }
+    
+    .section-title {
+        font-size: 2rem !important;
+    }
+    
+    /* ========================================
+       REMOVE PSEUDO-ELEMENTS ANIMATIONS
+       ======================================== */
+    
+    .hero-pill::before,
+    .portal-btn::before,
+    .service-card::before {
+        display: none !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE HERO SECTION
+       ======================================== */
+    
+    .hero-section {
+        min-height: 70vh !important;
+        padding: 40px 0 30px !important;
+    }
+    
+    .portal-header {
+        padding: 30px 25px !important;
+        margin-bottom: 30px;
+    }
+    
+    .portal-logo {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+    
+    /* ========================================
+       OPTIMIZE GRID LAYOUTS
+       ======================================== */
+    
+    .hero-stats {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        margin-top: 30px;
+    }
+    
+    .quick-access-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+    
+    .service-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+    
+    .process-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+    
+    /* ========================================
+       REDUCE PADDING/MARGINS
+       ======================================== */
+    
+    .services-section,
+    .stats-section,
+    .how-it-works-section,
+    .contact-section,
+    .announcements-section {
+        padding: 40px 0 !important;
+    }
+    
+    .section-header {
+        margin-bottom: 30px;
+    }
+    
+    /* ========================================
+       OPTIMIZE CARDS
+       ======================================== */
+    
+    .quick-card,
+    .service-card,
+    .stat-card,
+    .process-step,
+    .contact-item,
+    .announcement-card {
+        padding: 20px 15px !important;
+    }
+    
+    /* ========================================
+       SIMPLIFY BORDERS
+       ======================================== */
+    
+    /* Remove decorative borders that aren't essential */
+    .portal-title::after {
+        display: none !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE IMAGES
+       ======================================== */
+    
+    .announcement-image,
+    .gallery-item img,
+    img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    .announcement-image {
+        height: 150px !important;
+    }
+    
+    /* ========================================
+       DISABLE FILTERS ON ICONS
+       ======================================== */
+    
+    .quick-icon,
+    .service-icon,
+    .contact-icon,
+    .process-number {
+        filter: none !important;
+    }
+    
+    /* Re-add minimal shadow for visibility */
+    .quick-icon i,
+    .contact-icon i {
+        filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4)) !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE NAVBAR
+       ======================================== */
+    
+    .navbar {
+        padding: 0.3rem 0 !important;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 6px 12px !important;
+        margin: 2px 3px !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE FOOTER
+       ======================================== */
+    
+    .footer {
+        padding: 40px 0 20px !important;
+        margin-top: 30px !important;
+    }
+    
+    .footer .col-md-4,
+    .footer .col-md-3,
+    .footer .col-md-2 {
+        padding: 20px 15px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* ========================================
+       OPTIMIZE MODAL & DROPDOWN
+       ======================================== */
+    
+    .modal-content {
+        backdrop-filter: blur(8px) !important;
+    }
+    
+    .dropdown-menu {
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+    }
+    
+    /* ========================================
+       FORCE GPU ACCELERATION FOR SMOOTH SCROLLING
+       ======================================== */
+    
+    .hero-section,
+    .navbar,
+    .portal-header,
+    .service-card,
+    .stat-card {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        will-change: auto;
+    }
+    
+    /* ========================================
+       DISABLE WILL-CHANGE ON STATIC ELEMENTS
+       ======================================== */
+    
+    * {
+        will-change: auto !important;
+    }
+}
+
+/* ========================================
+   EXTRA SMALL DEVICES (< 576px)
+   ======================================== */
+
+@media (max-width: 576px) {
+    /* Further reduce effects on very small screens */
+    
+    /* Remove all backdrop filters */
+    * {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    /* Use solid backgrounds with transparency instead */
+    .navbar {
+        background: rgba(0, 0, 0, 0.85) !important;
+    }
+    
+    .portal-header,
+    .quick-card,
+    .service-card,
+    .stat-card,
+    .process-step,
+    .contact-item,
+    .announcement-card {
+        background: rgba(0, 0, 0, 0.7) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95) !important;
+    }
+    
+    /* Minimal shadows */
+    * {
+        box-shadow: none !important;
+    }
+    
+    .portal-header,
+    .service-card,
+    .announcement-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Single column layouts */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Reduce spacing further */
+    .services-section,
+    .stats-section,
+    .how-it-works-section,
+    .contact-section {
+        padding: 30px 0 !important;
+    }
+    
+    .hero-section {
+        min-height: 60vh !important;
+        padding: 30px 0 20px !important;
+    }
+    
+    /* Optimize font rendering */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeSpeed;
+    }
+}
+
+/* ========================================
+   LANDSCAPE ORIENTATION OPTIMIZATIONS
+   ======================================== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        min-height: 50vh !important;
+        padding: 20px 0 !important;
+    }
+    
+    .portal-header {
+        padding: 20px 15px !important;
+    }
+    
+    .portal-logo {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+    
+    .portal-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .portal-subtitle {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* ========================================
+   REDUCE MOTION FOR ACCESSIBILITY & PERFORMANCE
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ========================================
+   LOW-END DEVICE OPTIMIZATIONS
+   ======================================== */
+
+@media (max-width: 768px) and (max-resolution: 1.5dppx) {
+    /* Disable expensive effects on low-end devices */
+    
+    * {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        filter: none !important;
+        box-shadow: none !important;
+    }
+    
+    /* Use solid backgrounds */
+    .navbar,
+    .portal-header,
+    .card,
+    .quick-card,
+    .service-card {
+        background: rgba(0, 0, 0, 0.85) !important;
+    }
+    
+    /* Minimal essential shadows only */
+    .portal-header {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+/* ========================================
+   OPTIMIZE TOUCH TARGETS
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Ensure touch targets are at least 44x44px */
+    .btn,
+    .nav-link,
+    .portal-btn,
+    a.quick-card {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   PREVENT ZOOM ON INPUT FOCUS (iOS)
+   ======================================== */
+
+@media (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="search"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* ========================================
+   CONTENT VISIBILITY FOR LAZY RENDERING
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Browser hint to lazy render off-screen sections */
+    .services-section,
+    .stats-section,
+    .how-it-works-section,
+    .contact-section,
+    .announcements-section {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
+    }
+}
+
+/* ========================================
+   REDUCE COMPLEXITY ON OLDER BROWSERS
+   ======================================== */
+
+@supports not (backdrop-filter: blur(10px)) {
+    /* Fallback for browsers without backdrop-filter support */
+    .navbar,
+    .portal-header,
+    .card,
+    .dropdown-menu {
+        background: rgba(0, 0, 0, 0.9) !important;
+    }
+}
