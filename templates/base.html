@@ -4,7 +4,10 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>{% block title %}{% trans "Barangay Complaint & Feedback Portal" %}{% endblock %}</title>
     <!-- Bootstrap 5 CSS -->
@@ -21,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
     <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer-glass-morphism.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive-system.css' %}">
     
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggMTVMMS4xNCA4SDguODZMMTUgMTVIOFoiIGZpbGw9IiMxZTNhOGEiLz4KPHBhdGggZD0iTTggNi4xNEwxIDRINy44NEwxNSA2LjE0VjEyTDggNi4xNFoiIGZpbGw9IiNmYmJmMjQiLz4KPHN2Zz4K">
     
@@ -795,6 +799,262 @@
             border-radius: 15px !important;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
             transition: all 0.3s ease !important;
+        }
+        
+        /* ========================================
+           SYSTEM-WIDE RESPONSIVE DESIGN
+           ======================================== */
+        
+        /* Responsive Tables */
+        @media (max-width: 768px) {
+            .table-responsive {
+                border: 0;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .table td, .table th {
+                white-space: normal;
+            }
+        }
+        
+        /* Responsive Forms */
+        @media (max-width: 576px) {
+            .form-group,
+            .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+            
+            .form-control,
+            .form-select {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .btn-group {
+                display: block;
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+                border-radius: 5px !important;
+            }
+        }
+        
+        /* Responsive Navigation */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.95) !important;
+                padding: 20px;
+                border-radius: 15px;
+                margin-top: 10px;
+            }
+            
+            .navbar-nav .nav-item {
+                margin-bottom: 5px;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 12px 20px !important;
+                border-radius: 10px !important;
+            }
+            
+            .dropdown-menu {
+                position: static !important;
+                float: none !important;
+                width: 100% !important;
+                margin-top: 0 !important;
+                background: rgba(255, 255, 255, 0.15) !important;
+            }
+        }
+        
+        /* Responsive Modals */
+        @media (max-width: 576px) {
+            .modal-dialog {
+                margin: 0.5rem;
+                max-width: calc(100% - 1rem);
+            }
+            
+            .modal-content {
+                border-radius: 15px;
+            }
+            
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding: 1rem;
+            }
+        }
+        
+        /* Responsive Alerts */
+        @media (max-width: 768px) {
+            .alert {
+                font-size: 0.9rem;
+                padding: 12px 15px;
+            }
+            
+            .alert-dismissible .btn-close {
+                padding: 10px;
+            }
+        }
+        
+        /* Responsive Cards */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 20px;
+            }
+            
+            .card-header,
+            .card-body,
+            .card-footer {
+                padding: 15px;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Responsive Government Header */
+        @media (max-width: 768px) {
+            .government-header .container {
+                padding: 15px !important;
+            }
+            
+            .government-header .barangay-info h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            .government-header .subtitle {
+                font-size: 0.9rem !important;
+            }
+            
+            .government-header .contact-info {
+                font-size: 0.85rem !important;
+            }
+            
+            .government-header .seal-image {
+                width: 60px !important;
+                height: 60px !important;
+            }
+        }
+        
+        /* Responsive Footer */
+        @media (max-width: 768px) {
+            .footer {
+                padding: 40px 0 20px !important;
+            }
+            
+            .footer .col-md-4,
+            .footer .col-md-3,
+            .footer .col-md-2 {
+                margin-bottom: 20px !important;
+                padding: 20px 15px !important;
+            }
+            
+            .footer h5 {
+                font-size: 1.1rem !important;
+            }
+            
+            .footer p,
+            .footer a {
+                font-size: 0.9rem !important;
+            }
+            
+            .footer-bottom {
+                padding: 15px 0 !important;
+                text-align: center !important;
+            }
+        }
+        
+        /* Touch-Friendly Elements */
+        @media (hover: none) and (pointer: coarse) {
+            a, button, .btn, .nav-link, .dropdown-item {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .form-control,
+            .form-select {
+                min-height: 44px;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .navbar,
+            .footer,
+            .back-to-top,
+            .btn,
+            .alert-dismissible .btn-close {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+            }
+        }
+        
+        /* Accessibility - Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            * {
+                border-width: 2px !important;
+            }
+            
+            .btn {
+                border: 2px solid currentColor !important;
+            }
+            
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 1) !important;
+            }
+        }
+        
+        /* Small Screen Optimizations */
+        @media (max-width: 375px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.2rem; }
+            h4 { font-size: 1.1rem; }
+            h5 { font-size: 1rem; }
+            h6 { font-size: 0.9rem; }
         }
         
         /* Universal Stats Grid Glass Morphism - Complete Dashboard Integration */
@@ -2133,6 +2393,9 @@
     
     <!-- Chatbot -->
     <script src="{% static 'js/chatbot.js' %}"></script>
+    
+    <!-- Responsive Enhancements for All Features -->
+    <script src="{% static 'js/responsive-enhancements.js' %}"></script>
 
     {% block extra_js %}{% endblock %}
 </body>
