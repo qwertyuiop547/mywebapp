@@ -170,19 +170,47 @@
        ======================================== */
     
     .hero-section {
-        min-height: 70vh !important;
-        padding: 40px 0 30px !important;
+        min-height: auto !important;
+        padding: 20px 0 30px !important;
     }
     
     .portal-header {
-        padding: 30px 25px !important;
-        margin-bottom: 30px;
+        padding: 25px 20px !important;
+        margin-bottom: 25px;
+        margin-top: 20px;
     }
     
     .portal-logo {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+        font-size: 2rem !important;
+    }
+    
+    .portal-title {
+        font-size: 1.6rem !important;
+        margin-bottom: 15px;
+    }
+    
+    .portal-subtitle {
+        font-size: 1rem !important;
+        margin: 15px 0 8px;
+    }
+    
+    .portal-tagline {
+        font-size: 0.95rem !important;
         margin-bottom: 20px;
+    }
+    
+    .portal-actions {
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .portal-btn {
+        padding: 12px 25px !important;
+        font-size: 0.9rem !important;
+        min-width: 150px;
     }
     
     /* ========================================
@@ -237,7 +265,7 @@
     }
     
     /* ========================================
-       OPTIMIZE CARDS
+       OPTIMIZE CARDS & SECTIONS
        ======================================== */
     
     .quick-card,
@@ -247,6 +275,45 @@
     .contact-item,
     .announcement-card {
         padding: 20px 15px !important;
+        margin-bottom: 15px;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        margin-bottom: 25px;
+        padding: 0 10px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem !important;
+        margin-bottom: 12px;
+    }
+    
+    .section-subtitle {
+        font-size: 0.95rem !important;
+        line-height: 1.5;
+    }
+    
+    /* Quick Access Section */
+    .quick-access-section {
+        padding: 40px 0 !important;
+    }
+    
+    .quick-card h6 {
+        font-size: 0.95rem !important;
+    }
+    
+    .quick-card small {
+        font-size: 0.8rem !important;
+    }
+    
+    .quick-icon {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    .quick-icon i {
+        font-size: 1.3rem !important;
     }
     
     /* ========================================
@@ -291,7 +358,7 @@
     }
     
     /* ========================================
-       OPTIMIZE NAVBAR
+       OPTIMIZE NAVBAR FOR MOBILE
        ======================================== */
     
     .navbar {
@@ -303,9 +370,53 @@
         padding: 6px 12px !important;
     }
     
+    /* Mobile Navigation Menu Optimization */
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 15px !important;
+        margin-top: 10px !important;
+        padding: 15px !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    }
+    
+    .navbar-nav {
+        gap: 5px;
+    }
+    
     .navbar-nav .nav-link {
-        padding: 6px 12px !important;
-        margin: 2px 3px !important;
+        padding: 12px 15px !important;
+        margin: 3px 0 !important;
+        border-radius: 10px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-left: 3px solid transparent !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link:active {
+        background: rgba(252, 209, 22, 0.15) !important;
+        border-left-color: var(--ph-yellow, #fcd116) !important;
+        transform: translateX(5px) !important;
+    }
+    
+    /* Dropdown in mobile nav */
+    .navbar-collapse .dropdown-menu {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        margin-left: 15px !important;
+        margin-top: 5px !important;
+    }
+    
+    .navbar-collapse .dropdown-item {
+        color: rgba(255, 255, 255, 0.9) !important;
+        padding: 10px 15px !important;
+        border-radius: 8px !important;
+    }
+    
+    .navbar-collapse .dropdown-item:hover {
+        background: rgba(252, 209, 22, 0.2) !important;
+        color: white !important;
     }
     
     /* ========================================
@@ -367,15 +478,35 @@
 @media (max-width: 576px) {
     /* Further reduce effects on very small screens */
     
-    /* Remove all backdrop filters */
-    * {
+    /* Remove all backdrop filters EXCEPT navbar */
+    .portal-header,
+    .quick-card,
+    .service-card,
+    .stat-card,
+    .process-step,
+    .contact-item,
+    .announcement-card,
+    .card,
+    .modal-content,
+    .footer .col-md-4,
+    .footer .col-md-3,
+    .footer .col-md-2 {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
     
-    /* Use solid backgrounds with transparency instead */
+    /* Keep navbar glass effect but lighter */
     .navbar {
         background: rgba(0, 0, 0, 0.85) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+    }
+    
+    /* Mobile navbar menu stays glass */
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
     }
     
     .portal-header,
@@ -385,8 +516,31 @@
     .process-step,
     .contact-item,
     .announcement-card {
-        background: rgba(0, 0, 0, 0.7) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        background: rgba(0, 0, 0, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    /* Improve section backgrounds for mobile */
+    .quick-access-section,
+    .services-section,
+    .stats-section {
+        background: rgba(0, 0, 0, 0.3) !important;
+        padding: 30px 0 !important;
+    }
+    
+    /* Better text contrast on cards */
+    .quick-card h6,
+    .service-title,
+    .stat-label,
+    .section-title {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .quick-card small,
+    .service-description,
+    .stat-description,
+    .section-subtitle {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
     }
     
     .dropdown-menu {
@@ -413,13 +567,69 @@
     .services-section,
     .stats-section,
     .how-it-works-section,
-    .contact-section {
+    .contact-section,
+    .announcements-section {
         padding: 30px 0 !important;
     }
     
     .hero-section {
-        min-height: 60vh !important;
-        padding: 30px 0 20px !important;
+        min-height: auto !important;
+        padding: 15px 0 20px !important;
+    }
+    
+    /* Compact hero on small screens */
+    .portal-header {
+        padding: 20px 15px !important;
+        margin-bottom: 20px;
+    }
+    
+    .portal-logo {
+        width: 50px !important;
+        height: 50px !important;
+        margin-bottom: 12px;
+        font-size: 1.5rem !important;
+    }
+    
+    .portal-title {
+        font-size: 1.4rem !important;
+        margin-bottom: 12px;
+    }
+    
+    .portal-title::after {
+        width: 60px !important;
+        height: 2px !important;
+    }
+    
+    .portal-subtitle {
+        font-size: 0.95rem !important;
+    }
+    
+    .portal-tagline {
+        font-size: 0.85rem !important;
+    }
+    
+    .portal-btn {
+        padding: 10px 20px !important;
+        font-size: 0.85rem !important;
+        min-width: 140px;
+    }
+    
+    /* Hero stats compact */
+    .hero-pill {
+        padding: 12px 15px !important;
+        gap: 10px;
+    }
+    
+    .hero-pill i {
+        font-size: 18px !important;
+    }
+    
+    .hero-pill .count {
+        font-size: 22px !important;
+    }
+    
+    .hero-pill .label {
+        font-size: 11px !important;
     }
     
     /* Optimize font rendering */
