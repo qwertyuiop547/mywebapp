@@ -1,31 +1,15 @@
-/* ========================================
-   MOBILE PERFORMANCE OPTIMIZATIONS
-   Reduces lag by optimizing expensive CSS operations
-   ======================================== */
-
-/* ========================================
-   CRITICAL: Disable expensive effects on mobile
-   ======================================== */
 
 @media (max-width: 768px) {
-    /* REMOVE UNIVERSAL TEXT-SHADOW - Major Performance Hit */
     * {
         text-shadow: none !important;
     }
     
-    /* Apply selective text-shadow only where needed */
     h1, h2, h3, h4, h5, h6,
     .navbar-brand,
     .portal-title,
     .section-title {
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6) !important;
     }
-    
-    /* ========================================
-       OPTIMIZE BACKGROUND IMAGES
-       ======================================== */
-    
-    /* Fixed backgrounds cause major lag on mobile */
     body,
     main,
     .hero-section,
@@ -40,11 +24,6 @@
         background-position: center center !important;
     }
     
-    /* ========================================
-       REDUCE BACKDROP-FILTER BLUR
-       ======================================== */
-    
-    /* Backdrop-filter is extremely expensive on mobile - reduce or remove */
     .navbar,
     .portal-header,
     .quick-card,

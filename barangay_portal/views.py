@@ -12,10 +12,6 @@ def home(request):
     """
     Home page view displaying barangay statistics and quick access features
     """
-    # If the user is already authenticated (admin or regular user), do not show the public home page
-    if request.user.is_authenticated:
-        return redirect('dashboard:home')
-
     # Get basic statistics
     total_residents = User.objects.filter(role='resident').count()
     total_complaints = Complaint.objects.count()

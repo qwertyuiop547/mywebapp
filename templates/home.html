@@ -6,14 +6,21 @@
 
 {% block extra_css %}
 <style>
-    /* Beautiful aerial background for home page */
+    /* Beautiful aerial background for home page - FULL BODY */
     body {
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                     url('{% static "images/474106523_917891393848174_7194567452072847933_n.jpg" %}') center center !important;
         background-size: cover !important;
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
         min-height: 100vh !important;
+    }
+    
+    /* Make sure header and navbar are visible */
+    .government-header,
+    .navbar {
+        position: relative !important;
+        z-index: 1000 !important;
     }
 
     /* Government Portal Theme */
@@ -34,9 +41,9 @@
         --gov-dark: #212529;
     }
     
-    /* BALANCED TEXT VISIBILITY - COMFORTABLE ON THE EYES */
-    * {
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6) !important;
+    /* ENHANCED TEXT VISIBILITY - FIXED */
+    h1, h2, h3, h4, h5, h6, p, span, a, div {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
     }
     
     /* MODERN NAVIGATION BAR - GLASS MORPHISM */
@@ -110,16 +117,17 @@
         color: var(--ph-blue) !important;
     }
     
-    /* OPTIMIZED HERO SECTION - LIGHTER GLASS MORPHISM */
+    /* OPTIMIZED HERO SECTION - BETTER SPACING */
     .hero-section {
         background: transparent;
         color: white;
-        padding: 80px 0 60px;
+        padding: 80px 0 80px;
         position: relative;
         overflow: hidden;
-        min-height: 85vh;
+        min-height: calc(100vh - 200px);
         display: flex;
         align-items: center;
+        justify-content: center;
     }
     
     .hero-content {
@@ -144,50 +152,86 @@
         z-index: 1;
     }
     
-    /* CLEAN GLASS CARD - OPTIMIZED */
+    /* IMPROVED GLASS CARD - MORE PROFESSIONAL */
     .portal-header {
         text-align: center;
         margin: 0 auto 40px;
-        max-width: 700px;
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(20px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-radius: 25px !important;
-        padding: 50px 40px !important;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3) !important;
-        transition: all 0.3s ease !important;
+        max-width: 750px;
+        background: rgba(20, 20, 20, 0.75) !important;
+        backdrop-filter: blur(40px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 30px !important;
+        padding: 60px 50px !important;
+        box-shadow: 
+            0 20px 60px rgba(0, 0, 0, 0.8),
+            0 0 100px rgba(252, 209, 22, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         position: relative;
+        overflow: hidden;
+    }
+    
+    .portal-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s;
     }
     
     .portal-header:hover {
-        transform: translateY(-5px) !important;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+        transform: translateY(-8px) scale(1.02) !important;
+        box-shadow: 
+            0 25px 70px rgba(0, 0, 0, 0.9),
+            0 0 120px rgba(252, 209, 22, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(252, 209, 22, 0.4) !important;
     }
     
-    /* SIMPLE ELEGANT LOGO */
+    .portal-header:hover::before {
+        left: 100%;
+    }
+    
+    /* MODERN PROFESSIONAL LOGO */
     .portal-logo {
-        width: 90px;
-        height: 90px;
-        background: linear-gradient(135deg, var(--ph-yellow), #FFD700) !important;
-        border-radius: 20px !important;
-        margin: 0 auto 30px;
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #fcd116 0%, #f4a900 100%) !important;
+        border-radius: 25px !important;
+        margin: 0 auto 35px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.5rem;
-        color: var(--ph-blue) !important;
-        font-weight: bold;
-        box-shadow: 0 10px 30px rgba(252, 209, 22, 0.4) !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        transition: all 0.3s ease !important;
+        font-size: 3rem;
+        color: #0038a8 !important;
+        font-weight: 900;
+        box-shadow: 
+            0 15px 40px rgba(252, 209, 22, 0.5),
+            0 0 60px rgba(252, 209, 22, 0.3),
+            inset 0 2px 0 rgba(255, 255, 255, 0.4) !important;
+        border: 3px solid rgba(255, 255, 255, 0.4) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         position: relative;
     }
     
-    /* Simple pulse animation */
+    /* Enhanced pulse animation */
     @keyframes gentle-pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
+        0%, 100% { 
+            transform: scale(1); 
+            box-shadow: 
+                0 15px 40px rgba(252, 209, 22, 0.5),
+                0 0 60px rgba(252, 209, 22, 0.3);
+        }
+        50% { 
+            transform: scale(1.05); 
+            box-shadow: 
+                0 20px 50px rgba(252, 209, 22, 0.6),
+                0 0 80px rgba(252, 209, 22, 0.4);
+        }
     }
     
     .portal-logo {
@@ -195,52 +239,62 @@
     }
     
     .portal-logo:hover {
-        transform: scale(1.1) !important;
-        box-shadow: 0 15px 40px rgba(252, 209, 22, 0.5) !important;
+        transform: scale(1.15) rotate(-5deg) !important;
+        box-shadow: 
+            0 20px 50px rgba(252, 209, 22, 0.7),
+            0 0 100px rgba(252, 209, 22, 0.5) !important;
+        animation: none;
     }
     
-    /* CLEAN TYPOGRAPHY */
+    /* MODERN TYPOGRAPHY - CLEAN & PROFESSIONAL */
     .portal-title {
-        font-size: 2.8rem;
-        font-weight: 800;
-        margin-bottom: 20px;
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 25px;
         color: #ffffff !important;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5) !important;
+        text-shadow: 
+            3px 3px 12px rgba(0, 0, 0, 0.95), 
+            0 0 40px rgba(0, 0, 0, 0.8) !important;
         line-height: 1.2;
-        letter-spacing: -0.5px;
+        letter-spacing: -1px;
         position: relative;
+        padding-bottom: 20px;
     }
     
-    /* Simple underline */
+    /* Elegant underline with gradient */
     .portal-title::after {
         content: '';
         position: absolute;
-        bottom: -8px;
+        bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 100px;
-        height: 3px;
-        background: var(--ph-yellow);
+        width: 120px;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #fcd116, transparent);
         border-radius: 2px;
+        box-shadow: 0 0 20px rgba(252, 209, 22, 0.6);
     }
     
     .portal-subtitle {
-        font-size: 1.3rem;
-        margin: 25px 0 10px;
-        color: rgba(255, 255, 255, 0.95) !important;
+        font-size: 1.35rem;
+        margin: 25px 0 15px;
+        color: rgba(255, 255, 255, 0.98) !important;
         font-weight: 600 !important;
-        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5) !important;
-        letter-spacing: 0.5px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8) !important;
+        letter-spacing: 0.8px;
     }
     
     .portal-tagline {
-        font-size: 1.1rem;
-        color: var(--ph-yellow) !important;
+        font-size: 1.2rem;
+        color: #fcd116 !important;
         font-style: italic;
-        font-weight: 600 !important;
-        margin-bottom: 30px;
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6) !important;
+        font-weight: 700 !important;
+        margin-bottom: 40px;
+        text-shadow: 
+            2px 2px 8px rgba(0, 0, 0, 0.9),
+            0 0 30px rgba(252, 209, 22, 0.4) !important;
         display: inline-block;
+        padding: 5px 0;
     }
     
     /* MINIMAL FLOATING ELEMENTS - Less resource intensive */
@@ -286,45 +340,83 @@
         position: relative;
     }
     
-    /* SIMPLE GLASS BUTTONS */
+    /* MODERN PREMIUM BUTTONS */
     .portal-btn {
-        padding: 15px 35px;
-        font-size: 1rem;
-        font-weight: 600;
-        border-radius: 15px;
+        padding: 20px 45px;
+        font-size: 1.15rem;
+        font-weight: 800;
+        border-radius: 20px;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        min-width: 180px;
+        gap: 15px;
+        min-width: 240px;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.12) !important;
-        backdrop-filter: blur(15px) !important;
-        -webkit-backdrop-filter: blur(15px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
         color: white !important;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1.5px;
         position: relative;
+        overflow: hidden;
+    }
+    
+    .portal-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .portal-btn:hover::before {
+        width: 300px;
+        height: 300px;
     }
     
     .portal-btn-primary {
-        border-left: 3px solid var(--ph-yellow) !important;
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
+        border: 3px solid rgba(37, 99, 235, 0.6) !important;
+        box-shadow: 
+            0 10px 40px rgba(30, 58, 138, 0.6),
+            0 0 60px rgba(37, 99, 235, 0.3),
+            inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
     }
     
     .portal-btn-secondary {
-        border-left: 3px solid var(--ph-blue) !important;
+        background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%) !important;
+        border: 3px solid rgba(220, 38, 38, 0.6) !important;
+        box-shadow: 
+            0 10px 40px rgba(153, 27, 27, 0.6),
+            0 0 60px rgba(220, 38, 38, 0.3),
+            inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
     }
     
     .portal-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
-        background: rgba(255, 255, 255, 0.15) !important;
+        transform: translateY(-8px) scale(1.05);
         text-decoration: none;
         color: white !important;
+    }
+    
+    .portal-btn-primary:hover {
+        box-shadow: 
+            0 15px 50px rgba(30, 58, 138, 0.8),
+            0 0 80px rgba(37, 99, 235, 0.5),
+            inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
+        border-color: rgba(252, 209, 22, 0.8) !important;
+    }
+    
+    .portal-btn-secondary:hover {
+        box-shadow: 
+            0 15px 50px rgba(153, 27, 27, 0.8),
+            0 0 80px rgba(220, 38, 38, 0.5),
+            inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
+        border-color: rgba(252, 209, 22, 0.8) !important;
     }
     
     /* Icon styling */
@@ -1659,19 +1751,9 @@
         animation: fadeInUp 0.3s ease-out;
     }
     
-    /* Page Loader (optional smooth entry) */
+    /* Page Loader (optional smooth entry) - FIXED */
     body {
-        opacity: 0;
-        animation: fadeIn 0.5s ease-out forwards;
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+        opacity: 1 !important;
     }
 </style>
 {% endblock %}

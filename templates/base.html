@@ -1,10 +1,12 @@
+<!DOCTYPE html>
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<!-- htmlhint doctype-first:false -->
+<html lang="en">
 <head>
+    <!-- htmlhint tag-pair:false, attr-lowercase:false, doctype-first:false, head-script-disabled:false -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -60,8 +62,8 @@
         /* Enhanced User Dropdown Navigation - Beautiful Glass Morphism */
         .navbar-nav #userDropdown.nav-link.dropdown-toggle {
             background: rgba(255, 255, 255, 0.15) !important;
-            backdrop-filter: blur(10px) !important;
             -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 25px !important;
             padding: 8px 20px !important;
@@ -148,8 +150,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.15)
             ) !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-left: none !important;
             border-radius: 25px !important;
@@ -248,8 +250,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.37) !important;
@@ -270,6 +272,7 @@
                 rgba(255, 255, 255, 0.1) 0%, 
                 rgba(255, 255, 255, 0.05) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
             backdrop-filter: blur(10px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
@@ -329,8 +332,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
             padding: 60px 0 30px !important;
             margin-top: 50px !important;
         }
@@ -393,8 +396,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
             border-radius: 15px !important;
@@ -444,8 +447,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
@@ -459,8 +462,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 20px !important;
             padding: 25px !important;
@@ -527,8 +530,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             min-height: calc(100vh - 200px) !important;
         }
         
@@ -538,8 +541,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 20px !important;
             padding: 30px !important;
@@ -624,8 +627,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 20px !important;
             padding: 0 !important;
@@ -676,6 +679,7 @@
                 rgba(255, 255, 255, 0.15) 0%, 
                 rgba(255, 255, 255, 0.05) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
             backdrop-filter: blur(15px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 12px !important;
@@ -752,6 +756,7 @@
                 rgba(255, 255, 255, 0.2) 0%, 
                 rgba(255, 255, 255, 0.08) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             backdrop-filter: blur(20px) !important;
             border: 1px solid rgba(255, 255, 255, 0.25) !important;
             border-radius: 15px !important;
@@ -794,8 +799,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
@@ -1072,8 +1077,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             padding: 25px 20px !important;
@@ -1152,8 +1157,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 20px !important;
             padding: 30px !important;
@@ -1199,6 +1204,7 @@
                 rgba(255, 255, 255, 0.2) 0%, 
                 rgba(255, 255, 255, 0.08) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
             backdrop-filter: blur(15px) !important;
             border: 1px solid rgba(255, 255, 255, 0.25) !important;
             border-radius: 15px !important;
@@ -1271,6 +1277,7 @@
                 rgba(255, 255, 255, 0.15) 0%, 
                 rgba(255, 255, 255, 0.05) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
             backdrop-filter: blur(15px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 12px !important;
@@ -1332,8 +1339,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             padding: 25px !important;
@@ -1482,8 +1489,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             padding: 25px !important;
@@ -1617,6 +1624,7 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
             backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
@@ -1630,8 +1638,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
         }
         
         .contact-item {
@@ -1639,8 +1647,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
             border-radius: 15px !important;
@@ -1683,8 +1691,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
         }
         
         .process-step {
@@ -1692,8 +1700,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
             border-radius: 15px !important;
@@ -1743,8 +1751,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
         }
         
         .stat-card {
@@ -1752,8 +1760,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
             border-radius: 15px !important;
@@ -1835,8 +1843,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border-radius: 15px !important;
             padding: 30px 20px !important;
             margin-bottom: 20px !important;
@@ -1879,8 +1887,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
         }
         
         .quick-card {
@@ -1888,8 +1896,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-left: none !important;
             border-radius: 15px !important;
@@ -1937,8 +1945,8 @@
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
-            backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
         }
         
         .portal-header,
@@ -1947,8 +1955,8 @@
                 rgba(255, 255, 255, 0.15), 
                 rgba(255, 255, 255, 0.05)
             ) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 20px !important;
             padding: 40px 30px !important;
@@ -1962,8 +1970,8 @@
                 rgba(255, 255, 255, 0.25), 
                 rgba(255, 255, 255, 0.1)
             ) !important;
-            backdrop-filter: blur(15px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+            backdrop-filter: blur(15px) saturate(180%) !important;
             border: 2px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 15px !important;
             padding: 15px 30px !important;
@@ -2006,8 +2014,8 @@
                 rgba(255, 255, 255, 0.25) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
             border: none !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
@@ -2021,6 +2029,7 @@
                 rgba(255, 255, 255, 0.2) 0%, 
                 rgba(255, 255, 255, 0.1) 100%
             ) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
             backdrop-filter: blur(10px) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 12px !important;
@@ -2042,15 +2051,80 @@
         
         .nav-link {
             background: rgba(255, 255, 255, 0.1) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             backdrop-filter: blur(8px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px !important;
-            margin: 2px 4px !important;
-            padding: 6px 12px !important;
+            margin: 2px 3px !important;
+            padding: 6px 10px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 500 !important;
+            font-size: 0.875rem !important;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) !important;
             transition: all 0.3s ease !important;
+            white-space: nowrap !important;
+        }
+        
+        /* Admin Dropdown Glass Morphism */
+        #adminDropdown.dropdown-toggle {
+            background: rgba(255, 255, 255, 0.12) !important;
+        }
+        
+        #adminDropdown.dropdown-toggle:hover,
+        #adminDropdown.dropdown-toggle.show {
+            background: rgba(255, 255, 255, 0.22) !important;
+        }
+        
+        .dropdown-menu[aria-labelledby="adminDropdown"] {
+            background: rgba(255, 255, 255, 0.95) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+            border-radius: 12px !important;
+            padding: 8px !important;
+            margin-top: 8px !important;
+        }
+        
+        .dropdown-menu[aria-labelledby="adminDropdown"] .dropdown-item {
+            color: #333 !important;
+            padding: 10px 16px !important;
+            border-radius: 8px !important;
+            margin: 2px 0 !important;
+            font-size: 0.875rem !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .dropdown-menu[aria-labelledby="adminDropdown"] .dropdown-item:hover {
+            background: rgba(0, 56, 168, 0.1) !important;
+            color: #0038a8 !important;
+            transform: translateX(4px) !important;
+        }
+        
+        .dropdown-menu[aria-labelledby="adminDropdown"] .dropdown-item i {
+            width: 20px !important;
+            margin-right: 8px !important;
+            text-align: center !important;
+        }
+        
+        /* Reduce icon size in nav links */
+        .navbar-nav .nav-link i {
+            font-size: 0.875rem !important;
+            margin-right: 6px !important;
+        }
+        
+        /* Make navbar more compact */
+        .navbar {
+            padding: 0.5rem 0 !important;
+        }
+        
+        .navbar-brand {
+            font-size: 1rem !important;
+            padding: 8px 12px !important;
+        }
+        
+        .navbar-brand i {
+            font-size: 1rem !important;
         }
         
         .nav-link:hover {
@@ -2113,15 +2187,12 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    {% if not user.is_authenticated %}
-                    <li class="nav-item">
+                <!-- htmlhint tag-pair:false -->
+                <ul class="navbar-nav me-auto">{% if not user.is_authenticated %}<li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">
                             <i class="bi bi-house"></i> Home
                         </a>
-                    </li>
-                    {% endif %}
-                    {% if user.is_authenticated %}
+                    </li>{% endif %}{% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard:home' %}">
                                 <i class="bi bi-speedometer2"></i> Dashboard
@@ -2151,45 +2222,28 @@
                             <a class="nav-link" href="{% url 'gallery:gallery_list' %}">
                                 <i class="fas fa-images"></i> {% trans "Gallery" %}
                             </a>
-                        </li>
-                        {% if user.can_approve_users %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:user_approval' %}">
-                                    <i class="bi bi-person-check"></i> {% trans "User Approval" %}
+                        </li>{% if user.can_approve_users or user.can_manage_complaints %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-gear"></i> {% trans "Admin" %}
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:user_management' %}">
-                                    <i class="bi bi-people"></i> {% trans "Resident Management" %}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:residents_map' %}">
-                                    <i class="bi bi-geo-alt"></i> {% trans "Residents Map" %}
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if user.can_manage_complaints %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'accounts:login_history' %}">
-                                    <i class="fas fa-history"></i> {% trans "Login History" %}
-                                </a>
-                            </li>
-                            {% comment %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'analytics:overview' %}">
-                                    <i class="fas fa-chart-line"></i> Analytics
-                                </a>
-                            </li>
-                            {% endcomment %}
-                        {% endif %}
-                    {% endif %}
+                                <!-- htmlhint tag-pair:false -->
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">{% if user.can_approve_users %}<li><a class="dropdown-item" href="{% url 'accounts:user_approval' %}">
+                                            <i class="bi bi-person-check"></i> {% trans "User Approval" %}
+                                        </a></li><li><a class="dropdown-item" href="{% url 'accounts:user_management' %}">
+                                            <i class="bi bi-people"></i> {% trans "Resident Management" %}
+                                        </a></li><li><a class="dropdown-item" href="{% url 'accounts:residents_map' %}">
+                                            <i class="bi bi-geo-alt"></i> {% trans "Residents Map" %}
+                                        </a></li>
+                                    {% endif %}{% if user.can_manage_complaints %}<li><a class="dropdown-item" href="{% url 'accounts:login_history' %}">
+                                            <i class="fas fa-history"></i> {% trans "Login History" %}
+                                        </a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>{% endif %}{% endif %}
                 </ul>
-                
-                <ul class="navbar-nav">
-                    {% if not user.is_authenticated %}
-                    <!-- Language Toggle (Home Page Only) -->
-                    <li class="nav-item dropdown">
+                <!-- htmlhint tag-pair:false -->
+                <ul class="navbar-nav">{% if not user.is_authenticated %}<!-- Language Toggle (Home Page Only) --><li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{% trans 'Change Language' %}">
                             <i class="bi bi-translate"></i>
                             {% get_current_language as LANGUAGE_CODE %}
@@ -2221,12 +2275,7 @@
                                 </form>
                             </li>
                         </ul>
-                    </li>
-                    {% endif %}
-                    
-                    {% if user.is_authenticated %}
-                        <!-- Notifications -->
-                        <li class="nav-item dropdown">
+                    </li>{% endif %}{% if user.is_authenticated %}<!-- Notifications --><li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
                                 <i class="bi bi-bell" aria-label="Notifications"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge" id="notification-count">
@@ -2241,12 +2290,12 @@
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <div id="notification-list" 
+                                <li id="notification-list" 
                                      data-api-url="{% url 'notifications:api_list' %}" 
                                      data-mark-read-url="{% url 'notifications:mark_read' 0 %}"
                                      data-mark-all-url="{% url 'notifications:mark_all_read' %}">
-                                    <li class="text-center text-muted p-3">No new notifications</li>
-                                </div>
+                                    <div class="text-center text-muted p-3">No new notifications</div>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li class="text-center p-2">
                                     <a href="{% url 'notifications:notification_list' %}" class="text-decoration-none">
@@ -2254,10 +2303,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        
-                        <!-- User Menu -->
-                        <li class="nav-item dropdown">
+                        </li><!-- User Menu --><li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle"></i> 
                                 {{ user.get_full_name|default:user.username }}
@@ -2281,8 +2327,7 @@
                                     <i class="bi bi-box-arrow-right"></i> Logout
                                 </a></li>
                             </ul>
-                        </li>
-                    {% else %}
+                        </li>{% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'accounts:login' %}">
                                 <i class="bi bi-box-arrow-in-right"></i> Login
@@ -2292,8 +2337,7 @@
                             <a class="nav-link" href="{% url 'accounts:register' %}">
                                 <i class="bi bi-person-plus"></i> Register
                             </a>
-                        </li>
-                    {% endif %}
+                        </li>{% endif %}
                 </ul>
             </div>
         </div>
@@ -2332,17 +2376,8 @@
                 </div>
                 <div class="col-md-3">
                     <h5><i class="fas fa-link"></i> Quick Links / Mga Link</h5>
-                    <ul class="list-unstyled">
-                        {% if not user.is_authenticated or user.role not in 'secretary,chairman' %}
-                        <li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Submit Complaint / Magreklamo</a></li>
-                        {% else %}
-                        <li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Manage Complaints / Pamahalaan ang Reklamo</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'feedback:feedback_list' %}"><i class="fas fa-chevron-right"></i> Give Feedback / Magbigay ng Puna</a></li>
-                        <li><a href="{% url 'gallery:gallery_list' %}"><i class="fas fa-chevron-right"></i> Photo Gallery / Galereya</a></li>
-                        <li><a href="{% url 'services:list' %}"><i class="fas fa-chevron-right"></i> Barangay Services / Serbisyo</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Programs / Programa</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Hotlines / Emergency</a></li>
+                    <!-- htmlhint tag-pair:false -->
+                    <ul class="list-unstyled">{% if not user.is_authenticated or user.role not in 'secretary,chairman' %}<li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Submit Complaint / Magreklamo</a></li>{% else %}<li><a href="{% url 'complaints:complaint_list' %}"><i class="fas fa-chevron-right"></i> Manage Complaints / Pamahalaan ang Reklamo</a></li>{% endif %}<li><a href="{% url 'feedback:feedback_list' %}"><i class="fas fa-chevron-right"></i> Give Feedback / Magbigay ng Puna</a></li><li><a href="{% url 'gallery:gallery_list' %}"><i class="fas fa-chevron-right"></i> Photo Gallery / Galereya</a></li><li><a href="{% url 'services:list' %}"><i class="fas fa-chevron-right"></i> Barangay Services / Serbisyo</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> Community Programs / Programa</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Hotlines / Emergency</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -2358,9 +2393,9 @@
                 <div class="col-md-2">
                     <h5><i class="fas fa-share-alt"></i> Follow Us</h5>
                     <div class="social-links">
-                        <a href="#" class="me-2"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="#" class="me-2" aria-label="Facebook" title="Follow us on Facebook"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="me-2" aria-label="Twitter" title="Follow us on Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="me-2" aria-label="YouTube" title="Follow us on YouTube"><i class="fab fa-youtube fa-lg"></i></a>
                     </div>
                 </div>
             </div>

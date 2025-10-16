@@ -58,9 +58,20 @@ def chat_api(request):
                 'username': request.user.username
             }
         
-        # Generate AI response
+        # Generate AI response with session context
         ai_engine = BarangayAIEngine()
-        ai_response = ai_engine.process_message(message, language, user_context)
+        ai_response = ai_engine.process_message(
+            message=message, 
+            language=language, 
+            user_context=user_context,
+            session_id=session.session_id  # Pass session_id for context tracking
+        )
+        
+        # Update session language if detected language is different
+        detected_lang = ai_response.get('detected_language', language)
+        if detected_lang and detected_lang != session.language:
+            session.language = detected_lang
+            session.save()
         
         # Save bot response
         bot_message = ChatMessage.objects.create(
